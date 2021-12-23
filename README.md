@@ -11,6 +11,7 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
 </div>
 1. 环境
+
 - Centos7
 - node v14.18.2
 - npm 6.14.15
