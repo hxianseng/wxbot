@@ -10,7 +10,6 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
 </div>
-
 1. 环境
 - Centos7
 - node v14.18.2
@@ -21,7 +20,9 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 2.安装nodejs
 - ```
     cd /usr/local && mkdir node && cd node
+
     yum install wget && wget https://npmmirror.com/mirrors/node/v14.18.2/node-v14.18.2-linux-x64.tar.xz
+
     tar -xJvf node-v14.18.2-linux-x64.tar.xz
   ```
 - 编辑 ~/.bash_profile ⽂件，在⽂件末尾追加如下信息:
@@ -34,7 +35,8 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 -   ```
     yum install git pango.x86_64 libXcomposite.x86_64 libXcursor.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 -y
     ```
-- 拉取代码`cd /home && git clone https://github.com/hxianseng/push-wechaty-bot.git`
+- 拉取代码
+- `cd /home && git clone https://github.com/hxianseng/push-wechaty-bot.git`
 - `cd push-wechaty-bot`
 - `npm install puppeteer --unsafe-perm=true --allow-root`
 - `npm i`
