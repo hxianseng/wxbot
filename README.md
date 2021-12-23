@@ -27,7 +27,7 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
     tar -xJvf node-v14.18.2-linux-x64.tar.xz
   ```
 - 编辑 ~/.bash_profile ⽂件，在⽂件末尾追加如下信息:
-    `export PATH=/usr/local/node/node-v14.18.2-linux-x64.tar.xz`
+    `export PATH=/usr/local/node/node-v14.18.2-linux-x64/bin:$PATH`
 - 刷新环境变量，使之⽣效：`source ~/.bash_profile`
 - `node -v`和`npm -v`均有版本信息输出即可
 - `npm i pm2 -g` 安装pm2来管理进程
