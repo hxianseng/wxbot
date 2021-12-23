@@ -87,7 +87,7 @@ router.post('/send', function (req, res, next) { return __awaiter(void 0, void 0
                     });
                     return [2];
                 }
-                contact === null || contact === void 0 ? void 0 : contact.say(data.content);
+                contact === null || contact === void 0 ? void 0 : contact.say(data.content + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git');
                 res.json({
                     status: 200,
                     message: "SUCCESS"

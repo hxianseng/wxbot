@@ -70,7 +70,7 @@ var onMessage = (function () {
                         console.log("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
                         if (!/菜单/.test(content)) return [3, 2];
                         util_1.util.delay();
-                        contact.say(config_1["default"].message.menu);
+                        contact.say(config_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git');
                         return [2];
                     case 2:
                         if (!/查看京东id/.test(content)) return [3, 3];
