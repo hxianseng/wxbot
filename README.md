@@ -4,7 +4,7 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 # push-wechaty-bot与ql对接
 - [x] 推送消息
 - [x] 添加/更新CK
-- [ ] 查询资产
+- [x] 查询资产
 - [ ] 短信登录
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
