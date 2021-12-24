@@ -6,6 +6,21 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 - [x] 添加/更新CK
 - [x] 查询资产
 - [ ] 短信登录
+
+# 更新
+```
+//如果你目录改了就根据你的目录来
+cd /home/push-wechaty-bot
+
+git pull
+
+//会覆盖原来的build/config/index.js 必填项需重新填写...后面更新从外部加载配置文件
+
+//重启项目 index:项目名，执行pm2 list查看name项
+pm2 retart index
+
+```
+
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
