@@ -16,6 +16,8 @@ git pull
 
 //会覆盖原来的build/config/index.js 必填项需重新填写...后面更新从外部加载配置文件
 
+npm i
+
 //重启项目 index:项目名，执行pm2 list查看name项
 pm2 retart index
 
