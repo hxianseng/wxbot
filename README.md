@@ -19,7 +19,7 @@ git pull
 npm i
 
 //重启项目 index:项目名，执行pm2 list查看name项
-pm2 retart index
+pm2 restart index
 
 ```
 
@@ -27,8 +27,9 @@ pm2 retart index
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
 </div>
-1. 环境
 
+# 安装
+1.环境
 - Centos7
 - node v14.18.2
 - npm 6.14.15
@@ -51,7 +52,11 @@ pm2 retart index
 
 3.安装相关依赖和拉取代码
 -   ```
+    //centos7
     yum install git pango.x86_64 libXcomposite.x86_64 libXcursor.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 -y
+
+    //ubuntu
+    apt-get install  gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
     ```
 - 拉取代码
 - `cd /home && git clone https://github.com/hxianseng/push-wechaty-bot.git`
@@ -76,7 +81,7 @@ pm2 retart index
     // push-wechaty-bot的build/config/index.js下你配置的token
     let PUSH_WECHATY_BOT_TOKEN = '';
 
-    // http://你的IP:端口/api/v1/send
+    // http://搭建机器人的IP:端口/api/v1/send 
     let PUSH_WECHATY_BOT_URL = '';
     ```
     ![](https://img30.360buyimg.com/pop/jfs/t1/176525/14/23000/23472/61c31d7bEea5dce05/e3d3e0f22e6278ec.png)
