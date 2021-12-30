@@ -74,8 +74,8 @@ pm2 restart index
     //青龙url  http://IP:端口
     QLurl: 'http://',
     //青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
-    clientId: 'H_Sn8sfFS9ym',
-    clientSecret: 'pevuMfh324yxhHad-047_bYJ',
+    clientId: '',
+    clientSecret: '',
     
 
     //=======================================选填
