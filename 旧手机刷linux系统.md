@@ -109,4 +109,6 @@ sudo vi /etc/docker/daemon.json
 ]
 }
 ```
+
+alpine常用命令https://www.cnblogs.com/jackadam/p/9290366.html#_label3
 结束教程，教程可能有点不详细，不清楚的可以问我
