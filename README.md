@@ -12,13 +12,7 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 //如果你目录改了就根据你的目录来
 cd /home/push-wechaty-bot
 
-git stash
-
 git pull
-
-git stash pop
-
-git stash clear
 
 npm i
 
@@ -68,16 +62,57 @@ pm2 restart index
 - `npm install puppeteer --unsafe-perm=true --allow-root`
 - `npm i`
 - 注意看有没有报错
-- 在build/config/index.js中填写相关信息
+- 在build目录下创建config.js并填入
+    ```
+    "use strict";
+    module.exports = {
+    //=======================================必填
+    //自定义服务端口，默认3000
+    PORT: 3000,
+    //自定义(英文字母加数字)请求机器人的api接口token(后面一对一通知会用到，查询资产和添加/更新CK 用不到)
+    token: '',
+    //青龙url  http://IP:端口
+    QLurl: 'http://',
+    //青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
+    clientId: 'H_Sn8sfFS9ym',
+    clientSecret: 'pevuMfh324yxhHad-047_bYJ',
+    
+
+    //=======================================选填
+    //管理员功能(暂时没有功能)
+    admin: {
+        isTrue: false,//是否开启
+        name: ''//管理员微信昵称
+    },
+    //系统消息推送，例如：微信登录、退出; 
+    pushMessage: {
+        //0：不推送 1：Server酱无aqq推送 2：pluspush推送
+        choice: 0,
+        pushList: [
+            {
+                id: 1,
+                pushKey: '',//Server酱无aqq推送（暂时只支持ios）
+                url: 'https://pushdeer.ftqq.com/message/push'
+            }, {
+                id: 2,
+                pushKey: '',//pluspush推送
+                url: 'http://pushplus.hxtrip.com/send'
+            }
+        ]
+    }
+    };
+
+    ```
 - 测试运行，在build目录下执行`node index.js`,出现下图打开 `http://你的IP:你的端口/api/v1/qrcodeImage` 扫描二维码登录(记得安全组方行端口，装了宝塔的也要在宝塔放行)
+也可以扫描控制台输出的二维码，/api/v1/qrcodeImage接口后期会废除
     ![](https://img30.360buyimg.com/pop/jfs/t1/142409/34/24460/5803/61c313b8E26aa2fe2/c18f8d53b4fb6dc1.png)
     扫码之后出现下图代表登录成功:
     ![](https://img30.360buyimg.com/pop/jfs/t1/174696/15/24069/11469/61c31657E64c1ed92/ef9233bcf6a3658b.png)
 - Ctrl+C停止，并回到push-wechaty-bot目录下，用pm2管理进程
 - `pm2 start build/index.js`
-- `pm2 logs` 可以查看日志输出
+- `pm2 logs` 可以查看日志输出的微信登录二维码
 
-4.ql修改:(找不到要修改的地方到文件中搜索相关文字)
+4.青龙一对一通知修改:(找不到要修改的地方到文件中搜索相关文字)
 
 
 - sendNotify.js ==> 在=====go-cqhttp=====通知设置区域 上面或者下面加上:
