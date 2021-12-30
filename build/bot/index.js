@@ -13,6 +13,7 @@ var Bot = (function () {
     function Bot() {
     }
     Bot.onScan = function (qrcode, status) {
+        require('qrcode-terminal').generate(qrcode, { small: true });
         exports.qrcodeImageUrl = qrcodeImageUrl = [
             'https://api.qrserver.com/v1/create-qr-code/?data=',
             encodeURIComponent(qrcode),

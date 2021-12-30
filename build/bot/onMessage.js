@@ -289,6 +289,7 @@ var onMessage = (function () {
                         ReturnMessage += redMessgae;
                         ReturnMessage += '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git';
                         contact.say(ReturnMessage);
+                        util_1.util.delay();
                         _c.label = 22;
                     case 22:
                         _i++;
