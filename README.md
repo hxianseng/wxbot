@@ -12,9 +12,13 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 //如果你目录改了就根据你的目录来
 cd /home/push-wechaty-bot
 
+git stash
+
 git pull
 
-//会覆盖原来的build/config/index.js 必填项需重新填写...后面更新从外部加载配置文件
+git stash pop
+
+git stash clear
 
 npm i
 
