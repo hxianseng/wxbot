@@ -14,7 +14,7 @@ var SendMsg = (function () {
         }).then(function (response) {
             console.log('推送系统消息,请求状态码：' + response.status);
         })["catch"](function (error) {
-            console.log(error);
+            console.log('推送系统消息失败');
         });
     };
     return SendMsg;

@@ -17,4 +17,4 @@ app.use('/api/v1', router_1.router);
 app.use(function (err, req, res, next) {
     console.log(err.stack);
 });
-app.listen(config_1["default"].PORT, function () { return console.log('Web服务开启中，请稍后...'); });
+app.listen(config_1["default"].PORT, '0.0.0.0', function () { return console.log('Web服务开启中，请稍后...'); });
