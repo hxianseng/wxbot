@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.bot = exports.qrcodeImageUrl = void 0;
 var wechaty_1 = require("wechaty");
-var config_1 = __importDefault(require("../config"));
 var util_1 = require("../utils/util");
 var onMessage_1 = require("./onMessage");
 var OnFriendShip_1 = require("./OnFriendShip");
+var config_1 = __importDefault(require("../config"));
 var Bot = (function () {
     function Bot() {
     }

@@ -1,0 +1,10 @@
+*.vscode
+*node_modules
+*/log
+.git
+tsconfig.json
+/src/
+.npmrc
+test/
+build/config.js
+WechatEveryDay.memory-card.json

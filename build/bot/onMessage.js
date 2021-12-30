@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.onMessage = void 0;
 var wechaty_1 = require("wechaty");
-var config_1 = __importDefault(require("../config"));
+var constant_1 = __importDefault(require("../constant"));
 var util_1 = require("../utils/util");
 var qingLongApi_1 = require("../utils/qingLongApi");
 var axios_1 = __importDefault(require("axios"));
@@ -72,12 +72,12 @@ var onMessage = (function () {
                         console.log("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
                         if (!/菜单/.test(content)) return [3, 2];
                         util_1.util.delay();
-                        contact.say(config_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git');
+                        contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git');
                         return [2];
                     case 2:
                         if (!/查看京东id/.test(content)) return [3, 3];
                         util_1.util.delay();
-                        contact.say(config_1["default"].message.seeId);
+                        contact.say(constant_1["default"].message.seeId);
                         return [2];
                     case 3:
                         if (!(/^绑定:jd-/.test(content) || /^绑定:jd_/.test(content))) return [3, 4];
@@ -89,10 +89,10 @@ var onMessage = (function () {
                     case 4:
                         if (!/^查看绑定/.test(content)) return [3, 5];
                         if (remarks == null) {
-                            contact.say(config_1["default"].message.msg1);
+                            contact.say(constant_1["default"].message.msg1);
                             return [2];
                         }
-                        contact.say(config_1["default"].message.msg4 + remarks);
+                        contact.say(constant_1["default"].message.msg4 + remarks);
                         return [3, 25];
                     case 5:
                         if (!(/^解绑:jd-/.test(content) || /^解绑:jd_/.test(content))) return [3, 11];
@@ -100,7 +100,7 @@ var onMessage = (function () {
                         str = content.split(':');
                         jdId = str[1];
                         if (remarks == null) {
-                            contact.say(config_1["default"].message.msg1);
+                            contact.say(constant_1["default"].message.msg1);
                             return [2];
                         }
                         remarkArray = remarks.split(',');
@@ -112,14 +112,14 @@ var onMessage = (function () {
                             }
                         }
                         if (!!flag) return [3, 6];
-                        contact.say(config_1["default"].message.msg5);
+                        contact.say(constant_1["default"].message.msg5);
                         return [3, 10];
                     case 6:
                         if (!(remarkArray.length == 1)) return [3, 8];
                         return [4, contact.alias(null)];
                     case 7:
                         _c.sent();
-                        contact.say(config_1["default"].message.msg2);
+                        contact.say(constant_1["default"].message.msg2);
                         return [3, 10];
                     case 8:
                         newRemark = '';
@@ -137,7 +137,7 @@ var onMessage = (function () {
                         return [4, contact.alias(newRemark)];
                     case 9:
                         _c.sent();
-                        contact.say(config_1["default"].message.msg2);
+                        contact.say(constant_1["default"].message.msg2);
                         _c.label = 10;
                     case 10: return [3, 25];
                     case 11:
@@ -145,7 +145,7 @@ var onMessage = (function () {
                         pt_pin = content.match(/pt_pin=.+?;/) || [0];
                         pt_key = content.match(/pt_key=.+?;/) || [0];
                         if (pt_pin[0] == 0 || pt_key[0] == 0) {
-                            contact.say(config_1["default"].message.msg7);
+                            contact.say(constant_1["default"].message.msg7);
                             return [2];
                         }
                         jdId_1 = pt_pin[0].replace('pt_pin=', '').replace(';', '');
@@ -168,16 +168,16 @@ var onMessage = (function () {
                             }
                         }
                         if (!!flag) return [3, 14];
-                        contact.say(config_1["default"].message.msg15);
+                        contact.say(constant_1["default"].message.msg15);
                         return [4, qingLongApi_1.qingLongApi.addCookie(cookie, result.token).then(function (res) {
                                 if (res.data.code == 200) {
-                                    contact.say(config_1["default"].message.msg8);
+                                    contact.say(constant_1["default"].message.msg8);
                                     util_1.util.delay();
                                     onMessage.addRemark(remarks, jdId_1, contact);
                                     return;
                                 }
                                 else {
-                                    contact.say(config_1["default"].message.msg9);
+                                    contact.say(constant_1["default"].message.msg9);
                                     return;
                                 }
                             })["catch"](function (err) {
@@ -187,7 +187,7 @@ var onMessage = (function () {
                         _c.sent();
                         return [3, 16];
                     case 14:
-                        contact.say(config_1["default"].message.msg16);
+                        contact.say(constant_1["default"].message.msg16);
                         data = {
                             name: 'JD_COOKIE',
                             value: cookie,
@@ -196,11 +196,11 @@ var onMessage = (function () {
                         };
                         return [4, qingLongApi_1.qingLongApi.updateCookie(data, result.token).then(function (res) {
                                 if (res.data.code == 200) {
-                                    contact.say(config_1["default"].message.msg10);
+                                    contact.say(constant_1["default"].message.msg10);
                                     onMessage.addRemark(remarks, jdId_1, contact);
                                 }
                                 else {
-                                    contact.say(config_1["default"].message.msg11);
+                                    contact.say(constant_1["default"].message.msg11);
                                 }
                             })["catch"](function (err) {
                                 console.log(err);
@@ -208,16 +208,16 @@ var onMessage = (function () {
                     case 15:
                         _c.sent();
                         if (status_1 == 0) {
-                            contact.say(config_1["default"].message.msg12);
+                            contact.say(constant_1["default"].message.msg12);
                         }
                         else {
-                            contact.say(config_1["default"].message.msg13);
+                            contact.say(constant_1["default"].message.msg13);
                             qingLongApi_1.qingLongApi.enableCookie(_id, result.token).then(function (res) {
                                 if (res.data.code == 200) {
-                                    contact.say(config_1["default"].message.msg12);
+                                    contact.say(constant_1["default"].message.msg12);
                                 }
                                 else {
-                                    contact.say(config_1["default"].message.msg14);
+                                    contact.say(constant_1["default"].message.msg14);
                                 }
                             })["catch"](function (err) {
                                 console.log(err);
@@ -228,13 +228,13 @@ var onMessage = (function () {
                     case 17:
                         if (!/^查询资产$/.test(content)) return [3, 24];
                         util_1.util.delay();
-                        contact.say(config_1["default"].message.msg17);
+                        contact.say(constant_1["default"].message.msg17);
                         return [4, qingLongApi_1.qingLongApi.searchValue()];
                     case 18:
                         result = _c.sent();
                         cookies = result.data;
                         if (remarks == null)
-                            return [2, contact.say(config_1["default"].message.msg1)];
+                            return [2, contact.say(constant_1["default"].message.msg1)];
                         remarkArray = remarks.split(',');
                         cookieArr = [];
                         for (i_3 in cookies) {
@@ -247,7 +247,7 @@ var onMessage = (function () {
                             }
                         }
                         if (cookieArr.length == 0)
-                            return [2, contact.say(config_1["default"].message.msg18)];
+                            return [2, contact.say(constant_1["default"].message.msg18)];
                         _a = [];
                         for (_b in cookieArr)
                             _a.push(_b);
@@ -302,7 +302,7 @@ var onMessage = (function () {
                         }
                         else {
                             util_1.util.delay();
-                            contact.say(config_1["default"].message.msg6);
+                            contact.say(constant_1["default"].message.msg6);
                         }
                         _c.label = 25;
                     case 25: return [2];
@@ -315,17 +315,17 @@ var onMessage = (function () {
             var remarkArray = remarks.split(',');
             for (var i in remarkArray) {
                 if (jdId == remarkArray[i]) {
-                    contact.say(config_1["default"].message.msg3 + jdId);
+                    contact.say(constant_1["default"].message.msg3 + jdId);
                     return;
                 }
             }
             contact.alias(remarks + ',' + jdId);
-            contact.say(config_1["default"].message.bindId + remarks + ',' + jdId);
+            contact.say(constant_1["default"].message.bindId + remarks + ',' + jdId);
             return;
         }
         else {
             contact.alias(jdId);
-            contact.say(config_1["default"].message.bindId + jdId);
+            contact.say(constant_1["default"].message.bindId + jdId);
             return;
         }
     };

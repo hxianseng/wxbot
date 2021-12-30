@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var wechaty_1 = require("wechaty");
-var config_1 = __importDefault(require("../config"));
+var constant_1 = __importDefault(require("../constant"));
 var util_1 = require("../utils/util");
 var OnFriendShip = (function () {
     function OnFriendShip() {
@@ -60,7 +60,7 @@ var OnFriendShip = (function () {
                         _a.sent();
                         util_1.util.delay();
                         contact = friendship.contact();
-                        contact.say(config_1["default"].message.menu);
+                        contact.say(constant_1["default"].message.menu);
                         _a.label = 2;
                     case 2: return [3, 4];
                     case 3:
