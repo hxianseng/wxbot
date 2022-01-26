@@ -7,4 +7,4 @@ tsconfig.json
 .npmrc
 test/
 build/config.js
-WechatEveryDay.memory-card.json
+JD-WX-BOT.memory-card.json
