@@ -91,7 +91,7 @@ function beanChangeCron() {
                         contact = _c.sent();
                         if (contact == null)
                             return [3, 4];
-                        (0, onMessage_1.beanChange)(jdId, contact, '每天21.01分定时推送');
+                        (0, onMessage_1.beanChange)(jdId, contact, '【每天21.01分定时推送】');
                         _c.label = 4;
                     case 4:
                         _i++;

@@ -156,7 +156,7 @@ function message(msg) {
                     if (!/^查询$/.test(content)) return [3, 15];
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg17);
-                    beanChange(remarks, contact, '查询');
+                    beanChange(remarks, contact, '【查询】');
                     return [3, 49];
                 case 15:
                     if (!/^ding$/.test(content)) return [3, 16];
