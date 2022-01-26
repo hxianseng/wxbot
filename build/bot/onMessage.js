@@ -52,7 +52,7 @@ var dbUtil_1 = require("./dbUtil");
 var data_schedule_1 = require("../utils/data-schedule");
 function message(msg) {
     return __awaiter(this, void 0, void 0, function () {
-        var contact, content, room, remarks, isText, str, jdId, str, jdId, remarkArray, flag, i_1, newRemark, i, pt_pin, pt_key, jdId_1, result, cookie, status_1, data, id, resp, confList, qlkey, body, e_1, name_1, filePath, db, index, ret, body, resp_1, qlid, qlkey, url, res_1, error_1, ck, url_1, data;
+        var contact, content, room, remarks, isText, str, jdId, str, jdId, remarkArray, flag, i_1, newRemark, i, pt_pin, pt_key, jdId_1, result, cookie, status_1, data, id, resp, confList, qlkey, body, e_1, name_1, filePath, db, index, ret, body, resp_1, qlid, qlkey, url, res_1, ck, url_1, data;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -68,7 +68,7 @@ function message(msg) {
                     remarks = _a.sent();
                     isText = msg.type() === _1.bot.Message.Type.Text;
                     wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                    if (!(!room && isText)) return [3, 57];
+                    if (!(!room && isText)) return [3, 54];
                     if (!/菜单/.test(content)) return [3, 3];
                     util_1.util.delay();
                     return [4, contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git')];
@@ -88,7 +88,7 @@ function message(msg) {
                     str = content.split(':');
                     jdId = str[1];
                     addRemark(remarks, jdId, contact);
-                    return [3, 57];
+                    return [3, 54];
                 case 6:
                     if (!/^查看绑定/.test(content)) return [3, 7];
                     if (remarks == null) {
@@ -98,7 +98,7 @@ function message(msg) {
                     }
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg4 + remarks);
-                    return [3, 57];
+                    return [3, 54];
                 case 7:
                     if (!(/^解绑:jd-/.test(content) || /^解绑:jd_/.test(content))) return [3, 13];
                     util_1.util.delay();
@@ -148,7 +148,7 @@ function message(msg) {
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg2);
                     _a.label = 12;
-                case 12: return [3, 57];
+                case 12: return [3, 54];
                 case 13:
                     if (!(/pt_pin=.+?;/.test(content) && /pt_key=.+?;/.test(content))) return [3, 19];
                     pt_pin = content.match(/pt_pin=.+?;/) || [0];
@@ -231,13 +231,13 @@ function message(msg) {
                         });
                     }
                     _a.label = 18;
-                case 18: return [3, 57];
+                case 18: return [3, 54];
                 case 19:
                     if (!/^查询$/.test(content)) return [3, 20];
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg17);
                     beanChange(remarks, contact, '【查询】');
-                    return [3, 57];
+                    return [3, 54];
                 case 20:
                     if (!/^ding$/.test(content)) return [3, 21];
                     contact.say('dong');
@@ -254,7 +254,7 @@ function message(msg) {
                 case 24:
                     _a.sent();
                     _a.label = 25;
-                case 25: return [3, 57];
+                case 25: return [3, 54];
                 case 26:
                     if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 32];
                     util_1.util.delay();
@@ -279,9 +279,9 @@ function message(msg) {
                     e_1 = _a.sent();
                     console.log(e_1);
                     return [3, 31];
-                case 31: return [3, 57];
+                case 31: return [3, 54];
                 case 32:
-                    if (!/^\d{6}$/.test(content)) return [3, 56];
+                    if (!/^\d{6}$/.test(content)) return [3, 53];
                     return [4, util_1.util.delay()];
                 case 33:
                     _a.sent();
@@ -323,7 +323,7 @@ function message(msg) {
                     return [2];
                 case 40:
                     console.log(resp_1);
-                    if (!resp_1.success) return [3, 51];
+                    if (!resp_1.success) return [3, 48];
                     return [4, contact.say('登录成功')];
                 case 41:
                     _a.sent();
@@ -349,17 +349,7 @@ function message(msg) {
                     _a.sent();
                     return [2];
                 case 45:
-                    _a.trys.push([45, 47, , 48]);
-                    return [4, (0, data_schedule_1.updata)()];
-                case 46:
-                    _a.sent();
-                    return [3, 48];
-                case 47:
-                    error_1 = _a.sent();
-                    console.log(error_1);
-                    return [3, 48];
-                case 48:
-                    if (!res_1.success) return [3, 50];
+                    if (!res_1.success) return [3, 47];
                     ck = res_1.data.ck;
                     url_1 = config_1["default"].Nolan.url + "/api/del";
                     data = {
@@ -368,27 +358,27 @@ function message(msg) {
                     };
                     return [4, qingLongApi_1.qingLongApi.delUser(url_1, data).then(function (res) {
                         })];
-                case 49:
+                case 46:
                     _a.sent();
                     upCookie(ck, contact, remarks);
-                    _a.label = 50;
-                case 50: return [3, 55];
-                case 51:
-                    if (!(resp_1.message == '验证码输入错误')) return [3, 53];
+                    _a.label = 47;
+                case 47: return [3, 52];
+                case 48:
+                    if (!(resp_1.message == '验证码输入错误')) return [3, 50];
                     return [4, contact.say(resp_1.message + ',请重新输入')];
-                case 52:
+                case 49:
                     _a.sent();
-                    return [3, 55];
-                case 53: return [4, contact.say(resp_1.message)];
-                case 54:
+                    return [3, 52];
+                case 50: return [4, contact.say(resp_1.message)];
+                case 51:
                     _a.sent();
-                    _a.label = 55;
-                case 55: return [3, 57];
-                case 56:
+                    _a.label = 52;
+                case 52: return [3, 54];
+                case 53:
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg6);
-                    _a.label = 57;
-                case 57: return [2];
+                    _a.label = 54;
+                case 54: return [2];
             }
         });
     });
@@ -765,7 +755,7 @@ function timeFormat(time) {
 }
 function findCookieById(jdId) {
     return __awaiter(this, void 0, void 0, function () {
-        var error_2, db, res, data;
+        var error_1, db, res, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -775,8 +765,8 @@ function findCookieById(jdId) {
                     _a.sent();
                     return [3, 3];
                 case 2:
-                    error_2 = _a.sent();
-                    console.log(error_2);
+                    error_1 = _a.sent();
+                    console.log(error_1);
                     return [3, 3];
                 case 3: return [4, (0, dbUtil_1.getDb)('./db.json')];
                 case 4:
@@ -1114,11 +1104,21 @@ function sendSMS(body, Phone, contact) {
 }
 function findCookieById1(jdId) {
     return __awaiter(this, void 0, void 0, function () {
-        var db, res, data;
+        var error_2, db, res, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, (0, dbUtil_1.getDb)('./db.json')];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4, (0, data_schedule_1.updata)()];
                 case 1:
+                    _a.sent();
+                    return [3, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    console.log(error_2);
+                    return [3, 3];
+                case 3: return [4, (0, dbUtil_1.getDb)('./db.json')];
+                case 4:
                     db = _a.sent();
                     res = db.cookieDetails.find(function (container) { return container.jdId == jdId; });
                     data = {
