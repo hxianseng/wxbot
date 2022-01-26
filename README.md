@@ -6,7 +6,7 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 - [x] 添加/更新CK
 - [x] 查询资产
 - [x] 短信登录(对接的Nolan,青龙面板低于2.11.0)
-- [x] 支持多个青龙面板(config.js填写相关配置)
+- [x] 支持多容器(config.js填写相关配置)
 - [x] 定时推送资产
 
 # 更新
