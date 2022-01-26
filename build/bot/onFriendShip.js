@@ -35,13 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var _1 = require(".");
-var constant_1 = __importDefault(require("../constant"));
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
@@ -51,24 +47,21 @@ var OnFriendShip = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        _a.trys.push([0, 3, , 4]);
                         if (!(friendship.type() === _1.bot.Friendship.Type.Receive
                             || friendship.type() == _1.bot.Friendship.Type.Confirm
                             || friendship.type() == _1.bot.Friendship.Type.Verify
-                            || friendship.type() == _1.bot.Friendship.Type.Unknown)) return [3, 3];
+                            || friendship.type() == _1.bot.Friendship.Type.Unknown)) return [3, 2];
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
-                        return [4, friendship.contact().say(constant_1["default"].message.menu)];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3: return [3, 5];
-                    case 4:
+                        _a.label = 2;
+                    case 2: return [3, 4];
+                    case 3:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3, 5];
-                    case 5: return [2];
+                        return [3, 4];
+                    case 4: return [2];
                 }
             });
         });
