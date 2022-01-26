@@ -35,9 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var _1 = require(".");
+var constant_1 = __importDefault(require("../constant"));
+var util_1 = require("../utils/util");
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
@@ -47,21 +52,24 @@ var OnFriendShip = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive
-                            || friendship.type() == _1.bot.Friendship.Type.Confirm
-                            || friendship.type() == _1.bot.Friendship.Type.Verify
-                            || friendship.type() == _1.bot.Friendship.Type.Unknown)) return [3, 2];
+                        _a.trys.push([0, 5, , 6]);
+                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive && friendship.hello() === 'ding')) return [3, 4];
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [3, 4];
+                        return [4, util_1.util.delay()];
+                    case 2:
+                        _a.sent();
+                        return [4, friendship.contact().say(constant_1["default"].message.menu)];
                     case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [3, 6];
+                    case 5:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3, 4];
-                    case 4: return [2];
+                        return [3, 6];
+                    case 6: return [2];
                 }
             });
         });
