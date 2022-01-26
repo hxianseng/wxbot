@@ -22,6 +22,18 @@ npm i
 pm2 restart index
 
 ```
+# 推送接口
+- 请求地址：http://ip:端口/api/v1/send
+- 请求方式：POST
+- Content-Type: application/json
+- 参数 
+  ```
+    {
+        "token":"config.js自定义的token",
+        "name":"目标联系人的备注",
+        "content":"内容"
+    }
+  ```
 
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
