@@ -66,7 +66,7 @@ function updataToLocal() {
     });
 }
 function beanChangeCron() {
-    node_schedule_1["default"].scheduleJob('30 * * * * *', function () {
+    node_schedule_1["default"].scheduleJob('0 1 21 * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
             var db, cookieArr, _a, _b, _i, i, jdId, contact, error_1;
             return __generator(this, function (_c) {
