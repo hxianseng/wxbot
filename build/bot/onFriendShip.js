@@ -35,38 +35,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var _1 = require(".");
-var constant_1 = __importDefault(require("../constant"));
-var util_1 = require("../utils/util");
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
     OnFriendShip.onFriendShip = function (friendship) {
         return __awaiter(this, void 0, void 0, function () {
-            var e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 5, , 6]);
-                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive && friendship.hello() === 'ding')) return [3, 4];
-                        return [4, friendship.accept()];
-                    case 1:
-                        _a.sent();
-                        return [4, util_1.util.delay()];
+                        _b.trys.push([0, 5, , 6]);
+                        console.log("received friend event.");
+                        _a = friendship.type();
+                        switch (_a) {
+                            case _1.bot.Friendship.Type.Receive: return [3, 1];
+                            case _1.bot.Friendship.Type.Receive: return [3, 3];
+                        }
+                        return [3, 4];
+                    case 1: return [4, friendship.accept()];
                     case 2:
-                        _a.sent();
-                        return [4, friendship.contact().say(constant_1["default"].message.menu)];
+                        _b.sent();
+                        return [3, 4];
                     case 3:
-                        _a.sent();
-                        _a.label = 4;
+                        console.log("friend ship confirmed");
+                        return [3, 4];
                     case 4: return [3, 6];
                     case 5:
-                        e_1 = _a.sent();
+                        e_1 = _b.sent();
                         console.error(e_1);
                         return [3, 6];
                     case 6: return [2];
