@@ -42,32 +42,33 @@ exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var _1 = require(".");
 var constant_1 = __importDefault(require("../constant"));
-var util_1 = require("../utils/util");
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
     OnFriendShip.onFriendShip = function (friendship) {
         return __awaiter(this, void 0, void 0, function () {
-            var contact, e_1;
+            var e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive)) return [3, 2];
-                        util_1.util.delay();
+                        _a.trys.push([0, 4, , 5]);
+                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive
+                            || friendship.type() == _1.bot.Friendship.Type.Confirm
+                            || friendship.type() == _1.bot.Friendship.Type.Verify
+                            || friendship.type() == _1.bot.Friendship.Type.Unknown)) return [3, 3];
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
-                        util_1.util.delay();
-                        contact = friendship.contact();
-                        contact.say(constant_1["default"].message.menu);
-                        _a.label = 2;
-                    case 2: return [3, 4];
-                    case 3:
+                        return [4, friendship.contact().say(constant_1["default"].message.menu)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [3, 5];
+                    case 4:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3, 4];
-                    case 4: return [2];
+                        return [3, 5];
+                    case 5: return [2];
                 }
             });
         });

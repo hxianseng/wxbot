@@ -1071,13 +1071,15 @@ function sendSMS(body, Phone, contact) {
                                 case 10:
                                     _b.sent();
                                     return [2, "break"];
-                                case 11:
-                                    if (!(i == 5)) return [3, 13];
-                                    return [4, contact.say("\u5B89\u5168\u9A8C\u8BC1\u7834\u89E3\u5931\u8D25,\u8BF7\u91CD\u65B0\u53D1\u9001\u624B\u673A\u53F7\u5F00\u59CB\u77ED\u4FE1\u767B\u5F55")];
+                                case 11: return [4, contact.say('破解失败,正在重试...')];
                                 case 12:
                                     _b.sent();
-                                    _b.label = 13;
-                                case 13: return [2];
+                                    if (!(i == 5)) return [3, 14];
+                                    return [4, contact.say("\u5B89\u5168\u9A8C\u8BC1\u7834\u89E3\u5931\u8D25,\u8BF7\u91CD\u65B0\u53D1\u9001\u624B\u673A\u53F7\u5F00\u59CB\u77ED\u4FE1\u767B\u5F55")];
+                                case 13:
+                                    _b.sent();
+                                    _b.label = 14;
+                                case 14: return [2];
                             }
                         });
                     };
