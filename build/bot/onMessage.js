@@ -1014,7 +1014,6 @@ function sendSMS(body, Phone, contact) {
                                     return [4, qingLongApi_1.qingLongApi.autoCaptchaNolan(config_1["default"].Nolan.url + '/api/AutoCaptcha', dat)];
                                 case 2:
                                     resp_2 = _b.sent();
-                                    console.log(resp_2);
                                     if (!resp_2.success) return [3, 9];
                                     return [4, contact.say("\u9A8C\u8BC1\u7801\u5DF2\u53D1\u9001,\u8BF7\u57283\u5206\u949F\u5185\u56DE\u590D6\u4F4D\u6570\u9A8C\u8BC1\u7801")];
                                 case 3:
@@ -1072,15 +1071,13 @@ function sendSMS(body, Phone, contact) {
                                 case 10:
                                     _b.sent();
                                     return [2, "break"];
-                                case 11: return [4, contact.say(resp_2.message)];
+                                case 11:
+                                    if (!(i == 5)) return [3, 13];
+                                    return [4, contact.say("\u5B89\u5168\u9A8C\u8BC1\u7834\u89E3\u5931\u8D25,\u8BF7\u91CD\u65B0\u53D1\u9001\u624B\u673A\u53F7\u5F00\u59CB\u77ED\u4FE1\u767B\u5F55")];
                                 case 12:
                                     _b.sent();
-                                    if (!(i == 5)) return [3, 14];
-                                    return [4, contact.say("\u5B89\u5168\u9A8C\u8BC1\u7834\u89E3\u5931\u8D25,\u8BF7\u91CD\u65B0\u53D1\u9001\u624B\u673A\u53F7\u5F00\u59CB\u77ED\u4FE1\u767B\u5F55")];
-                                case 13:
-                                    _b.sent();
-                                    _b.label = 14;
-                                case 14: return [2];
+                                    _b.label = 13;
+                                case 13: return [2];
                             }
                         });
                     };
