@@ -125,12 +125,8 @@ pm2 restart index
     }
 
     ```
-- 测试运行，在build目录下执行`node index.js`,出现下图打开 `http://你的IP:你的端口/api/v1/qrcodeImage` 扫描二维码登录(记得安全组方行端口，装了宝塔的也要在宝塔放行)
-也可以扫描控制台输出的二维码，/api/v1/qrcodeImage接口后期会废除
-    ![](https://img30.360buyimg.com/pop/jfs/t1/142409/34/24460/5803/61c313b8E26aa2fe2/c18f8d53b4fb6dc1.png)
-    扫码之后出现下图代表登录成功:
-    ![](https://img30.360buyimg.com/pop/jfs/t1/174696/15/24069/11469/61c31657E64c1ed92/ef9233bcf6a3658b.png)
-- Ctrl+C停止，并回到push-wechaty-bot目录下，用pm2管理进程
+
+- 在push-wechaty-bot目录下，用pm2管理进程
 - `pm2 start build/index.js`
 - `pm2 logs` 可以查看日志输出的微信登录二维码
 
