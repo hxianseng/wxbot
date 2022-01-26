@@ -133,9 +133,9 @@ pm2 restart index
 4.青龙一对一通知修改:(找不到要修改的地方到文件中搜索相关文字)
 
 
-- sendNotify.js ==> 在=====go-cqhttp=====通知设置区域 上面或者下面加上:
+- sendNotify.js ==> 在=====go-cqhttp=====通知设置区域 上面或者下面添加下面:
     ```//=======================================push-wechaty-bot===========================================
-    // push-wechaty-bot的build/config/index.js下你配置的token
+    // push-wechaty-bot的build/config.js下你配置的token
     let PUSH_WECHATY_BOT_TOKEN = '';
 
     // http://搭建机器人的IP:端口/api/v1/send 
