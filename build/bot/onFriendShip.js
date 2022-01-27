@@ -47,33 +47,27 @@ var OnFriendShip = (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 7, , 8]);
+                        _b.trys.push([0, 5, , 6]);
                         console.log("received friend event.");
                         _a = friendship.type();
                         switch (_a) {
                             case _1.bot.Friendship.Type.Receive: return [3, 1];
-                            case _1.bot.Friendship.Type.Receive: return [3, 5];
+                            case _1.bot.Friendship.Type.Receive: return [3, 3];
                         }
-                        return [3, 6];
+                        return [3, 4];
                     case 1: return [4, friendship.accept()];
                     case 2:
                         _b.sent();
-                        return [4, _1.bot.stop()];
+                        return [3, 4];
                     case 3:
-                        _b.sent();
-                        return [4, _1.bot.start()];
-                    case 4:
-                        _b.sent();
-                        return [3, 6];
-                    case 5:
                         console.log("friend ship confirmed");
-                        return [3, 6];
-                    case 6: return [3, 8];
-                    case 7:
+                        return [3, 4];
+                    case 4: return [3, 6];
+                    case 5:
                         e_1 = _b.sent();
                         console.error(e_1);
-                        return [3, 8];
-                    case 8: return [2];
+                        return [3, 6];
+                    case 6: return [2];
                 }
             });
         });
