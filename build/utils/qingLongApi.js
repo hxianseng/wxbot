@@ -45,6 +45,29 @@ var request_1 = __importDefault(require("request"));
 var qingLongApi = (function () {
     function qingLongApi() {
     }
+    qingLongApi.getToken = function (QLurl, clientId, clientSecret) {
+        return (0, axios_1["default"])({
+            url: QLurl + "/open/auth/token?client_id=".concat(clientId, "&client_secret=").concat(clientSecret),
+            method: 'get',
+            headers: qingLongApi.headers2,
+            timeout: 1000 * 10
+        });
+    };
+    qingLongApi.getCookies = function (QLurl, token) {
+        var t = new Date().getTime();
+        return (0, axios_1["default"])({
+            url: QLurl + "/open/envs?searchValue=&t=".concat(t),
+            method: 'get',
+            headers: {
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+                'Connection': 'keep-alive',
+                'Authorization': "Bearer ".concat(token),
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62'
+            },
+            timeout: 1000 * 10
+        });
+    };
     qingLongApi.updateCookie = function (data, token, QLurl) {
         return __awaiter(this, void 0, void 0, function () {
             var t, url;
@@ -213,6 +236,12 @@ var qingLongApi = (function () {
     };
     qingLongApi.headers = {
         'accept': 'application/json',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        'Connection': 'keep-alive',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62'
+    };
+    qingLongApi.headers2 = {
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
         'Connection': 'keep-alive',

@@ -52,10 +52,10 @@ var dbUtil_1 = require("./dbUtil");
 var data_schedule_1 = require("../utils/data-schedule");
 function message(msg) {
     return __awaiter(this, void 0, void 0, function () {
-        var contact, content, room, remarks, isText, str, jdId, str, jdId, remarkArray, flag, i_1, newRemark, i, pt_pin, pt_key, jdId_1, result, cookie, status_1, data, id, resp, confList, qlkey, body, e_1, name_1, filePath, db, index, ret, body, resp_1, qlid, qlkey, url, res_1, ck, url_1, data;
+        var contact, content, room, remarks, isText, str, jdId, str, jdId, remarkArray, flag, i_1, newRemark, i, pt_pin, pt_key, jdId_1, result, cookie, status_1, data, id, resp, confList, qlkey, body, e_1, name_1, filePath, db, index, ret, body, resp_1, qlid, qlkey, url, res_1, ck, url_1, data, db, containerDetails, _a, _b, _i, i_2, ckNum, QLkey, ckMaxNum, QLName, msg_1, e_2;
         var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     if (msg.self()) {
                         return [2];
@@ -65,22 +65,22 @@ function message(msg) {
                     room = msg.room();
                     return [4, contact.alias()];
                 case 1:
-                    remarks = _a.sent();
+                    remarks = _c.sent();
                     isText = msg.type() === _1.bot.Message.Type.Text;
                     wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                    if (!(!room && isText)) return [3, 54];
+                    if (!(!room && isText)) return [3, 63];
                     if (!/菜单/.test(content)) return [3, 3];
                     util_1.util.delay();
                     return [4, contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/push-wechaty-bot.git')];
                 case 2:
-                    _a.sent();
+                    _c.sent();
                     return [2];
                 case 3:
                     if (!/查看京东id/.test(content)) return [3, 5];
                     util_1.util.delay();
                     return [4, contact.say(constant_1["default"].message.seeId)];
                 case 4:
-                    _a.sent();
+                    _c.sent();
                     return [2];
                 case 5:
                     if (!(/^绑定:jd-/.test(content) || /^绑定:jd_/.test(content))) return [3, 6];
@@ -88,7 +88,7 @@ function message(msg) {
                     str = content.split(':');
                     jdId = str[1];
                     addRemark(remarks, jdId, contact);
-                    return [3, 54];
+                    return [3, 63];
                 case 6:
                     if (!/^查看绑定/.test(content)) return [3, 7];
                     if (remarks == null) {
@@ -98,7 +98,7 @@ function message(msg) {
                     }
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg4 + remarks);
-                    return [3, 54];
+                    return [3, 63];
                 case 7:
                     if (!(/^解绑:jd-/.test(content) || /^解绑:jd_/.test(content))) return [3, 13];
                     util_1.util.delay();
@@ -125,7 +125,7 @@ function message(msg) {
                     if (!(remarkArray.length == 1)) return [3, 10];
                     return [4, contact.alias(null)];
                 case 9:
-                    _a.sent();
+                    _c.sent();
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg2);
                     return [3, 12];
@@ -144,11 +144,11 @@ function message(msg) {
                     }
                     return [4, contact.alias(newRemark)];
                 case 11:
-                    _a.sent();
+                    _c.sent();
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg2);
-                    _a.label = 12;
-                case 12: return [3, 54];
+                    _c.label = 12;
+                case 12: return [3, 63];
                 case 13:
                     if (!(/pt_pin=.+?;/.test(content) && /pt_key=.+?;/.test(content))) return [3, 19];
                     pt_pin = content.match(/pt_pin=.+?;/) || [0];
@@ -161,7 +161,7 @@ function message(msg) {
                     jdId_1 = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                     return [4, findCookieById(jdId_1)];
                 case 14:
-                    result = _a.sent();
+                    result = _c.sent();
                     cookie = pt_key[0] + pt_pin[0];
                     if (!!result.flag) return [3, 15];
                     util_1.util.delay();
@@ -172,7 +172,7 @@ function message(msg) {
                     util_1.util.delay();
                     return [4, contact.say(constant_1["default"].message.msg16)];
                 case 16:
-                    _a.sent();
+                    _c.sent();
                     result.cookie.value = cookie;
                     result.cookie.remarks = jdId_1;
                     status_1 = result.cookie.status;
@@ -208,7 +208,7 @@ function message(msg) {
                             console.log(err);
                         })];
                 case 17:
-                    _a.sent();
+                    _c.sent();
                     if (status_1 == 0) {
                         util_1.util.delay();
                         contact.say(constant_1["default"].message.msg12);
@@ -230,14 +230,14 @@ function message(msg) {
                             console.log(err);
                         });
                     }
-                    _a.label = 18;
-                case 18: return [3, 54];
+                    _c.label = 18;
+                case 18: return [3, 63];
                 case 19:
                     if (!/^查询$/.test(content)) return [3, 20];
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg17);
                     beanChange(remarks, contact, '【查询】');
-                    return [3, 54];
+                    return [3, 63];
                 case 20:
                     if (!/^ding$/.test(content)) return [3, 21];
                     contact.say('dong');
@@ -248,25 +248,25 @@ function message(msg) {
                     util_1.util.delay();
                     return [4, contact.say('开始短信登录,请60s内发送手机号')];
                 case 22:
-                    _a.sent();
+                    _c.sent();
                     return [3, 25];
                 case 23: return [4, contact.say('请设置config.js --> Nolan --> flag为true开启短信登录')];
                 case 24:
-                    _a.sent();
-                    _a.label = 25;
-                case 25: return [3, 54];
+                    _c.sent();
+                    _c.label = 25;
+                case 25: return [3, 63];
                 case 26:
                     if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 32];
                     util_1.util.delay();
                     return [4, contact.say('正在获取验证码,请稍后...')];
                 case 27:
-                    _a.sent();
-                    _a.label = 28;
+                    _c.sent();
+                    _c.label = 28;
                 case 28:
-                    _a.trys.push([28, 30, , 31]);
+                    _c.trys.push([28, 30, , 31]);
                     return [4, qingLongApi_1.qingLongApi.getConfigNolan(config_1["default"].Nolan.url + '/api/Config')];
                 case 29:
-                    resp = _a.sent();
+                    resp = _c.sent();
                     confList = resp.data.list;
                     qlkey = confList[0].qLkey;
                     body = {
@@ -276,28 +276,28 @@ function message(msg) {
                     sendSMS(body, content, contact);
                     return [3, 31];
                 case 30:
-                    e_1 = _a.sent();
+                    e_1 = _c.sent();
                     console.log(e_1);
                     return [3, 31];
-                case 31: return [3, 54];
+                case 31: return [3, 63];
                 case 32:
                     if (!/^\d{6}$/.test(content)) return [3, 53];
                     return [4, util_1.util.delay()];
                 case 33:
-                    _a.sent();
+                    _c.sent();
                     return [4, contact.say('开始登录京东,请稍后...')];
                 case 34:
-                    _a.sent();
+                    _c.sent();
                     name_1 = contact.name();
                     filePath = '../constant/sms.json';
                     return [4, (0, dbUtil_1.getDb)(filePath)];
                 case 35:
-                    db = _a.sent();
+                    db = _c.sent();
                     index = db.sms.findIndex(function (x) { return x.remark == name_1; });
                     if (!(index == -1)) return [3, 37];
                     return [4, contact.say('验证码失效,请重新发送手机号开始登录')];
                 case 36:
-                    _a.sent();
+                    _c.sent();
                     return [2];
                 case 37:
                     ret = db.sms.find(function (x) { return x.remark == name_1; });
@@ -315,22 +315,22 @@ function message(msg) {
                             console.log(e);
                         })];
                 case 38:
-                    _a.sent();
+                    _c.sent();
                     if (!(resp_1 == undefined)) return [3, 40];
                     return [4, contact.say('Nolan /api/VerifyCode接口请求失败')];
                 case 39:
-                    _a.sent();
+                    _c.sent();
                     return [2];
                 case 40:
                     console.log(resp_1);
                     if (!resp_1.success) return [3, 48];
                     return [4, contact.say('登录成功')];
                 case 41:
-                    _a.sent();
+                    _c.sent();
                     db.sms.splice(index, 1);
                     return [4, (0, dbUtil_1.saveDb)(db, filePath)];
                 case 42:
-                    _a.sent();
+                    _c.sent();
                     qlid = resp_1.data.qlid;
                     qlkey = resp_1.data.qlkey;
                     url = config_1["default"].Nolan.url + "/api/User?qlid=".concat(qlid, "&qlkey=").concat(qlkey);
@@ -342,11 +342,11 @@ function message(msg) {
                             console.log(e);
                         })];
                 case 43:
-                    _a.sent();
+                    _c.sent();
                     if (!(res_1 == undefined)) return [3, 45];
                     return [4, contact.say('Nolan /api/User接口请求失败')];
                 case 44:
-                    _a.sent();
+                    _c.sent();
                     return [2];
                 case 45:
                     if (!res_1.success) return [3, 47];
@@ -359,26 +359,64 @@ function message(msg) {
                     return [4, qingLongApi_1.qingLongApi.delUser(url_1, data).then(function (res) {
                         })];
                 case 46:
-                    _a.sent();
+                    _c.sent();
                     upCookie(ck, contact, remarks);
-                    _a.label = 47;
+                    _c.label = 47;
                 case 47: return [3, 52];
                 case 48:
                     if (!(resp_1.message == '验证码输入错误')) return [3, 50];
                     return [4, contact.say(resp_1.message + ',请重新输入')];
                 case 49:
-                    _a.sent();
+                    _c.sent();
                     return [3, 52];
                 case 50: return [4, contact.say(resp_1.message)];
                 case 51:
-                    _a.sent();
-                    _a.label = 52;
-                case 52: return [3, 54];
+                    _c.sent();
+                    _c.label = 52;
+                case 52: return [3, 63];
                 case 53:
+                    if (!/容器详情/.test(content)) return [3, 62];
+                    _c.label = 54;
+                case 54:
+                    _c.trys.push([54, 60, , 61]);
+                    return [4, (0, dbUtil_1.getDb)('./db.json')];
+                case 55:
+                    db = _c.sent();
+                    containerDetails = db.containerDetails;
+                    _a = [];
+                    for (_b in containerDetails)
+                        _a.push(_b);
+                    _i = 0;
+                    _c.label = 56;
+                case 56:
+                    if (!(_i < _a.length)) return [3, 59];
+                    i_2 = _a[_i];
+                    ckNum = containerDetails[i_2].ckNum;
+                    QLkey = containerDetails[i_2].container.QLkey;
+                    ckMaxNum = containerDetails[i_2].ckMaxNum;
+                    QLName = containerDetails[i_2].container.QLName;
+                    msg_1 = "QLkey:".concat(QLkey, "\n");
+                    msg_1 += "\u5DF2\u6709cookie:".concat(ckNum, "\n");
+                    msg_1 += "\u5BB9\u5668\u5BB9\u91CF:".concat(ckMaxNum, "\n");
+                    msg_1 += "\u5BB9\u5668\u540D\u79F0:".concat(QLName);
+                    return [4, contact.say(msg_1)];
+                case 57:
+                    _c.sent();
+                    _c.label = 58;
+                case 58:
+                    _i++;
+                    return [3, 56];
+                case 59: return [3, 61];
+                case 60:
+                    e_2 = _c.sent();
+                    console.log(e_2);
+                    return [3, 61];
+                case 61: return [3, 63];
+                case 62:
                     util_1.util.delay();
                     contact.say(constant_1["default"].message.msg6);
-                    _a.label = 54;
-                case 54: return [2];
+                    _c.label = 63;
+                case 63: return [2];
             }
         });
     });
@@ -887,7 +925,7 @@ function addCookie(cookie, contact, remarks, jdId, token, QLurl, QLName) {
 }
 function beanChange(remarks, contact, str) {
     return __awaiter(this, void 0, void 0, function () {
-        var remarkArray, cookies, db, e_2, cookieArr, i, j, jdId, remark, _a, _b, _i, i, todayIncomeBean, incomeBean, expenseBean, beanCount, expirejingdou, JDEggcnt, JDtotalcash, JdzzNum, JdMsScore, redMessgae, cookie, result, pt_pin, jdId, ReturnMessage;
+        var remarkArray, cookies, db, e_3, cookieArr, i, j, jdId, remark, _a, _b, _i, i, todayIncomeBean, incomeBean, expenseBean, beanCount, expirejingdou, JDEggcnt, JDtotalcash, JdzzNum, JdMsScore, redMessgae, cookie, result, pt_pin, jdId, ReturnMessage;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -907,8 +945,8 @@ function beanChange(remarks, contact, str) {
                     cookies = db.cookieDetails;
                     return [3, 5];
                 case 4:
-                    e_2 = _c.sent();
-                    console.log(e_2);
+                    e_3 = _c.sent();
+                    console.log(e_3);
                     return [3, 5];
                 case 5:
                     cookieArr = [];
@@ -1005,7 +1043,7 @@ function sendSMS(body, Phone, contact) {
                     };
                     flag = true;
                     _loop_1 = function (i) {
-                        var resp_2, name_2, data, filePath_1, db_1, e_3;
+                        var resp_2, name_2, data, filePath_1, db_1, e_4;
                         return __generator(this, function (_b) {
                             switch (_b.label) {
                                 case 0: return [4, contact.say("\u51FA\u73B0\u5B89\u5168\u9A8C\u8BC1,\u7B2C".concat(i, "\u6B21\u5C1D\u8BD5\u7834\u89E3"))];
@@ -1059,8 +1097,8 @@ function sendSMS(body, Phone, contact) {
                                     }); }, 1000 * 180);
                                     return [3, 8];
                                 case 7:
-                                    e_3 = _b.sent();
-                                    console.log(e_3);
+                                    e_4 = _b.sent();
+                                    console.log(e_4);
                                     return [3, 8];
                                 case 8:
                                     flag = false;

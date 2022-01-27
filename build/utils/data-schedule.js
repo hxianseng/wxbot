@@ -44,9 +44,9 @@ var node_schedule_1 = __importDefault(require("node-schedule"));
 var bot_1 = require("../bot");
 var wechaty_1 = require("wechaty");
 var config_1 = __importDefault(require("../config"));
-var request_1 = __importDefault(require("request"));
 var dbUtil_1 = require("../bot/dbUtil");
 var onMessage_1 = require("../bot/onMessage");
+var qingLongApi_1 = require("./qingLongApi");
 updataToLocal();
 delSMSData();
 beanChangeCron();
@@ -136,95 +136,126 @@ function delSMSData() {
 }
 function updata() {
     return __awaiter(this, void 0, void 0, function () {
-        var container, dataArr, containerDetails, _a, _b, _i, i, QLurl, clientId, clientSecret, resp, token, cookieArr, containerDetail, _c, _d, _e, n, pt_pin, jdId, contact, data, db, error_3;
-        return __generator(this, function (_f) {
-            switch (_f.label) {
+        var container, dataArr, containerDetails, _loop_1, _a, _b, _i, i, state_1, db, error_3;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     wechaty_1.log.info('#更新数据到db.json --> 开始');
                     container = config_1["default"].container.containerArr;
                     dataArr = [];
                     containerDetails = [];
+                    _loop_1 = function (i) {
+                        var QLurl, clientId, clientSecret, resp, token, resp1, cookieArr, containerDetail, _d, _e, _f, n, pt_pin, jdId, contact, data;
+                        return __generator(this, function (_g) {
+                            switch (_g.label) {
+                                case 0:
+                                    QLurl = container[i].QLurl;
+                                    clientId = container[i].clientId;
+                                    clientSecret = container[i].clientSecret;
+                                    if (QLurl == '' || clientId == '' || clientSecret == '') {
+                                        wechaty_1.log.info('请填写青龙配置文件config.js');
+                                        return [2, { value: void 0 }];
+                                    }
+                                    return [4, qingLongApi_1.qingLongApi.getToken(QLurl, clientId, clientSecret).then(function (res) {
+                                            if (res.status == 200) {
+                                                resp = res.data;
+                                            }
+                                        })];
+                                case 1:
+                                    _g.sent();
+                                    if (resp == undefined) {
+                                        wechaty_1.log.error("\u9752\u9F99 /open/auth/token\u63A5\u53E3\u8BF7\u6C42\u5931\u8D25\u6216\u8D85\u65F6");
+                                        return [2, { value: void 0 }];
+                                    }
+                                    token = resp.data.token;
+                                    return [4, qingLongApi_1.qingLongApi.getCookies(QLurl, token).then(function (res) {
+                                            if (res.status == 200) {
+                                                resp1 = res.data;
+                                            }
+                                        })];
+                                case 2:
+                                    _g.sent();
+                                    if (resp1 == undefined) {
+                                        wechaty_1.log.error("\u9752\u9F99 /open/envs?searchValue\u63A5\u53E3\u8BF7\u6C42\u5931\u8D25\u6216\u8D85\u65F6");
+                                        return [2, { value: void 0 }];
+                                    }
+                                    cookieArr = resp1.data;
+                                    containerDetail = {
+                                        token: token,
+                                        ckNum: cookieArr.length,
+                                        ckMaxNum: container[i].cookieNumMax,
+                                        container: container[i]
+                                    };
+                                    containerDetails.push(containerDetail);
+                                    _d = [];
+                                    for (_e in cookieArr)
+                                        _d.push(_e);
+                                    _f = 0;
+                                    _g.label = 3;
+                                case 3:
+                                    if (!(_f < _d.length)) return [3, 8];
+                                    n = _d[_f];
+                                    pt_pin = cookieArr[n].value.match(/pt_pin=.+?;/) || [0];
+                                    jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
+                                    if (!(cookieArr[n].status != 0)) return [3, 6];
+                                    return [4, bot_1.bot.Contact.find({ alias: new RegExp(jdId) })];
+                                case 4:
+                                    contact = _g.sent();
+                                    return [4, (contact === null || contact === void 0 ? void 0 : contact.say("".concat(jdId, ":\u4F60\u7684cookie\u5DF2\u5931\u6548,\u53D1\u9001 \u77ED\u4FE1\u767B\u5F55 \u66F4\u65B0cookie. \n(\u5982\u679C\u6B63\u5728\u66F4\u65B0cookie,\u8BF7\u5FFD\u7565\u6D88\u606F)")))];
+                                case 5:
+                                    _g.sent();
+                                    _g.label = 6;
+                                case 6:
+                                    data = {
+                                        jdId: jdId,
+                                        token: token,
+                                        container: container[i],
+                                        cookie: cookieArr[n],
+                                        updateTime: new Date().toLocaleString()
+                                    };
+                                    wechaty_1.log.info("\u66F4\u65B0".concat(jdId));
+                                    dataArr.push(data);
+                                    _g.label = 7;
+                                case 7:
+                                    _f++;
+                                    return [3, 3];
+                                case 8: return [2];
+                            }
+                        });
+                    };
                     _a = [];
                     for (_b in container)
                         _a.push(_b);
                     _i = 0;
-                    _f.label = 1;
+                    _c.label = 1;
                 case 1:
-                    if (!(_i < _a.length)) return [3, 10];
+                    if (!(_i < _a.length)) return [3, 4];
                     i = _a[_i];
-                    QLurl = container[i].QLurl;
-                    clientId = container[i].clientId;
-                    clientSecret = container[i].clientSecret;
-                    if (QLurl == '' || clientId == '' || clientSecret == '') {
-                        wechaty_1.log.info('请填写青龙配置文件config.js');
-                        return [2];
-                    }
-                    return [4, getToken(QLurl, clientId, clientSecret)];
+                    return [5, _loop_1(i)];
                 case 2:
-                    resp = _f.sent();
-                    token = resp.data.token;
-                    return [4, getCookies(QLurl, token)];
+                    state_1 = _c.sent();
+                    if (typeof state_1 === "object")
+                        return [2, state_1.value];
+                    _c.label = 3;
                 case 3:
-                    resp = _f.sent();
-                    cookieArr = resp.data;
-                    containerDetail = {
-                        token: token,
-                        ckNum: cookieArr.length,
-                        ckMaxNum: container[i].cookieNumMax,
-                        container: container[i]
-                    };
-                    containerDetails.push(containerDetail);
-                    _c = [];
-                    for (_d in cookieArr)
-                        _c.push(_d);
-                    _e = 0;
-                    _f.label = 4;
-                case 4:
-                    if (!(_e < _c.length)) return [3, 9];
-                    n = _c[_e];
-                    pt_pin = cookieArr[n].value.match(/pt_pin=.+?;/) || [0];
-                    jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
-                    if (!(cookieArr[n].status != 0)) return [3, 7];
-                    return [4, bot_1.bot.Contact.find({ alias: new RegExp(jdId) })];
-                case 5:
-                    contact = _f.sent();
-                    return [4, (contact === null || contact === void 0 ? void 0 : contact.say("".concat(jdId, ":\u4F60\u7684cookie\u5DF2\u5931\u6548,\u53D1\u9001 \u77ED\u4FE1\u767B\u5F55 \u66F4\u65B0cookie. \n(\u5982\u679C\u6B63\u5728\u66F4\u65B0cookie,\u8BF7\u5FFD\u7565\u6D88\u606F)")))];
-                case 6:
-                    _f.sent();
-                    _f.label = 7;
-                case 7:
-                    data = {
-                        jdId: jdId,
-                        token: token,
-                        container: container[i],
-                        cookie: cookieArr[n],
-                        updateTime: new Date().toLocaleString()
-                    };
-                    wechaty_1.log.info("\u66F4\u65B0".concat(jdId));
-                    dataArr.push(data);
-                    _f.label = 8;
-                case 8:
-                    _e++;
-                    return [3, 4];
-                case 9:
                     _i++;
                     return [3, 1];
-                case 10:
-                    _f.trys.push([10, 13, , 14]);
+                case 4:
+                    _c.trys.push([4, 7, , 8]);
                     return [4, (0, dbUtil_1.getDb)('./db.json')];
-                case 11:
-                    db = _f.sent();
+                case 5:
+                    db = _c.sent();
                     db.cookieDetails = dataArr;
                     db.containerDetails = containerDetails;
                     return [4, (0, dbUtil_1.saveDb)(db, './db.json')];
-                case 12:
-                    _f.sent();
-                    return [3, 14];
-                case 13:
-                    error_3 = _f.sent();
+                case 6:
+                    _c.sent();
+                    return [3, 8];
+                case 7:
+                    error_3 = _c.sent();
                     console.log(error_3);
-                    return [3, 14];
-                case 14:
+                    return [3, 8];
+                case 8:
                     wechaty_1.log.info('#更新数据到db.json --> 结束');
                     return [2];
             }
@@ -232,80 +263,3 @@ function updata() {
     });
 }
 exports.updata = updata;
-function getToken(QLurl, clientId, clientSecret) {
-    var _this = this;
-    return new Promise(function (resolve) {
-        var options = {
-            'url': QLurl + "/open/auth/token?client_id=".concat(clientId, "&client_secret=").concat(clientSecret),
-            'headers': {
-                'Connection': 'keep-alive',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62'
-            }
-        };
-        request_1["default"].get(options, function (err, resp, data) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                try {
-                    if (err) {
-                        console.log(err);
-                        wechaty_1.log.info("API\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u8DEF\u91CD\u8BD5");
-                    }
-                    else {
-                        if (data) {
-                            data = JSON.parse(data);
-                            if (data.code == 200) {
-                                wechaty_1.log.info(data.data.token);
-                            }
-                            else {
-                                wechaty_1.log.info('青龙token获取失败');
-                            }
-                        }
-                    }
-                }
-                catch (e) {
-                    console.log(e, resp);
-                }
-                finally {
-                    resolve(data);
-                }
-                return [2];
-            });
-        }); });
-    });
-}
-function getCookies(QLurl, token) {
-    return new Promise(function (resolve) {
-        var t = new Date().getTime();
-        var options = {
-            'url': QLurl + "/open/envs?searchValue=&t=".concat(t),
-            'headers': {
-                'Connection': 'keep-alive',
-                'Authorization': "Bearer ".concat(token),
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.62'
-            }
-        };
-        request_1["default"].get(options, function (err, resp, data) {
-            try {
-                if (err) {
-                    console.log(err);
-                    wechaty_1.log.info('API请求失败，请检查网路重试');
-                }
-                else {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.code == 200) {
-                        }
-                        else {
-                            wechaty_1.log.info('获取cookie失败:' + data);
-                        }
-                    }
-                }
-            }
-            catch (e) {
-                console.log(e, resp);
-            }
-            finally {
-                resolve(data);
-            }
-        });
-    });
-}
