@@ -53,6 +53,38 @@ var qingLongApi = (function () {
             timeout: 1000 * 10
         });
     };
+    qingLongApi.getScript = function (url, token) {
+        return (0, axios_1["default"])({
+            url: url,
+            method: 'get',
+            headers: {
+                'Connection': 'keep-alive',
+                'Authorization': 'Bearer ' + token,
+                'User-Agent': 'Mozilla/ 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 97.0.4692.99 Safari / 537.36 Edg / 97.0.1072.69',
+                'Accept': '*/*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
+            },
+            timeout: 1000 * 10
+        });
+    };
+    qingLongApi.upScript = function (url, token, data) {
+        return (0, axios_1["default"])({
+            url: url,
+            method: 'put',
+            headers: {
+                'Connection': 'keep-alive',
+                'Authorization': 'Bearer ' + token,
+                'User-Agent': 'Mozilla/ 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 97.0.4692.99 Safari / 537.36 Edg / 97.0.1072.69',
+                'Accept': 'application/json',
+                'Accept-Encoding': 'gzip, deflate',
+                'Content-Type': 'application/json;charset=UTF-8',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6'
+            },
+            timeout: 1000 * 10,
+            data: data
+        });
+    };
     qingLongApi.getCookies = function (QLurl, token) {
         var t = new Date().getTime();
         return (0, axios_1["default"])({

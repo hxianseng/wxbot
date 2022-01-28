@@ -47,9 +47,34 @@ var config_1 = __importDefault(require("../config"));
 var dbUtil_1 = require("../bot/dbUtil");
 var onMessage_1 = require("../bot/onMessage");
 var qingLongApi_1 = require("./qingLongApi");
+var util_1 = require("./util");
 updataToLocal();
 delSMSData();
-beanChangeCron();
+autoUpdateNotify();
+function autoUpdateNotify() {
+    node_schedule_1["default"].scheduleJob('0 30 0 * * *', function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        wechaty_1.log.info('定时任务:对接青龙一对一通知 防止更新仓库被覆盖 开始');
+                        return [4, util_1.util.autoUpdateQingLong()];
+                    case 1:
+                        _a.sent();
+                        wechaty_1.log.info('定时任务:对接青龙一对一通知 防止更新仓库被覆盖 结束');
+                        return [3, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.log(error_1);
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
+        });
+    });
+}
 function updataToLocal() {
     node_schedule_1["default"].scheduleJob('0 0 * * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -68,7 +93,7 @@ function updataToLocal() {
 function beanChangeCron() {
     node_schedule_1["default"].scheduleJob('0 1 21 * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var db, cookieArr, _a, _b, _i, i, jdId, contact, error_1;
+            var db, cookieArr, _a, _b, _i, i, jdId, contact, error_2;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -98,8 +123,8 @@ function beanChangeCron() {
                         return [3, 2];
                     case 5: return [3, 7];
                     case 6:
-                        error_1 = _c.sent();
-                        console.log(error_1);
+                        error_2 = _c.sent();
+                        console.log(error_2);
                         return [3, 7];
                     case 7: return [2];
                 }
@@ -110,7 +135,7 @@ function beanChangeCron() {
 function delSMSData() {
     node_schedule_1["default"].scheduleJob('0 0 0 * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
-            var filePath, db, error_2;
+            var filePath, db, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -125,8 +150,8 @@ function delSMSData() {
                         _a.sent();
                         return [3, 4];
                     case 3:
-                        error_2 = _a.sent();
-                        console.log(error_2);
+                        error_3 = _a.sent();
+                        console.log(error_3);
                         return [3, 4];
                     case 4: return [2];
                 }
@@ -136,7 +161,7 @@ function delSMSData() {
 }
 function updata() {
     return __awaiter(this, void 0, void 0, function () {
-        var container, dataArr, containerDetails, _loop_1, _a, _b, _i, i, state_1, db, error_3;
+        var container, dataArr, containerDetails, _loop_1, _a, _b, _i, i, state_1, db, error_4;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -252,8 +277,8 @@ function updata() {
                     _c.sent();
                     return [3, 8];
                 case 7:
-                    error_3 = _c.sent();
-                    console.log(error_3);
+                    error_4 = _c.sent();
+                    console.log(error_4);
                     return [3, 8];
                 case 8:
                     wechaty_1.log.info('#更新数据到db.json --> 结束');

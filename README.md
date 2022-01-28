@@ -3,11 +3,13 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 
 # push-wechaty-bot与ql对接
 - [x] 推送通知
-- [x] 添加/更新CK
+- [x] 添加/更新CK(手动抓取ck发给机器人)
 - [x] 查询资产
 - [x] 短信登录(对接的Nolan,青龙面板低于2.11.0)
-- [x] 支持多容器(config.js填写相关配置)
-- [x] 定时推送资产
+- [x] 支持多容器(config.js填写container相关配置)
+- [x] 自动对接青龙一对一通知
+  - 京东资产变动通知
+  - 需要其他的请在config.js的AutoUpdateQingLong的js_file填写相关配置
 
 # 更新
 ```
@@ -34,7 +36,10 @@ pm2 restart index
         "content":"内容"
     }
   ```
-
+# 已知bug
+- 机器人自动同意好友申请会占满CPU,是机器人插件问题,已联系作者
+# 联系方式
+- hxiansen@outlook.com
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
@@ -86,18 +91,17 @@ pm2 restart index
         addMode: 1,//cookie添加方式 1 逐个容器添加,添满为止; 2 均衡添加
         containerArr: [
             {
-                containerId: 1, //容器id 从1开始递增
-                containerRemark: '阿里云1',//备注
+                QLkey: 1, //容器id 从1开始递增
+                QLName: '',//备注
                 QLurl: '',//青龙url  http://IP:端口
                 clientId: '',//青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
                 clientSecret: '',//青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
                 cookieNumMax: 30 //cookie容量，最好与诺兰设置为相同数量
-            },// 多个容器之间不要忘了这里的 , 号
-            
+            },// 多个容器之间不要忘了 , 号
             /*
             {
                 containerId: 2, //容器id 从1开始递增
-                containerRemark: '',
+                QLName: '',
                 QLurl: '',
                 clientId: '',
                 clientSecret: '',
@@ -108,8 +112,98 @@ pm2 restart index
         ]
     },
     Nolan: {//诺兰短信登录
-        flag: false,//默认关闭 true or false
+        flag: false,//默认关闭 开启设置为true
         url: ''//诺兰地址:http://ip:端口  url后面不要加 /login
+    },
+    AutoUpdateQingLong: { //自动对接青龙 一对一通知
+        /**
+         * 默认使用的是faker3库
+         * 别的库注意以下:
+         * 1、库内要有sendNotify.js文件,没有的把青龙自带的sendNotify.js复制过去
+         * 2、fileName在库内是否存在,
+         * 3、point:切入点 在该js文件内是否唯一
+         */
+        falg: true,//默认关闭,开启设置为true
+        js_library: 'shufflewzc_faker3',//使用的脚本库名 例如:faker3库的库名为shufflewzc_faker3
+        cron:'0 30 0 * * *',//定时修改青龙的通知文件，防止更新仓库覆盖通知函数 默认每天00:30:00执行(要在更新仓库的后面执行)
+        js_file: [//要修改的js文件
+            {//本{}为一对一通知的主体,不能删除
+                fileName: 'sendNotify.js',//文件名 sendNotify.js:脚本库自带的通知脚本,位置：青龙面板-->脚本管理-->shufflewzc_faker3(脚本名称)下的sendNotify.js，不是青龙自带的sendNotify.js
+                upArr: [//文件要修改几次这个[]里就有几个{},
+                    {
+                        point: 'module.exports = {',//切入点:在 fileName 的哪里添加 为空追加到文件最后
+                        up_or_down: 'up',//up:向上一行添加 down:向下一行添加
+                        remark: '通知主函数',//备注
+                        /**下面content中的
+                         * PUSH_WECHATY_BOT_TOKEN 的值为 本config.js中token的值
+                         * PUSH_WECHATY_BOT_URL 的值为 http://搭建机器人的IP:端口/api/v1/send
+                         */
+                        content:
+                            'let PUSH_WECHATY_BOT_TOKEN = "";\n' +
+                            'let PUSH_WECHATY_BOT_URL = "";\n' +
+                            '//push-wechaty-bot\n' +
+                            'async function wechatyNotify(userName, text, desp, time = 2100) {\n' +
+                            '    return new Promise((resolve) => {\n' +
+                            '        if (PUSH_WECHATY_BOT_TOKEN) {\n' +
+                            '            const body = {\n' +
+                            '                token: `${PUSH_WECHATY_BOT_TOKEN}`,\n' +
+                            '                name: `${userName}`,\n' +
+                            '                content: `${text}\\n${desp}`\n' +
+                            '            };\n' +
+                            '            const options = {\n' +
+                            '                url: PUSH_WECHATY_BOT_URL,\n' +
+                            '                body: JSON.stringify(body),\n' +
+                            '                headers: {\n' +
+                            '                    "Content-Type": "application/json",\n' +
+                            '                },\n' +
+                            '                timeout,\n' +
+                            '            };\n' +
+                            '            setTimeout(() => {\n' +
+                            '                $.post(options, (err, resp, data) => {\n' +
+                            '                    try {\n' +
+                            '                        data = JSON.parse(data);\n' +
+                            '                        if (data.status == 200) {\n' +
+                            '                            console.log(userName + "推送到个人微信:" + data.message)\n' +
+                            '                        } else {\n' +
+                            '                            console.log(userName + "推送到个人微信:" + data.message);\n' +
+                            '                        }\n' +
+                            '                    } catch (e) {\n' +
+                            '                        $.logErr(e, resp);\n' +
+                            '                    } finally {\n' +
+                            '                        resolve(data);\n' +
+                            '                    }\n' +
+                            '                });\n' +
+                            '            }, time);\n' +
+                            '        }\n' +
+                            '        else {\n' +
+                            '            resolve();\n' +
+                            '        }\n' +
+                            '    });\n' +
+                            '}'//添加的内容：通知的主函数
+                    },
+                    {
+                        point: 'module.exports = {',//切入点:在 fileName 的哪里添加 Ps:切入点必须在文件中是唯一的
+                        up_or_down: 'down',//up:向上一行添加 down:向下一行添加
+                        remark: '导出主函数',//备注
+                        content: '    wechatyNotify,'//添加的内容：导出这个函数
+                    },
+                ]
+
+            },
+            {//本{}为对接青龙的京东资产变动通知,不需要的可以删除这个{...}
+                fileName: 'jd_bean_change_new.js',//文件名
+                upArr: [//文件要修改几次这个[]里就有几个{},
+                    {
+                        point: '            if ($.isNode() && allMessage != \'\') {',//切入点:在 fileName 的哪里添加 为空追加到文件最后 Ps:切入点必须在文件中是唯一的
+                        up_or_down: 'up',//up:向上一行添加 down:向下一行添加
+                        remark: '京东资产变动通知',
+                        //添加的内容 $.UserName:京东id,也就是'pt_pin='后面的jd_xxx; $.name:通知标题,例如这里的就是'京东资产变动通知'; ReturnMessage:通知内容
+                        content: '            await notify.wechatyNotify(`${$.UserName}`, `${$.name}`, `${ReturnMessage}`);'
+                    },
+                ]
+
+            },
+        ]
     },
     //=======================================选填===================================================
     //管理员功能(暂时没有功能)
