@@ -40,6 +40,8 @@ pm2 restart index
 - 机器人自动同意好友申请会占满CPU,是机器人插件问题,已联系作者
 # 联系方式
 - hxiansen@outlook.com
+
+# 效果展示
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
