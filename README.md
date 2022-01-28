@@ -89,6 +89,7 @@ pm2 restart index
     //=======================================必填===================================================
     PORT: 3000,//自定义服务端口
     token: '',//自定义请求api接口的token
+    autoAgreeToFriend:false,//是否自动同意好友申请, Ps:有bug,暂时不建议开启
     container: {
         addMode: 1,//cookie添加方式 1 逐个容器添加,添满为止; 2 均衡添加
         containerArr: [
