@@ -40,7 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
-var _1 = require(".");
 var config_1 = __importDefault(require("../config"));
 var wechaty_1 = require("wechaty");
 var OnFriendShip = (function () {
@@ -48,36 +47,25 @@ var OnFriendShip = (function () {
     }
     OnFriendShip.onFriendShip = function (friendship) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _b.trys.push([0, 7, , 8]);
-                        if (!config_1["default"].autoAgreeToFriend) return [3, 5];
-                        console.log("received friend event.");
-                        _a = friendship.type();
-                        switch (_a) {
-                            case _1.bot.Friendship.Type.Receive: return [3, 1];
-                            case _1.bot.Friendship.Type.Receive: return [3, 3];
-                        }
-                        return [3, 4];
-                    case 1: return [4, friendship.accept()];
+                        _a.trys.push([0, 4, , 5]);
+                        if (!config_1["default"].autoAgreeToFriend) return [3, 2];
+                        return [4, friendship.accept()];
+                    case 1:
+                        _a.sent();
+                        return [3, 3];
                     case 2:
-                        _b.sent();
-                        return [3, 4];
-                    case 3:
-                        console.log("friend ship confirmed");
-                        return [3, 4];
-                    case 4: return [3, 6];
-                    case 5:
                         wechaty_1.log.info('自动同意好友申请已关闭,如需开启请设置autoAgreeToFriend为true');
-                        _b.label = 6;
-                    case 6: return [3, 8];
-                    case 7:
-                        e_1 = _b.sent();
+                        _a.label = 3;
+                    case 3: return [3, 5];
+                    case 4:
+                        e_1 = _a.sent();
                         console.error(e_1);
-                        return [3, 8];
-                    case 8: return [2];
+                        return [3, 5];
+                    case 5: return [2];
                 }
             });
         });
