@@ -20,6 +20,8 @@ git pull
 
 npm i
 
+//下面config.js可能有更新
+
 //重启项目 index:项目名，执行pm2 list查看name项
 pm2 restart index
 
