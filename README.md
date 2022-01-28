@@ -8,8 +8,8 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 - [x] 短信登录(对接的Nolan,青龙面板低于2.11.0)
 - [x] 支持多容器(config.js填写container相关配置)
 - [x] 自动对接青龙一对一通知
-  - 京东资产变动通知
-  - 需要其他的请在config.js的AutoUpdateQingLong的js_file填写相关配置
+  - [x] 京东资产变动通知
+  - 需要其他的请在config.js的AutoUpdateQingLong的js_file填写相关配置(如不会填写在下文找到邮箱联系我)
 
 # 更新
 ```

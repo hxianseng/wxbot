@@ -8,3 +8,4 @@ tsconfig.json
 test/
 build/config.js
 JD-WX-BOT.memory-card.json
+package-lock.json
