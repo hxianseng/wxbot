@@ -25,7 +25,7 @@ pm2 restart index
 
 ```
 # 推送接口
-- 请求地址：http://ip:端口/api/v1/send
+- 请求地址：http://搭建机器人的服务器ip:端口/api/v1/send
 - 请求方式：POST
 - Content-Type: application/json
 - 参数 
