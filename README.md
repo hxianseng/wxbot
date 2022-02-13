@@ -1,5 +1,7 @@
 # push-wechaty-bot
 push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具。
+# 前提条件
+- 微信号有web权限
 
 # push-wechaty-bot与ql对接
 - [x] 推送通知
