@@ -51,7 +51,7 @@ var OnFriendShip = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        if (!(friendship.type() === friendship.Type.Receive && friendship.hello() === config_1["default"].friendshipMsg)) return [3, 2];
+                        if (!(friendship.type() === friendship.Type.Receive && friendship.hello() == config_1["default"].friendshipMsg)) return [3, 2];
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
