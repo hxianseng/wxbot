@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var config_1 = __importDefault(require("../config"));
+var _1 = require(".");
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
@@ -51,7 +52,8 @@ var OnFriendShip = (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        if (!(friendship.type() === friendship.Type.Receive && friendship.hello() == config_1["default"].friendshipMsg)) return [3, 2];
+                        if (!(friendship.type() === _1.bot.Friendship.Type.Receive && friendship.hello() == config_1["default"].friendshipMsg)) return [3, 2];
+                        console.log(friendship.type() === _1.bot.Friendship.Type.Receive && friendship.hello() == config_1["default"].friendshipMsg);
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
