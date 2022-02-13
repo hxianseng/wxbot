@@ -5,10 +5,11 @@ push-wechaty-bot 是基于 node 与 wechaty 的微信个人号消息推送工具
 - [x] 推送通知
 - [x] 添加/更新CK(手动抓取ck发给机器人)
 - [x] 查询资产
-- [x] 短信登录(对接的Nolan,青龙面板低于2.11.0)
+- [x] 短信登录(对接的Nolan,青龙面板低于2.11.0,Nolan不能用了)
 - [x] 支持多容器(config.js填写container相关配置)
 - [x] 自动对接青龙一对一通知
   - [x] 京东资产变动通知
+  - [x] 京东农场水果成熟通知
   - 需要其他的请在config.js的AutoUpdateQingLong的js_file填写相关配置(如不会填写在下文找到邮箱联系我)
 
 # 更新
@@ -54,7 +55,6 @@ pm2 restart index
 - Centos7
 - node v16.13.2
 - ql面板v2.10.2(非必须,添加/更新CK要ql2.9+,短信登录需要低于2.11.0)
-- faker3(非必须)
 
 2.安装nodejs (看不懂的可以百度)
 - ```
@@ -92,12 +92,13 @@ pm2 restart index
     PORT: 3000,//自定义服务端口
     token: '',//自定义请求api接口的token
     autoAgreeToFriend:false,//是否自动同意好友申请, Ps:有bug,暂时不建议开启
+    friendshipMsg:'JD',//发送好友请求的验证消息是 'JD', 机器人会自动通过好友请求
     container: {
         addMode: 1,//cookie添加方式 1 逐个容器添加,添满为止; 2 均衡添加
         containerArr: [
             {
                 QLkey: 1, //容器id 从1开始递增
-                QLName: '',//备注
+                QLName: '阿里云',//备注
                 QLurl: '',//青龙url  http://IP:端口
                 clientId: '',//青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
                 clientSecret: '',//青龙面板=>系统设置=>应用设置 最少权限:环境变量;后续更新可能会用到:配置文件、脚本管理、定时任务
@@ -117,21 +118,21 @@ pm2 restart index
         ]
     },
     Nolan: {//诺兰短信登录
-        flag: false,//默认关闭 开启设置为true
+        flag: false,//默认关闭
         url: ''//诺兰地址:http://ip:端口  url后面不要加 /login
     },
     AutoUpdateQingLong: { //自动对接青龙 一对一通知
         /**
-         * 默认使用的是faker3库
+         * 默认使用的是旁白库
          * 别的库注意以下:
          * 1、库内要有sendNotify.js文件,没有的把青龙自带的sendNotify.js复制过去
          * 2、fileName在库内是否存在,
          * 3、point:切入点 在该js文件内是否唯一
          */
-        falg: false,//默认关闭,开启设置为true
-        js_library: 'shufflewzc_faker3',//使用的脚本库名 例如:faker3库的库名为shufflewzc_faker3
+        falg: true,//默认关闭,开启设置为true
+        js_library: 'pangbai6_pangbai66',//使用的脚本库名 例如:旁白库的库名为pangbai6_pangbai66
         cron:'0 30 0 * * *',//定时修改青龙的通知文件，防止更新仓库覆盖通知函数 默认每天00:30:00执行(要在更新仓库的后面执行)
-        js_file: [//要修改的js文件
+        js_file: [//要修改的js文件数组
             {//本{}为一对一通知的主体,不能删除
                 fileName: 'sendNotify.js',//文件名 sendNotify.js:脚本库自带的通知脚本,位置：青龙面板-->脚本管理-->shufflewzc_faker3(脚本名称)下的sendNotify.js，不是青龙自带的sendNotify.js
                 upArr: [//文件要修改几次这个[]里就有几个{},
@@ -196,14 +197,27 @@ pm2 restart index
 
             },
             {//本{}为对接青龙的京东资产变动通知,不需要的可以删除这个{...}
-                fileName: 'jd_bean_change_new.js',//文件名
+                fileName: 'jd_bean_change.js',//文件名
                 upArr: [//文件要修改几次这个[]里就有几个{},
                     {
-                        point: '            if ($.isNode() && allMessage != \'\') {',//切入点:在 fileName 的哪里添加 为空追加到文件最后 Ps:切入点必须在文件中是唯一的
+                        point: '			if (intPerSent > 0) {',//切入点:在 fileName 的哪里添加 为空追加到文件最后 Ps:切入点必须在文件中是唯一的
                         up_or_down: 'up',//up:向上一行添加 down:向下一行添加
                         remark: '京东资产变动通知',
-                        //添加的内容 $.UserName:京东id,也就是'pt_pin='后面的jd_xxx; $.name:通知标题,例如这里的就是'京东资产变动通知'; ReturnMessage:通知内容
+                        //添加的内容 await notify.wechatyNotify(`${$.UserName}`, '通知标题', '消息内容')
                         content: '            await notify.wechatyNotify(`${$.UserName}`, `${$.name}`, `${ReturnMessage}`);'
+                    },
+                ]
+
+            },
+            {//本{}为对接青龙的京东农场水果成熟通知,不需要的可以删除这个{...}
+                fileName: 'jd_farm.js',//文件名
+                upArr: [//文件要修改几次这个[]里就有几个{},
+                    {
+                        point: '      if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {',//切入点:在 fileName 的哪里添加 为空追加到文件最后 Ps:切入点必须在文件中是唯一的
+                        up_or_down: 'down',//up:向上一行添加 down:向下一行添加
+                        remark: '京东农场水果成熟通知\n',
+                        //添加的内容 await notify.wechatyNotify(`${$.UserName}`, '通知标题', '消息内容')
+                        content: '        await notify.wechatyNotify(`${$.UserName}`, `京东农场水果成熟通知\\n`, `【京东账号${$.index}】${$.nickName || $.UserName}\\n【提醒⏰】${$.farmInfo.farmUserPro.name}已可领取\\n请去京东APP或微信小程序查看`);'
                     },
                 ]
 
@@ -241,77 +255,7 @@ pm2 restart index
 - `pm2 start build/index.js`
 - `pm2 logs` 可以查看日志输出的微信登录二维码
 
-4.青龙一对一通知修改:(找不到要修改的地方到文件中搜索相关文字)
 
-
-- sendNotify.js ==> 在=====go-cqhttp=====通知设置区域 上面或者下面添加下面:
-    ```//=======================================push-wechaty-bot===========================================
-    // push-wechaty-bot的build/config.js下你配置的token
-    let PUSH_WECHATY_BOT_TOKEN = '';
-
-    // http://搭建机器人的IP:端口/api/v1/send 
-    let PUSH_WECHATY_BOT_URL = '';
-    ```
-    ![](https://img30.360buyimg.com/pop/jfs/t1/176525/14/23000/23472/61c31d7bEea5dce05/e3d3e0f22e6278ec.png)
-- sendNotify.js ==>在文件末尾 module.exports = { 的上一行添加下面的函数
-  ```
-    //push-wechaty-bot
-    async function wechatyNotify(userName, text, desp, time = 2100) {
-        return new Promise((resolve) => {
-            if (PUSH_WECHATY_BOT_TOKEN) {
-                const body = {
-                    token: `${PUSH_WECHATY_BOT_TOKEN}`,
-                    name: `${userName}`,
-                    content: `${text}\n${desp}`
-                };
-                const options = {
-                    url: PUSH_WECHATY_BOT_URL,
-                    body: JSON.stringify(body),
-                    headers: {
-                        'Content-Type': ' application/json',
-                    },
-                    timeout,
-                };
-                setTimeout(() => {
-                    $.post(options, (err, resp, data) => {
-                        try {
-                            data = JSON.parse(data);
-                            if(data.status == 200){
-                                console.log(userName + '推送到个人微信:' + data.message)
-                            }else{
-                                console.log(userName + '推送到个人微信:' + data.message);
-                            }
-                        } catch (e) {
-                            $.logErr(e, resp);
-                        } finally {
-                            resolve(data);
-                        }
-                    });
-                }, time);
-            }
-            else {
-                resolve();
-            }
-        });
-    }
-    ```
-
-- sendNotify.js ==> 末尾
-    ```
-                module.exports = {
-                    sendNotify,
-                    BARK_PUSH,
-                    //导出这个函数
-                    wechatyNotify
-               };
-    ```
-    ![](https://img30.360buyimg.com/pop/jfs/t1/201728/1/19697/4164/61c31ca3Eb0a60560/569f7bd1121ade22.png)
-
-- 一对一推送到微信(以shufflewzc_faker3_jd_bean_change_new.js京东资产变动通知 为例) 在 await showMsg(); 的下一行添加: 
-    ```
-    await notify.wechatyNotify(`${$.UserName}`, `${$.name}`, `${ReturnMessage}`);
-    ```
-    ![](https://img30.360buyimg.com/pop/jfs/t1/207072/22/13582/18344/61c31c49Ece5900a1/eea4e19a812d0f57.png)
 
 ## 常见问题处理
 - ubuntu 下载 puppeteer 失败
