@@ -50,6 +50,7 @@ pm2 restart index
 <div>
     <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
     <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
+    <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/213651/31/12429/1480848/6209005dE22620c22/1ada447f53e572da.png">
 </div>
 
 # 安装
