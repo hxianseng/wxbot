@@ -257,7 +257,9 @@ pm2 restart index
 - `pm2 start build/index.js`
 - `pm2 logs` 可以查看日志输出的微信登录二维码
 
-
+# 使用
+- 添加机器人为好友
+- 把ck发给机器人或手动绑定京东id(京东id就是pt_pin=后面的jd-xxx或者jd_xxx)
 
 ## 常见问题处理
 - ubuntu 下载 puppeteer 失败
