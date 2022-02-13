@@ -129,7 +129,7 @@ pm2 restart index
          * 2、fileName在库内是否存在,
          * 3、point:切入点 在该js文件内是否唯一
          */
-        falg: true,//默认关闭,开启设置为true
+        falg: false,//默认关闭,开启设置为true
         js_library: 'pangbai6_pangbai66',//使用的脚本库名 例如:旁白库的库名为pangbai6_pangbai66
         cron:'0 30 0 * * *',//定时修改青龙的通知文件，防止更新仓库覆盖通知函数 默认每天00:30:00执行(要在更新仓库的后面执行)
         js_file: [//要修改的js文件数组
