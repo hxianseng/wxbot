@@ -41,7 +41,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.OnFriendShip = void 0;
 var config_1 = __importDefault(require("../config"));
-var wechaty_1 = require("wechaty");
 var OnFriendShip = (function () {
     function OnFriendShip() {
     }
@@ -51,21 +50,18 @@ var OnFriendShip = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
-                        if (!config_1["default"].autoAgreeToFriend) return [3, 2];
+                        _a.trys.push([0, 3, , 4]);
+                        if (!(friendship.type() === friendship.Type.Receive && friendship.hello() === config_1["default"].friendshipMsg)) return [3, 2];
                         return [4, friendship.accept()];
                     case 1:
                         _a.sent();
-                        return [3, 3];
-                    case 2:
-                        wechaty_1.log.info('自动同意好友申请已关闭,如需开启请设置autoAgreeToFriend为true');
-                        _a.label = 3;
-                    case 3: return [3, 5];
-                    case 4:
+                        _a.label = 2;
+                    case 2: return [3, 4];
+                    case 3:
                         e_1 = _a.sent();
                         console.error(e_1);
-                        return [3, 5];
-                    case 5: return [2];
+                        return [3, 4];
+                    case 4: return [2];
                 }
             });
         });
