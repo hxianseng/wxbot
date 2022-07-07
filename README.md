@@ -65,11 +65,11 @@ docker pull hxiansen/wxbot:latest
 cd /root && mkdir -p wxbot/conf
 
 //下载并填写配置文件
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/push-wechaty-bot/master/config.js -P ./wxbot/conf/
+wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/wxbot/conf/config.js -P ./wxbot/conf/
 
 //启动容器 
 docker run -d \
-	-v /root/wxbot/conf:/usr/src/wxbot/conf \
+	-v /root/wxbot/conf:/usr/wxbot/src/conf \
 	--name wxbot \
 	--net host \
 	--restart always \

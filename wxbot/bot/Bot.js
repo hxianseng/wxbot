@@ -58,14 +58,23 @@ var Bot = (function () {
         return __awaiter(this, void 0, void 0, function () {
             var date;
             return __generator(this, function (_a) {
-                wechaty_1.log.info("".concat(user, "\u767B\u5F55\u4E86"));
-                date = new Date();
-                wechaty_1.log.info("\u5F53\u524D\u65F6\u95F4:".concat(date));
-                constant_1["default"].islogin = false;
-                qlUtils_1.qlUtil.qlNotify();
-                qlUtils_1.qlUtil.getJDCK();
-                qlUtils_1.qlUtil.getCFDCK();
-                return [2];
+                switch (_a.label) {
+                    case 0:
+                        wechaty_1.log.info("".concat(user, "\u767B\u5F55\u4E86"));
+                        date = new Date();
+                        wechaty_1.log.info("\u5F53\u524D\u65F6\u95F4:".concat(date));
+                        constant_1["default"].islogin = false;
+                        return [4, qlUtils_1.qlUtil.qlNotify()];
+                    case 1:
+                        _a.sent();
+                        return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 2:
+                        _a.sent();
+                        return [4, qlUtils_1.qlUtil.getCFDCK()];
+                    case 3:
+                        _a.sent();
+                        return [2];
+                }
             });
         });
     };
