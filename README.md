@@ -3,6 +3,17 @@
 - 微信号一个
 - 微信号有web权限(https://wx.qq.com 能登陆)
 
+# 更新
+```
+docker exec -it wxbot /bin/sh
+
+cd ../
+
+git pull
+
+
+```
+
 # 配合青龙
 - [x] 推送通知
 - [x] 短信登录(对接的maiark)

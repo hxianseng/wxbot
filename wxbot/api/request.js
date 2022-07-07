@@ -50,6 +50,7 @@ var reapi = (function () {
         });
     };
     reapi.getFileByName = function (fileName) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
             url: "".concat(config_1["default"].QLurl, "/open/scripts/").concat(fileName, "?path=").concat(config_1["default"].qlNotify.jdLibrary, "&t=1657098356275"),
             method: 'GET',
@@ -58,6 +59,7 @@ var reapi = (function () {
         });
     };
     reapi.getFileByName2 = function (fileName) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
             url: "".concat(config_1["default"].QLurl, "/open/scripts/").concat(fileName, "?path=&t=1657098356275"),
             method: 'GET',
@@ -66,6 +68,7 @@ var reapi = (function () {
         });
     };
     reapi.putFile = function (data) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
             url: "".concat(config_1["default"].QLurl, "/open/scripts?t=1657098356275"),
             method: 'PUT',
@@ -75,6 +78,7 @@ var reapi = (function () {
         });
     };
     reapi.getEnvs = function (name) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
             url: "".concat(config_1["default"].QLurl, "/open/envs?searchValue=").concat(name, "&t=1657204378316"),
             method: 'GET',
@@ -83,6 +87,7 @@ var reapi = (function () {
         });
     };
     reapi.addEnvs = function (data) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
             url: "".concat(config_1["default"].QLurl, "/open/envs?t=1657204378316"),
             method: 'POST',
@@ -98,7 +103,7 @@ var qlheaders = {
     'Accept': '*/*',
     'Accept-Encoding': 'gzip, deflate',
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-    'Authorization': "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken),
+    'Authorization': '',
     'Connection': 'keep-alive',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44'
 };

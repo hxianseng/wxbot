@@ -44,6 +44,8 @@ var wechaty_1 = require("wechaty");
 var constant_1 = __importDefault(require("../constant/constant"));
 var OnMessage_1 = require("./OnMessage");
 var qlUtils_1 = require("../util/qlUtils");
+var request_1 = require("../api/request");
+var ql_1 = __importDefault(require("../constant/ql"));
 var Bot = (function () {
     function Bot() {
     }
@@ -56,7 +58,7 @@ var Bot = (function () {
     };
     Bot.onLogin = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var date;
+            var date, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -64,14 +66,28 @@ var Bot = (function () {
                         date = new Date();
                         wechaty_1.log.info("\u5F53\u524D\u65F6\u95F4:".concat(date));
                         constant_1["default"].islogin = false;
-                        return [4, qlUtils_1.qlUtil.qlNotify()];
+                        wechaty_1.log.info('初始化青龙===========开始');
+                        return [4, request_1.reapi.getQlToken()];
                     case 1:
-                        _a.sent();
-                        return [4, qlUtils_1.qlUtil.getJDCK()];
+                        res = _a.sent();
+                        if (res == null) {
+                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
+                            return [2];
+                        }
+                        else {
+                            wechaty_1.log.info('初始化青龙===========成功');
+                            ql_1["default"].qlToken = res.data.data.token;
+                            ql_1["default"].ql_token_type = res.data.data.token_type;
+                        }
+                        wechaty_1.log.info('初始化青龙===========结束');
+                        return [4, qlUtils_1.qlUtil.qlNotify()];
                     case 2:
                         _a.sent();
-                        return [4, qlUtils_1.qlUtil.getCFDCK()];
+                        return [4, qlUtils_1.qlUtil.getJDCK()];
                     case 3:
+                        _a.sent();
+                        return [4, qlUtils_1.qlUtil.getCFDCK()];
+                    case 4:
                         _a.sent();
                         return [2];
                 }
@@ -87,7 +103,7 @@ var Bot = (function () {
 }());
 exports.Bot = Bot;
 var bot = wechaty_1.WechatyBuilder.build({
-    name: 'JD-WX-BOT',
+    name: 'WXBOT',
     puppet: 'wechaty-puppet-wechat'
 });
 exports.bot = bot;

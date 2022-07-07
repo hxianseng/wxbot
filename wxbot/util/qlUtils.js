@@ -50,67 +50,58 @@ var qlUtil = (function () {
     }
     qlUtil.qlNotify = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, index, jdlib, js_file, i, leni, fileName, upArr, j, lenj, path, res, file, content, index, pointLen, head, fool, data, res;
+            var index, jdlib, js_file, i, leni, fileName, upArr, j, lenj, path, res, file, content, index, pointLen, head, fool, data, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!config_1["default"].qlNotify.flag) return [3, 17];
+                        wechaty_1.log.info('qlToken:' + ql_1["default"].qlToken);
+                        if (!config_1["default"].qlNotify.flag) return [3, 16];
                         wechaty_1.log.info("=====\u5BF9\u63A5\u9752\u9F99\u4E00\u5BF9\u4E00\u901A\u77E5\u5F00\u59CB=====");
-                        return [4, request_1.reapi.getQlToken()];
-                    case 1:
-                        res = _a.sent();
-                        if (res == null) {
-                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
-                        }
-                        else {
-                            ql_1["default"].qlToken = res.data.data.token;
-                            ql_1["default"].ql_token_type = res.data.data.token_type;
-                        }
                         index = jdLibrary_1.jdLibrary.findIndex(function (x) { return x.name == config_1["default"].qlNotify.jdLibrary; });
-                        if (!(index == -1)) return [3, 2];
+                        if (!(index == -1)) return [3, 1];
                         wechaty_1.log.info("\u76EE\u524D\u4E0D\u652F\u6301\u5BF9\u63A5".concat(config_1["default"].qlNotify.jdLibrary, "\u5E93"));
                         wechaty_1.log.info("=====\u5BF9\u63A5\u9752\u9F99\u4E00\u5BF9\u4E00\u901A\u77E5\u7ED3\u675F=====");
                         return [2];
-                    case 2:
+                    case 1:
                         jdlib = jdLibrary_1.jdLibrary.find(function (x) { return x.name == config_1["default"].qlNotify.jdLibrary; });
                         js_file = jdlib.js_file;
                         i = 0, leni = js_file.length;
-                        _a.label = 3;
-                    case 3:
-                        if (!(i < leni)) return [3, 16];
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < leni)) return [3, 15];
                         fileName = js_file[i].fileName;
                         upArr = js_file[i].upArr;
                         wechaty_1.log.info("---".concat(fileName, "---------->\u5F00\u59CB"));
                         j = 0, lenj = upArr.length;
-                        _a.label = 4;
-                    case 4:
-                        if (!(j < lenj)) return [3, 14];
+                        _a.label = 3;
+                    case 3:
+                        if (!(j < lenj)) return [3, 13];
                         path = jdlib.name;
                         wechaty_1.log.info("".concat(upArr[j].remark, "---------->\u5F00\u59CB"));
-                        if (!(fileName == 'sendNotify.js')) return [3, 9];
-                        if (!config_1["default"].qlNotify.isFile) return [3, 6];
+                        if (!(fileName == 'sendNotify.js')) return [3, 8];
+                        if (!config_1["default"].qlNotify.isFile) return [3, 5];
                         return [4, request_1.reapi.getFileByName(fileName)];
-                    case 5:
+                    case 4:
                         res = _a.sent();
-                        return [3, 8];
-                    case 6:
+                        return [3, 7];
+                    case 5:
                         path = "";
                         return [4, request_1.reapi.getFileByName2(fileName)];
-                    case 7:
+                    case 6:
                         res = _a.sent();
-                        _a.label = 8;
-                    case 8: return [3, 11];
-                    case 9: return [4, request_1.reapi.getFileByName(fileName)];
+                        _a.label = 7;
+                    case 7: return [3, 10];
+                    case 8: return [4, request_1.reapi.getFileByName(fileName)];
+                    case 9:
+                        res = _a.sent();
+                        _a.label = 10;
                     case 10:
-                        res = _a.sent();
-                        _a.label = 11;
-                    case 11:
                         file = res.data.data;
                         content = upArr[j].content;
                         if (file.lastIndexOf(content) != -1) {
                             wechaty_1.log.info("\u7ED3\u679C----->\u5DF2\u5BF9\u63A5,\u8DF3\u8FC7");
                             wechaty_1.log.info("".concat(upArr[j].remark, "---------->\u7ED3\u675F"));
-                            return [3, 13];
+                            return [3, 12];
                         }
                         index = file.indexOf(upArr[j].point);
                         pointLen = upArr[j].point.length;
@@ -132,27 +123,27 @@ var qlUtil = (function () {
                             data.content = "".concat(head, "\n").concat(content).concat(fool);
                         }
                         return [4, request_1.reapi.putFile(data)];
-                    case 12:
+                    case 11:
                         res = _a.sent();
                         wechaty_1.log.info('结果----->', JSON.stringify(res.data));
                         wechaty_1.log.info("".concat(upArr[j].remark, "---------->\u7ED3\u675F"));
-                        _a.label = 13;
-                    case 13:
+                        _a.label = 12;
+                    case 12:
                         j++;
-                        return [3, 4];
-                    case 14:
-                        wechaty_1.log.info("---".concat(fileName, "---------->\u7ED3\u675F"));
-                        _a.label = 15;
-                    case 15:
-                        i++;
                         return [3, 3];
-                    case 16:
+                    case 13:
+                        wechaty_1.log.info("---".concat(fileName, "---------->\u7ED3\u675F"));
+                        _a.label = 14;
+                    case 14:
+                        i++;
+                        return [3, 2];
+                    case 15:
                         wechaty_1.log.info("=====\u5BF9\u63A5\u9752\u9F99\u4E00\u5BF9\u4E00\u901A\u77E5\u7ED3\u675F=====");
-                        return [3, 18];
-                    case 17:
+                        return [3, 17];
+                    case 16:
                         wechaty_1.log.info("\u5BF9\u63A5\u9752\u9F99\u4E00\u5BF9\u4E00\u901A\u77E5\u5DF2\u5173\u95ED\uFF0C\u5F00\u542F\u8BF7\u8BBE\u7F6Econfig.js\u7684qlNotify.flag\u4E3Atrue");
-                        _a.label = 18;
-                    case 18: return [2];
+                        _a.label = 17;
+                    case 17: return [2];
                 }
             });
         });

@@ -7,6 +7,7 @@ var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var router_1 = require("./router");
 var config_1 = __importDefault(require("./conf/config"));
+var wechaty_1 = require("wechaty");
 var app = (0, express_1["default"])();
 app.use(express_1["default"].json());
 app.use(express_1["default"].urlencoded({ extended: true }));
@@ -15,4 +16,4 @@ app.use('/api/v1', router_1.router);
 app.use(function (err, req, res, next) {
     console.log(err.stack);
 });
-app.listen(config_1["default"].PORT, '0.0.0.0', function () { return console.log('Web服务开启中，请稍后...'); });
+app.listen(config_1["default"].PORT, '0.0.0.0', function () { return wechaty_1.log.info('服务开启中，请稍后...'); });
