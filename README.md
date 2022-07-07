@@ -73,7 +73,7 @@ docker pull hxiansen/wxbot:latest
 
 cd /root && mkdir -p wxbot/conf
 
-//下载并填写配置文件
+//下载并【填写】配置文件
 wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/wxbot/conf/config.js -P ./wxbot/conf/
 
 //启动容器 
