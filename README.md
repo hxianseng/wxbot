@@ -5,12 +5,7 @@
 
 # 更新
 ```
-//进入容器
-docker exec -it wxbot /bin/sh
-
-cd ../ && git pull
-
-//ctrl + D 退出容器
+docker exec -it wxbot git pull
 
 //重启容器
 docker restart wxbot
