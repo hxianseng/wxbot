@@ -248,7 +248,7 @@ var OnMessages = (function () {
                     case 35:
                         if (!_b) return [3, 37];
                         if (!/^菜单$/.test(content)) return [3, 37];
-                        return [4, contact.say(constant_1["default"].message.menu2)];
+                        return [4, room.say(constant_1["default"].message.menu2)];
                     case 36:
                         _c.sent();
                         _c.label = 37;
