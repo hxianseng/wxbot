@@ -91,11 +91,11 @@ function cfd_hb() {
                     case 3:
                         contact = _a.sent();
                         return [4, axios_1["default"].all([cfd_1.CFD.getCFD_HB(cookie, url), cfd_1.CFD.getJDDate()]).then(axios_1["default"].spread(function (res1, res2) {
+                                var data = JSON.parse(res1.data.replace('jsonpCBKM(', '').replace(')', ''));
                                 console.log(res1.data);
                                 console.log('抢红包结果------->' + res1.data);
                                 console.log("\u62A2\u7EA2\u5305\u7ED3\u675F------->\u672C\u5730\u65F6\u95F4:".concat(utils_1.Utils.formatDate(new Date())));
                                 console.log("\u62A2\u7EA2\u5305\u7ED3\u675F------->\u4EAC\u4E1C\u65F6\u95F4:".concat(utils_1.Utils.formatDate(new Date(parseInt(res2.data.currentTime2.toString())))));
-                                var data = res1.data;
                                 var pt_pin = cookie.match(/pt_pin=.+?;/) || [0];
                                 var jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                                 contact === null || contact === void 0 ? void 0 : contact.say("\u3010\u8D22\u5BCC\u5C9B\u901A\u77E5\u3011\n\u8D26\u53F7:".concat(jdId, "\n\u7ED3\u679C:").concat(data.sErrMsg, "\n\u8BE6\u60C5:") + data + "\nPs:iRet\u503C?" +
