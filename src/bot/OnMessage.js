@@ -71,7 +71,7 @@ var OnMessages = (function () {
                         if (!(!room && isText)) return [3, 30];
                         OnMessages.forwardLogGroup(msg);
                         if (!/菜单/.test(content)) return [3, 3];
-                        return [4, contact.say(constant_1["default"].message.menu + +'\n本通知 By:https://github.com/hxianseng/wxbot.git')];
+                        return [4, contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/wxbot.git')];
                     case 2:
                         _b.sent();
                         return [3, 30];

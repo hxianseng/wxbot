@@ -8,6 +8,7 @@ var cors_1 = __importDefault(require("cors"));
 var router_1 = require("./router");
 var config_1 = __importDefault(require("./conf/config"));
 var wechaty_1 = require("wechaty");
+var cfd_schedule_1 = require("./cfd/cfd-schedule");
 var app = (0, express_1["default"])();
 app.use(express_1["default"].json());
 app.use(express_1["default"].urlencoded({ extended: true }));
@@ -17,3 +18,4 @@ app.use(function (err, req, res, next) {
     console.log(err.stack);
 });
 app.listen(config_1["default"].PORT, '0.0.0.0', function () { return wechaty_1.log.info('服务开启中，请稍后...'); });
+(0, cfd_schedule_1.cfd_hb)();

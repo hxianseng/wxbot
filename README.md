@@ -5,7 +5,13 @@
 
 # 更新
 ```
+//除非重大更新，否则不必重新拉去镜像
 docker exec -it wxbot git pull
+
+//更新并【填写】配置文件
+cd /root/wxbot/conf && mv config.js config.js.bak
+
+wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/wxbot/conf/config.js ./
 
 //重启容器
 docker restart wxbot
@@ -19,6 +25,7 @@ docker restart wxbot
   - [x] 京东资产变动通知
   - [x] 京东农场水果成熟通知
   - 其他有需要的请在下文找到邮箱联系我
+  - 目前支持自动对接的库:faker3
 
 
 # 推送接口

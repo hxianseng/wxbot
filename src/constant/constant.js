@@ -1,7 +1,6 @@
 "use strict";
 module.exports = {
     islogin: true,
-    delay: 500,
     sms: new Array(),
     message: {
         msg1: '此微信号已绑定此京东id:',

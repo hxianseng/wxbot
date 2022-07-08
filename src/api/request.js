@@ -96,6 +96,16 @@ var reapi = (function () {
             timeout: 10000
         });
     };
+    reapi.deleteEnvs = function (id) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
+        return (0, axios_1["default"])({
+            url: "".concat(config_1["default"].QLurl, "/open/envs?t=1657204378316"),
+            method: 'DELETE',
+            headers: qlheaders,
+            data: ["".concat(id)],
+            timeout: 10000
+        });
+    };
     return reapi;
 }());
 exports.reapi = reapi;
