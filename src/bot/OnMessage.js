@@ -96,7 +96,7 @@ var OnMessages = (function () {
                                     }
                                 });
                                 if (jddata.length > 0) {
-                                    cha += "\u8D26\u53F7".concat(rem.length > 1 ? i + 1 : '', ":").concat(rem[i]);
+                                    cha += "".concat(i == 0 ? '' : '\n', "\u8D26\u53F7").concat(rem.length > 1 ? i + 1 : '', ":").concat(rem[i]);
                                     if (jddata.length == 1) {
                                         cha += "\n\u72B6\u6001:".concat(jddata[0].name == 'JD_COOKIE' ? 'JD' : 'CFD');
                                         cha += "".concat(jddata[0].status == 0 ? '在线 ' : '离线 ');
