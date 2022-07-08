@@ -52,7 +52,7 @@ var OnMessages = (function () {
     }
     OnMessages.message = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var contact, content, room, remarks, isText, mobile, name_1, index, res, name_2, index, ret, cookie, res, data, pt_pin, jdId, ck, res, _a, pt_pin, jdId;
+            var contact, content, room, remarks, isText, rem, cha, i, len, jddata, mobile, name_1, index, res, name_2, index, ret, cookie, res, data, pt_pin, jdId, ck, res, _a, pt_pin, jdId;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -68,37 +68,73 @@ var OnMessages = (function () {
                         remarks = _b.sent();
                         isText = msg.type() === Bot_1.bot.Message.Type.Text;
                         wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                        if (!(!room && isText)) return [3, 30];
+                        if (!(!room && isText)) return [3, 33];
                         OnMessages.forwardLogGroup(msg);
                         if (!/菜单/.test(content)) return [3, 3];
                         return [4, contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/wxbot.git')];
                     case 2:
                         _b.sent();
-                        return [3, 30];
+                        return [3, 33];
                     case 3:
-                        if (!/^查询$/.test(content)) return [3, 4];
-                        return [3, 30];
+                        if (!/^查询$/.test(content)) return [3, 7];
+                        if (!!(/jd-/.test(remarks) || /jd_/.test(remarks))) return [3, 5];
+                        return [4, contact.say('此微信号没有绑定京东')];
                     case 4:
-                        if (!/^短信登录$/.test(content)) return [3, 6];
-                        return [4, contact.say('请发送手机号开始登录...')];
-                    case 5:
                         _b.sent();
-                        return [3, 30];
+                        return [2];
+                    case 5:
+                        rem = remarks.split('#');
+                        cha = '';
+                        for (i = 0, len = rem.length; i < len; i++) {
+                            if (rem[i] != '') {
+                                jddata = ql_1["default"].jd_ck.concat(ql_1["default"].cfd_ck).filter(function (item) {
+                                    if (new RegExp(rem[i]).test(item.value)) {
+                                        return true;
+                                    }
+                                    else {
+                                        return false;
+                                    }
+                                });
+                                if (jddata.length > 0) {
+                                    cha += "\u8D26\u53F7".concat(rem.length > 1 ? i + 1 : '', ":").concat(rem[i]);
+                                    if (jddata.length == 1) {
+                                        cha += "\n\u72B6\u6001:".concat(jddata[0].name == 'JD_COOKIE' ? 'JD' : 'CFD');
+                                        cha += "".concat(jddata[0].status == 0 ? '在线 ' : '离线 ');
+                                    }
+                                    else {
+                                        cha += "\n\u72B6\u6001:".concat(jddata[0].name == 'JD_COOKIE' ? 'JD' : 'CFD');
+                                        cha += "".concat(jddata[0].status == 0 ? '在线 ' : '离线 ');
+                                        cha += "".concat(jddata[1].name == 'JD_COOKIE' ? 'JD' : 'CFD');
+                                        cha += "".concat(jddata[1].status == 0 ? '在线 ' : '离线 ');
+                                    }
+                                }
+                            }
+                        }
+                        return [4, contact.say(cha)];
                     case 6:
-                        if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 11];
+                        _b.sent();
+                        return [3, 33];
+                    case 7:
+                        if (!/^短信登录$/.test(content)) return [3, 9];
+                        return [4, contact.say('请发送手机号开始登录...')];
+                    case 8:
+                        _b.sent();
+                        return [3, 33];
+                    case 9:
+                        if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 14];
                         mobile = content;
                         name_1 = contact.name();
                         return [4, contact.say('正在获取验证码,请稍后...')];
-                    case 7:
+                    case 10:
                         _b.sent();
                         index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_1; });
-                        if (!(index != -1)) return [3, 9];
+                        if (!(index != -1)) return [3, 12];
                         return [4, contact.say('短时间内重复获取验证码,请过会重试!')];
-                    case 8:
+                    case 11:
                         _b.sent();
                         return [2];
-                    case 9: return [4, request_1.reapi.send_sms(content)];
-                    case 10:
+                    case 12: return [4, request_1.reapi.send_sms(content)];
+                    case 13:
                         res = _b.sent();
                         if (res.data.code == 0) {
                             contact.say("\u9A8C\u8BC1\u7801\u5DF2\u53D1\u9001,\u8BF7\u57283\u5206\u949F\u5185\u56DE\u590D6\u4F4D\u6570\u9A8C\u8BC1\u7801");
@@ -120,25 +156,25 @@ var OnMessages = (function () {
                             contact.say('获取验证码失败,请联系管理员');
                             return [2];
                         }
-                        return [3, 30];
-                    case 11:
-                        if (!/^\d{6}$/.test(content)) return [3, 16];
+                        return [3, 33];
+                    case 14:
+                        if (!/^\d{6}$/.test(content)) return [3, 19];
                         return [4, contact.say('开始登录京东,请稍后...')];
-                    case 12:
+                    case 15:
                         _b.sent();
                         name_2 = contact.name();
                         index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_2; });
-                        if (!(index == -1)) return [3, 14];
+                        if (!(index == -1)) return [3, 17];
                         return [4, contact.say('验证码失效,请重新发送手机号开始登录')];
-                    case 13:
+                    case 16:
                         _b.sent();
                         return [2];
-                    case 14:
+                    case 17:
                         ret = constant_1["default"].sms.find(function (x) { return x.name == name_2; });
                         ret['smscode'] = content;
                         cookie = '';
                         return [4, request_1.reapi.smsLogin(ret)];
-                    case 15:
+                    case 18:
                         res = _b.sent();
                         data = res.data;
                         cookie = data.ck;
@@ -153,55 +189,55 @@ var OnMessages = (function () {
                         pt_pin = cookie.match(/pt_pin=.+?;/) || [0];
                         jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                         OnMessages.bindRemarks(remarks, contact, jdId);
-                        return [3, 30];
-                    case 16:
-                        if (!/^代抢财富岛$/.test(content)) return [3, 19];
-                        return [4, contact.say('请发送如下开始抢财富岛红包(轮到会有通知):')];
-                    case 17:
-                        _b.sent();
-                        return [4, contact.say('财富岛#pt_key=*****;pt_pin=*****;cid=1;')];
-                    case 18:
-                        _b.sent();
-                        return [3, 30];
+                        return [3, 33];
                     case 19:
-                        if (!/^财富岛#.+?cid=1;$/.test(content)) return [3, 30];
-                        return [4, contact.say('开始添加财富岛CK...')];
+                        if (!/^代抢财富岛$/.test(content)) return [3, 22];
+                        return [4, contact.say('请发送如下开始抢财富岛红包(轮到会有通知):')];
                     case 20:
                         _b.sent();
-                        return [4, qlUtils_1.qlUtil.getCFDCK()];
+                        return [4, contact.say('财富岛#pt_key=*****;pt_pin=*****;cid=1;')];
                     case 21:
                         _b.sent();
-                        ck = content.replace('财富岛#', '');
-                        if (!(ql_1["default"].cfd_ck.length >= 5)) return [3, 23];
-                        return [4, contact.say('财富岛CK已满5个，请稍后再试...')];
+                        return [3, 33];
                     case 22:
+                        if (!/^财富岛#.+?cid=1;$/.test(content)) return [3, 33];
+                        return [4, contact.say('开始添加财富岛CK...')];
+                    case 23:
+                        _b.sent();
+                        return [4, qlUtils_1.qlUtil.getCFDCK()];
+                    case 24:
+                        _b.sent();
+                        ck = content.replace('财富岛#', '');
+                        if (!(ql_1["default"].cfd_ck.length >= 5)) return [3, 26];
+                        return [4, contact.say('财富岛CK已满5个，请稍后再试...')];
+                    case 25:
                         _b.sent();
                         return [2];
-                    case 23: return [4, request_1.reapi.addEnvs([{
+                    case 26: return [4, request_1.reapi.addEnvs([{
                                 name: "CFD_COOKIE",
                                 value: ck
                             }])];
-                    case 24:
-                        res = _b.sent();
-                        if (!(res.data.code == 200)) return [3, 26];
-                        return [4, contact.say('添加成功!')];
-                    case 25:
-                        _a = _b.sent();
-                        return [3, 28];
-                    case 26: return [4, contact.say('添加失败!')];
                     case 27:
-                        _a = _b.sent();
-                        _b.label = 28;
+                        res = _b.sent();
+                        if (!(res.data.code == 200)) return [3, 29];
+                        return [4, contact.say('添加成功!')];
                     case 28:
+                        _a = _b.sent();
+                        return [3, 31];
+                    case 29: return [4, contact.say('添加失败!')];
+                    case 30:
+                        _a = _b.sent();
+                        _b.label = 31;
+                    case 31:
                         _a;
                         return [4, qlUtils_1.qlUtil.getCFDCK()];
-                    case 29:
+                    case 32:
                         _b.sent();
                         pt_pin = ck.match(/pt_pin=.+?;/) || [0];
                         jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                         OnMessages.bindRemarks(remarks, contact, jdId);
-                        _b.label = 30;
-                    case 30: return [2];
+                        _b.label = 33;
+                    case 33: return [2];
                 }
             });
         });

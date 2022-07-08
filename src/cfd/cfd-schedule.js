@@ -71,6 +71,7 @@ function cfd_hb() {
                             return [2];
                         }
                         cookie = rks[1].value;
+                        console.log(cookie);
                         pt_pin = cookie.match(/pt_pin=.+?;/) || [0];
                         jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                         _id = rks[1]._id;
@@ -102,9 +103,10 @@ function cfd_hb() {
                                             return [4, Bot_1.bot.Contact.find({ alias: new RegExp(jdId) })];
                                         case 1:
                                             contact = _a.sent();
-                                            contact === null || contact === void 0 ? void 0 : contact.say("\u3010\u8D22\u5BCC\u5C9B\u901A\u77E5\u3011\n\u8D26\u53F7:".concat(jdId, "\n\u7ED3\u679C:").concat(data.sErrMsg, "\n\u8BE6\u60C5:") + data + "\nPs:iRet\u503C" +
+                                            contact === null || contact === void 0 ? void 0 : contact.say("\u3010\u8D22\u5BCC\u5C9B\u901A\u77E5\u3011\n\u8D26\u53F7:".concat(jdId, "\n\u7ED3\u679C:").concat(data.sErrMsg, "\n\u8BE6\u60C5:") + data + "\nPs:iRet\u503C?" +
                                                 "\n0:\u53EF\u80FD\u62A2\u5230\u4E86\n1014:URL\u8FC7\u671F\n2007:\u8D22\u5BCC\u503C\u4E0D\u591F\n9999:cookie\u5931\u6548" + '\n本通知 By:https://github.com/hxianseng/wxbot.git');
                                             if (data.iRet == 0) {
+                                                request_1.reapi.disableEnvs(_id);
                                                 console.log(data.sErrMsg);
                                             }
                                             else if (data.iRet == 2016) {
