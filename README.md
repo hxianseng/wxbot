@@ -11,7 +11,7 @@ docker exec -it wxbot git pull
 //更新并【填写】配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak
 
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/wxbot/conf/config.js ./
+wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js ./
 
 //重启容器
 docker restart wxbot
@@ -81,7 +81,7 @@ docker pull hxiansen/wxbot:latest
 cd /root && mkdir -p wxbot/conf
 
 //下载并【填写】配置文件
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/wxbot/conf/config.js -P ./wxbot/conf/
+wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js -P ./wxbot/conf/
 
 //启动容器 
 docker run -d \
