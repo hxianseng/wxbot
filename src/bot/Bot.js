@@ -86,9 +86,6 @@ var Bot = (function () {
                         return [4, qlUtils_1.qlUtil.getJDCK()];
                     case 3:
                         _a.sent();
-                        return [4, qlUtils_1.qlUtil.getCFDCK()];
-                    case 4:
-                        _a.sent();
                         return [2];
                 }
             });

@@ -18,4 +18,4 @@ app.use(function (err, req, res, next) {
     console.log(err.stack);
 });
 app.listen(config_1["default"].PORT, '0.0.0.0', function () { return wechaty_1.log.info('服务开启中，请稍后...'); });
-(0, cfd_schedule_1.cfd_hb)();
+(0, cfd_schedule_1.schedules)();

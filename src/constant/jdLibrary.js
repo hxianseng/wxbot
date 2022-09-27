@@ -76,6 +76,17 @@ exports.jdLibrary = [
                         content: '            await notify.wechatyNotify(`${$.UserName}`, `${$.name}`, `${ReturnMessage}`);'
                     },
                 ]
+            },
+            {
+                fileName: 'jd_CheckCK.js',
+                upArr: [
+                    {
+                        point: '                    if (strnowstatus == 0) {',
+                        up_or_down: 'up',
+                        remark: '京东CK检测',
+                        content: '                    await notify.wechatyNotify(`${$.UserName}`, `${$.name}`,  `京东账号: ${$.nickName || $.UserName2} 已失效,自动禁用成功!\\n请发送 短信登录 更新账号.`);'
+                    },
+                ]
             }
         ]
     }

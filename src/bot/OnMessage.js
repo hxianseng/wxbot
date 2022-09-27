@@ -52,7 +52,7 @@ var OnMessages = (function () {
     }
     OnMessages.message = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var contact, content, room, remarks, isText, rem, cha, i, len, jddata, mobile, name_1, index, res, name_2, index, ret, cookie, res, data, pt_pin, jdId, ck, res, _a, pt_pin, jdId, _b;
+            var contact, content, room, remarks, isText, rem, cha, i, len, jddata, mobile, name_1, index, res, name_2, index, ret, cookie, res, data, pt_pin, jdId, ck, res, _a, pt_pin, jdId, _b, res;
             var _this = this;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -71,7 +71,7 @@ var OnMessages = (function () {
                         if (!(!room && isText)) return [3, 33];
                         OnMessages.forwardLogGroup(msg);
                         if (!/菜单/.test(content)) return [3, 3];
-                        return [4, contact.say(constant_1["default"].message.menu + '\n本通知 By:https://github.com/hxianseng/wxbot.git')];
+                        return [4, contact.say(constant_1["default"].message.menu)];
                     case 2:
                         _c.sent();
                         return [3, 33];
@@ -96,20 +96,18 @@ var OnMessages = (function () {
                                     }
                                 });
                                 if (jddata.length > 0) {
-                                    cha += "".concat(i == 0 ? '' : '\n', "\u8D26\u53F7").concat(rem.length > 1 ? i + 1 : '', ":").concat(rem[i]);
-                                    if (jddata.length == 1) {
-                                        cha += "\n\u72B6\u6001:".concat(jddata[0].name == 'JD_COOKIE' ? 'JD' : 'CFD');
-                                        cha += "".concat(jddata[0].status == 0 ? '在线 ' : '离线 ');
-                                    }
-                                    else {
-                                        cha += "\n\u72B6\u6001:".concat(jddata[0].name == 'JD_COOKIE' ? 'JD' : 'CFD');
-                                        cha += "".concat(jddata[0].status == 0 ? '在线 ' : '离线 ');
-                                        cha += "".concat(jddata[1].name == 'JD_COOKIE' ? 'JD' : 'CFD');
-                                        cha += "".concat(jddata[1].status == 0 ? '在线 ' : '离线 ');
-                                    }
+                                    cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem[i], "\u300D");
+                                    cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
+                                    cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? '「开发中」' : '「离线」');
+                                    cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
+                                }
+                                else {
+                                    cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem[i], "\u300D");
+                                    cha += "\n\u72B6\u6001:\u300C\u4E0D\u5B58\u5728\u300D";
                                 }
                             }
                         }
+                        cha += '\n\nPs:「离线」或「不存在」请发送 短信登录 更新账号';
                         return [4, contact.say(cha)];
                     case 6:
                         _c.sent();
@@ -246,13 +244,39 @@ var OnMessages = (function () {
                         _b = (_c.sent()) == config_1["default"].logGroup;
                         _c.label = 35;
                     case 35:
-                        if (!_b) return [3, 37];
+                        if (!_b) return [3, 42];
                         if (!/^菜单$/.test(content)) return [3, 37];
                         return [4, room.say(constant_1["default"].message.menu2)];
                     case 36:
                         _c.sent();
-                        _c.label = 37;
-                    case 37: return [2];
+                        return [3, 42];
+                    case 37:
+                        if (!/^初始化青龙$/.test(content)) return [3, 42];
+                        wechaty_1.log.info('初始化青龙===========开始');
+                        return [4, request_1.reapi.getQlToken()];
+                    case 38:
+                        res = _c.sent();
+                        if (res == null) {
+                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
+                            return [2];
+                        }
+                        else {
+                            wechaty_1.log.info('初始化青龙===========成功');
+                            ql_1["default"].qlToken = res.data.data.token;
+                            ql_1["default"].ql_token_type = res.data.data.token_type;
+                        }
+                        wechaty_1.log.info('初始化青龙===========结束');
+                        return [4, qlUtils_1.qlUtil.qlNotify()];
+                    case 39:
+                        _c.sent();
+                        return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 40:
+                        _c.sent();
+                        return [4, room.say('初始化结束')];
+                    case 41:
+                        _c.sent();
+                        _c.label = 42;
+                    case 42: return [2];
                 }
             });
         });
