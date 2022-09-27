@@ -41,8 +41,7 @@ docker restart wxbot
         "content":"内容"
     }
   ```
-# 已知bug
-- 机器人自动同意好友申请会占满CPU,请在微信上设置自动同意
+
 # 联系方式
 - hxiansen@outlook.com
 
