@@ -1,3 +1,6 @@
+# wx机器人
+
+# 开始
 
 # 前提条件
 - 微信号一个
@@ -44,6 +47,7 @@ docker restart wxbot
 
 # 联系方式
 - hxiansen@outlook.com
+- [TG交流](https://t.me/+16_DY1GtTT9iN2Vl)
 
 # 效果展示
 <div>
