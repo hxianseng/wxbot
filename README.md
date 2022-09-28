@@ -17,7 +17,7 @@ docker exec -it wxbot npm i
 //更新并【填写】配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak
 
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js ./
+wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js
 
 
 //重启容器
