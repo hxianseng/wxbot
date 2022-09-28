@@ -101,7 +101,10 @@ var Bot = (function () {
 exports.Bot = Bot;
 var bot = wechaty_1.WechatyBuilder.build({
     name: 'WXBOT',
-    puppet: 'wechaty-puppet-wechat'
+    puppet: 'wechaty-puppet-wechat',
+    puppetOptions: {
+        uos: true
+    }
 });
 exports.bot = bot;
 bot.on('scan', Bot.onScan);

@@ -12,7 +12,7 @@
 //除非重大更新，否则不必重新拉去镜像
 docker exec -it wxbot git pull
 
-docker exec -it npm i
+docker exec -it wxbot npm i
 
 //更新并【填写】配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak

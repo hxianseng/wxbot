@@ -102,7 +102,7 @@ router.post('/send', function (req, res, next) { return __awaiter(void 0, void 0
                     });
                     return [2];
                 }
-                contact === null || contact === void 0 ? void 0 : contact.say(data.content + '\n本通知 By:https://github.com/hxianseng/wxbot.git');
+                contact === null || contact === void 0 ? void 0 : contact.say(data.content + '\n-----------------------\n本通知 By:https://github.com/hxianseng/wxbot.git');
                 forwardLogGroup(data);
                 res.json({
                     status: 200,
@@ -137,7 +137,7 @@ router.post('/send_sms', function (req, res, next) { return __awaiter(void 0, vo
                     });
                     return [2];
                 }
-                return [4, (contact === null || contact === void 0 ? void 0 : contact.say(data.content + '\n本通知 By:https://github.com/hxianseng/wxbot.git'))];
+                return [4, (contact === null || contact === void 0 ? void 0 : contact.say(data.content + '\n-----------------------\n本通知 By:https://github.com/hxianseng/wxbot.git'))];
             case 2:
                 _a.sent();
                 forwardLogGroup(data);
