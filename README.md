@@ -99,6 +99,12 @@ docker run -d \
 	--restart always \
 	hxiansen/wxbot:latest
 
+//更新依赖包
+docker exec -it wxbot npm i
+
+//重启容器
+docker restart wxbot
+
 //浏览器打开http://IP:端口/api/v1/qrcodeImage微信扫码登陆
 
 
