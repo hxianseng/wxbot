@@ -32,7 +32,7 @@ docker restart wxbot
   - [x] 京东资产变动通知
   - [x] 京东农场水果成熟通知
   - [x] 京东CK检测
-  - 其他有需要的请在下文找到邮箱联系我
+  - 其他有需要的请在下文找到TG联系我
   - 目前支持自动对接的库:faker3
 
 
@@ -50,7 +50,6 @@ docker restart wxbot
   ```
 
 # 联系方式
-- hxiansen@outlook.com
 - [TG交流](https://t.me/+16_DY1GtTT9iN2Vl)
 
 # 效果展示
