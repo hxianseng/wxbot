@@ -17,7 +17,7 @@
     "request": "^2.88.2",
     "wechaty": "^1.13.3",
     "wechaty-plugin-contrib": "^1.0.18",
-    "wechaty-puppet-wechat": "^1.11.11"
+    "wechaty-puppet-wechat": "^1.18.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

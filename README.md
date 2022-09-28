@@ -4,17 +4,21 @@
 
 # 前提条件
 - 微信号一个
-- 微信号有web权限(https://wx.qq.com 能登陆)
+- ~~微信号有web权限(https://wx.qq.com 能登陆)~~
+- uos协议能用，支持所有微信号
 
 # 更新
 ```
 //除非重大更新，否则不必重新拉去镜像
 docker exec -it wxbot git pull
 
+docker exec -it npm i
+
 //更新并【填写】配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak
 
 wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js ./
+
 
 //重启容器
 docker restart wxbot
