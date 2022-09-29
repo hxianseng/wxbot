@@ -53,9 +53,9 @@ docker restart wxbot
 
 # 效果展示
 <div>
-    <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png">
-    <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png">
-    <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/213651/31/12429/1480848/6209005dE22620c22/1ada447f53e572da.png">
+    <img style="width:43%;display:inline-block;" src="https://img30.360buyimg.com/pop/jfs/t1/218863/3/8785/1707784/61c46ca0Ef1e882a8/933a55b36cef3a50.png" alt="">
+    <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/223724/29/1134/887060/61c46cd9Ed668fd05/aa1797d848878136.png" alt="">
+    <img style="width:43%;display:inline-block" src="https://img30.360buyimg.com/pop/jfs/t1/213651/31/12429/1480848/6209005dE22620c22/1ada447f53e572da.png" alt="">
 </div>
 
 # 安装
@@ -97,6 +97,9 @@ docker run -d \
 	--restart always \
 	hxiansen/wxbot:latest
 
+//拉取最新代码
+docker exec -it wxbot git pull
+
 //更新依赖包
 docker exec -it wxbot npm i
 
@@ -105,11 +108,13 @@ docker restart wxbot
 
 //浏览器打开http://IP:端口/api/v1/qrcodeImage微信扫码登陆
 
-
+//有问题查看容器日志
+docker logs -f wxbot
 ```
 
 # 使用
 - 请把机器人设置为自动通过好友请求
 - 添加机器人为好友
+- 发送 菜单 给机器人
 
 
