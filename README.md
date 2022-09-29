@@ -59,6 +59,7 @@ docker restart wxbot
 </div>
 
 # 安装
+
 ```
 //安装docker
 sudo curl -sSL get.docker.com | sh
