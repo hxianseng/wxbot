@@ -8,15 +8,16 @@
 
 # 更新
 ```
+cd /root/wxbot/conf && mv config.js config.js.bak
+
 //除非重大更新，否则不必重新拉去镜像
 docker exec -it wxbot git pull
 
+//更新依赖
 docker exec -it wxbot npm i
 
-//更新并【填写】配置文件
-cd /root/wxbot/conf && mv config.js config.js.bak
-
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js
+//【填写】配置文件
+vi config.js
 
 
 //重启容器
