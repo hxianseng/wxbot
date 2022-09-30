@@ -70,14 +70,14 @@ var Bot = (function () {
                         return [4, request_1.reapi.getQlToken()];
                     case 1:
                         res = _a.sent();
-                        if (res == null) {
-                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
-                            return [2];
-                        }
-                        else {
+                        if (res) {
                             wechaty_1.log.info('初始化青龙===========成功');
                             ql_1["default"].qlToken = res.data.data.token;
                             ql_1["default"].ql_token_type = res.data.data.token_type;
+                        }
+                        else {
+                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
+                            return [2];
                         }
                         wechaty_1.log.info('初始化青龙===========结束');
                         return [4, qlUtils_1.qlUtil.qlNotify()];

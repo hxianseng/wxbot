@@ -157,7 +157,12 @@ var qlUtil = (function () {
                     case 1:
                         res = _a.sent();
                         wechaty_1.log.info('更新JD_COOKIE');
-                        ql_1["default"].jd_ck = res.data.data;
+                        if (res) {
+                            ql_1["default"].jd_ck = res.data.data;
+                        }
+                        else {
+                            wechaty_1.log.info("更新JD_COOKIE失败，请检查网络");
+                        }
                         return [2];
                 }
             });

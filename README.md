@@ -25,24 +25,25 @@ docker restart wxbot
 ```
 
 # 配合青龙
-- [x] 短信登录(对接的maiark)
+- [x] 短信登录(maiark，nark)
 - [x] 自动对接青龙一对一通知
+  - 目前支持自动对接的库:faker3
   - [x] 京东资产变动通知
-  - [x] 京东农场水果成熟通知
   - [x] 京东CK检测
   - 其他有需要的请在下文找到TG联系我
-  - 目前支持自动对接的库:faker3
+  - 有能力的可以根据下方机器人推送接口自定义
 
 
 # 推送接口
-- 请求地址：http://搭建机器人的服务器ip:端口/api/v1/send
+- 请求地址：http://搭建机器人的服务器ip:端口/api/v1/send_sms  (下方name为联系人的昵称)
+- 请求地址：http://搭建机器人的服务器ip:端口/api/v1/send      (下方name为联系人的备注)
 - 请求方式：POST
 - Content-Type: application/json
 - 参数 
   ```
     {
         "token":"config.js自定义的token",
-        "name":"目标联系人的备注",
+        "name":"目标联系人的备注或昵称",
         "content":"内容"
     }
   ```

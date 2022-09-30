@@ -52,10 +52,10 @@ var OnMessages = (function () {
     }
     OnMessages.message = function (msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var contact, content, room, remarks, isText, rem, cha, i, len, jddata, mobile, name_1, index, res, name_2, index, ret, cookie, res, data, pt_pin, jdId, ck, res, _a, pt_pin, jdId, _b, res;
+            var contact, content, room, remarks, isText, rem, cha, i, len, jddata, mobile, name_1, index, res_1, _a, name_2, index, ret, cookie, res_2, _b, res1, pt_pin, jdId, _c, res;
             var _this = this;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (msg.self()) {
                             return [2];
@@ -65,24 +65,26 @@ var OnMessages = (function () {
                         room = msg.room();
                         return [4, contact.alias()];
                     case 1:
-                        remarks = _c.sent();
+                        remarks = _d.sent();
                         isText = msg.type() === Bot_1.bot.Message.Type.Text;
                         wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                        if (!(!room && isText)) return [3, 33];
-                        OnMessages.forwardLogGroup(msg);
-                        if (!/菜单/.test(content)) return [3, 3];
-                        return [4, contact.say(constant_1["default"].message.menu)];
+                        if (!(!room && isText)) return [3, 52];
+                        return [4, OnMessages.forwardLogGroup(msg)];
                     case 2:
-                        _c.sent();
-                        return [3, 33];
+                        _d.sent();
+                        if (!/菜单/.test(content)) return [3, 4];
+                        return [4, contact.say(constant_1["default"].message.menu)];
                     case 3:
-                        if (!/^查询$/.test(content)) return [3, 7];
-                        if (!!(/jd-/.test(remarks) || /jd_/.test(remarks))) return [3, 5];
-                        return [4, contact.say('此微信号没有绑定京东')];
+                        _d.sent();
+                        return [3, 52];
                     case 4:
-                        _c.sent();
-                        return [2];
+                        if (!/^查询$/.test(content)) return [3, 8];
+                        if (!!(/jd-/.test(remarks) || /jd_/.test(remarks))) return [3, 6];
+                        return [4, contact.say('此微信号没有绑定京东')];
                     case 5:
+                        _d.sent();
+                        return [2];
+                    case 6:
                         rem = remarks.split('#');
                         cha = '';
                         for (i = 0, len = rem.length; i < len; i++) {
@@ -109,174 +111,198 @@ var OnMessages = (function () {
                         }
                         cha += '\n\nPs:「离线」或「不存在」请发送 短信登录 更新账号';
                         return [4, contact.say(cha)];
-                    case 6:
-                        _c.sent();
-                        return [3, 33];
                     case 7:
-                        if (!/^短信登录$/.test(content)) return [3, 9];
-                        return [4, contact.say('请发送手机号开始登录...')];
+                        _d.sent();
+                        return [3, 52];
                     case 8:
-                        _c.sent();
-                        return [3, 33];
+                        if (!/^短信登录$/.test(content)) return [3, 10];
+                        return [4, contact.say('请发送手机号开始登录...')];
                     case 9:
-                        if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 14];
+                        _d.sent();
+                        return [3, 52];
+                    case 10:
+                        if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 27];
                         mobile = content;
                         name_1 = contact.name();
-                        return [4, contact.say('正在获取验证码,请稍后...')];
-                    case 10:
-                        _c.sent();
                         index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_1; });
                         if (!(index != -1)) return [3, 12];
                         return [4, contact.say('短时间内重复获取验证码,请过会重试!')];
                     case 11:
-                        _c.sent();
+                        _d.sent();
                         return [2];
-                    case 12: return [4, request_1.reapi.send_sms(content)];
-                    case 13:
-                        res = _c.sent();
-                        if (res.data.code == 0) {
-                            contact.say("\u9A8C\u8BC1\u7801\u5DF2\u53D1\u9001,\u8BF7\u57283\u5206\u949F\u5185\u56DE\u590D6\u4F4D\u6570\u9A8C\u8BC1\u7801");
-                            res.data['mobile'] = mobile;
-                            res.data['name'] = name_1;
-                            constant_1["default"].sms.push(res.data);
-                            setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
-                                var index;
-                                return __generator(this, function (_a) {
-                                    index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_1; });
-                                    if (index != -1) {
-                                        constant_1["default"].sms.splice(index, 1);
-                                    }
-                                    return [2];
-                                });
-                            }); }, 1000 * 180);
+                    case 12:
+                        _a = config_1["default"].current_interface;
+                        switch (_a) {
+                            case 'nark': return [3, 13];
                         }
-                        else {
-                            contact.say('获取验证码失败,请联系管理员');
-                            return [2];
-                        }
-                        return [3, 33];
+                        return [3, 16];
+                    case 13: return [4, contact.say('nark正在获取验证码,请稍后...')];
                     case 14:
-                        if (!/^\d{6}$/.test(content)) return [3, 19];
-                        return [4, contact.say('开始登录京东,请稍后...')];
+                        _d.sent();
+                        return [4, request_1.reapi.send_sms_nark(content)];
                     case 15:
-                        _c.sent();
+                        res_1 = _d.sent();
+                        return [3, 19];
+                    case 16: return [4, contact.say('maiark正在获取验证码,请稍后...')];
+                    case 17:
+                        _d.sent();
+                        return [4, request_1.reapi.send_sms(content)];
+                    case 18:
+                        res_1 = _d.sent();
+                        _d.label = 19;
+                    case 19:
+                        if (!res_1) return [3, 24];
+                        if (!(res_1.data.code == 0 || res_1.data.success)) return [3, 21];
+                        return [4, contact.say("\u9A8C\u8BC1\u7801\u5DF2\u53D1\u9001,\u8BF7\u57283\u5206\u949F\u5185\u56DE\u590D6\u4F4D\u6570\u9A8C\u8BC1\u7801")];
+                    case 20:
+                        _d.sent();
+                        res_1.data['mobile'] = mobile;
+                        res_1.data['name'] = name_1;
+                        constant_1["default"].sms.push(res_1.data);
+                        setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                            var index;
+                            return __generator(this, function (_a) {
+                                index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_1; });
+                                if (index != -1) {
+                                    constant_1["default"].sms.splice(index, 1);
+                                }
+                                return [2];
+                            });
+                        }); }, 1000 * 180);
+                        return [3, 23];
+                    case 21: return [4, contact.say('获取验证码失败\n' + JSON.stringify(res_1.data))];
+                    case 22:
+                        _d.sent();
+                        console.log(res_1);
+                        return [2];
+                    case 23: return [3, 26];
+                    case 24: return [4, contact.say('请求验证码接口失败,请联系管理员查看日志')];
+                    case 25:
+                        _d.sent();
+                        return [2];
+                    case 26: return [3, 52];
+                    case 27:
+                        if (!/^\d{6}$/.test(content)) return [3, 48];
+                        return [4, contact.say('开始登录京东,请稍后...')];
+                    case 28:
+                        _d.sent();
                         name_2 = contact.name();
                         index = constant_1["default"].sms.findIndex(function (x) { return x.name == name_2; });
-                        if (!(index == -1)) return [3, 17];
+                        if (!(index == -1)) return [3, 30];
                         return [4, contact.say('验证码失效,请重新发送手机号开始登录')];
-                    case 16:
-                        _c.sent();
+                    case 29:
+                        _d.sent();
                         return [2];
-                    case 17:
+                    case 30:
                         ret = constant_1["default"].sms.find(function (x) { return x.name == name_2; });
                         ret['smscode'] = content;
                         cookie = '';
-                        return [4, request_1.reapi.smsLogin(ret)];
-                    case 18:
-                        res = _c.sent();
-                        data = res.data;
-                        cookie = data.ck;
-                        if (data.code == 200) {
-                            contact.say(data.ck);
-                            contact.say('登录成功');
+                        _b = config_1["default"].current_interface;
+                        switch (_b) {
+                            case 'nark': return [3, 31];
                         }
-                        else {
-                            contact.say(data.msg);
-                            return [2];
-                        }
-                        qlUtils_1.qlUtil.getJDCK();
+                        return [3, 33];
+                    case 31: return [4, request_1.reapi.smsLogin_nark(ret.mobile, content)];
+                    case 32:
+                        res_2 = _d.sent();
+                        return [3, 35];
+                    case 33: return [4, request_1.reapi.smsLogin(ret)];
+                    case 34:
+                        res_2 = _d.sent();
+                        _d.label = 35;
+                    case 35:
+                        if (!res_2) return [3, 45];
+                        if (!(res_2.data.code == 200 || res_2.data.success)) return [3, 40];
+                        cookie = res_2.data.ck ? res_2.data.ck : '';
+                        if (!(cookie == '')) return [3, 37];
+                        return [4, request_1.reapi.getEnvsById(res_2.data.data.qlid)];
+                    case 36:
+                        res1 = _d.sent();
+                        cookie = res1.data.data.value;
+                        _d.label = 37;
+                    case 37: return [4, contact.say(cookie)];
+                    case 38:
+                        _d.sent();
+                        return [4, contact.say('登录成功')];
+                    case 39:
+                        _d.sent();
+                        return [3, 42];
+                    case 40: return [4, contact.say("登录失败\n" + JSON.stringify(res_2.data))];
+                    case 41:
+                        _d.sent();
+                        return [2];
+                    case 42: return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 43:
+                        _d.sent();
                         pt_pin = cookie.match(/pt_pin=.+?;/) || [0];
                         jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
-                        OnMessages.bindRemarks(remarks, contact, jdId);
-                        return [3, 33];
-                    case 19:
-                        if (!/^代抢财富岛$/.test(content)) return [3, 22];
-                        return [4, contact.say('请发送如下开始抢财富岛红包(轮到会有通知):')];
-                    case 20:
-                        _c.sent();
-                        return [4, contact.say('财富岛#pt_key=*****;pt_pin=*****;cid=1;')];
-                    case 21:
-                        _c.sent();
-                        return [3, 33];
-                    case 22:
-                        if (!/^财富岛#.+?cid=1;$/.test(content)) return [3, 33];
-                        return [4, contact.say('开始添加财富岛CK...')];
-                    case 23:
-                        _c.sent();
-                        return [4, qlUtils_1.qlUtil.getCFDCK()];
-                    case 24:
-                        _c.sent();
-                        ck = content.replace('财富岛#', '');
-                        if (!(ql_1["default"].cfd_ck.length >= 5)) return [3, 26];
-                        return [4, contact.say('财富岛CK已满5个，请稍后再试...')];
-                    case 25:
-                        _c.sent();
-                        return [2];
-                    case 26: return [4, request_1.reapi.addEnvs([{
-                                name: "CFD_COOKIE",
-                                value: ck
-                            }])];
-                    case 27:
-                        res = _c.sent();
-                        if (!(res.data.code == 200)) return [3, 29];
-                        return [4, contact.say('添加成功!')];
-                    case 28:
-                        _a = _c.sent();
-                        return [3, 31];
-                    case 29: return [4, contact.say('添加失败!')];
-                    case 30:
-                        _a = _c.sent();
-                        _c.label = 31;
-                    case 31:
-                        _a;
-                        return [4, qlUtils_1.qlUtil.getCFDCK()];
-                    case 32:
-                        _c.sent();
-                        pt_pin = ck.match(/pt_pin=.+?;/) || [0];
-                        jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
-                        OnMessages.bindRemarks(remarks, contact, jdId);
-                        _c.label = 33;
-                    case 33:
-                        _b = room;
-                        if (!_b) return [3, 35];
+                        return [4, OnMessages.bindRemarks(remarks, contact, jdId)];
+                    case 44:
+                        _d.sent();
+                        return [3, 47];
+                    case 45: return [4, contact.say('登录失败,请重新发送验证码或联系管理员查看日志')];
+                    case 46:
+                        _d.sent();
+                        _d.label = 47;
+                    case 47: return [3, 52];
+                    case 48:
+                        if (!/联通流量监控/.test(content)) return [3, 51];
+                        return [4, contact.say('请发送如下开始:')];
+                    case 49:
+                        _d.sent();
+                        return [4, contact.say('联通#手机号')];
+                    case 50:
+                        _d.sent();
+                        return [3, 52];
+                    case 51:
+                        if (/^联通#[1]([3-9])[0-9]{9}$/.test(content)) {
+                        }
+                        else if (/^联通#\w{4}$/.test(content)) {
+                        }
+                        else if (/^联通#\d{6}$/.test(content)) {
+                        }
+                        _d.label = 52;
+                    case 52:
+                        _c = room;
+                        if (!_c) return [3, 54];
                         return [4, room.topic()];
-                    case 34:
-                        _b = (_c.sent()) == config_1["default"].logGroup;
-                        _c.label = 35;
-                    case 35:
-                        if (!_b) return [3, 42];
-                        if (!/^菜单$/.test(content)) return [3, 37];
+                    case 53:
+                        _c = (_d.sent()) == config_1["default"].logGroup;
+                        _d.label = 54;
+                    case 54:
+                        if (!_c) return [3, 61];
+                        if (!/^菜单$/.test(content)) return [3, 56];
                         return [4, room.say(constant_1["default"].message.menu2)];
-                    case 36:
-                        _c.sent();
-                        return [3, 42];
-                    case 37:
-                        if (!/^初始化青龙$/.test(content)) return [3, 42];
+                    case 55:
+                        _d.sent();
+                        return [3, 61];
+                    case 56:
+                        if (!/^初始化青龙$/.test(content)) return [3, 61];
                         wechaty_1.log.info('初始化青龙===========开始');
                         return [4, request_1.reapi.getQlToken()];
-                    case 38:
-                        res = _c.sent();
-                        if (res == null) {
-                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
-                            return [2];
-                        }
-                        else {
+                    case 57:
+                        res = _d.sent();
+                        if (res) {
                             wechaty_1.log.info('初始化青龙===========成功');
                             ql_1["default"].qlToken = res.data.data.token;
                             ql_1["default"].ql_token_type = res.data.data.token_type;
                         }
+                        else {
+                            wechaty_1.log.info("api\u8BF7\u6C42\u5931\u8D25\uFF0C\u8BF7\u68C0\u67E5\u7F51\u7EDC\u540E\u91CD\u8BD5\uFF01");
+                            return [2];
+                        }
                         wechaty_1.log.info('初始化青龙===========结束');
                         return [4, qlUtils_1.qlUtil.qlNotify()];
-                    case 39:
-                        _c.sent();
+                    case 58:
+                        _d.sent();
                         return [4, qlUtils_1.qlUtil.getJDCK()];
-                    case 40:
-                        _c.sent();
+                    case 59:
+                        _d.sent();
                         return [4, room.say('初始化结束')];
-                    case 41:
-                        _c.sent();
-                        _c.label = 42;
-                    case 42: return [2];
+                    case 60:
+                        _d.sent();
+                        _d.label = 61;
+                    case 61: return [2];
                 }
             });
         });
