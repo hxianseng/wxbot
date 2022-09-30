@@ -68,7 +68,7 @@ var OnMessages = (function () {
                         remarks = _d.sent();
                         isText = msg.type() === Bot_1.bot.Message.Type.Text;
                         wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                        if (!(!room && isText)) return [3, 52];
+                        if (!(!room && isText)) return [3, 58];
                         return [4, OnMessages.forwardLogGroup(msg)];
                     case 2:
                         _d.sent();
@@ -76,7 +76,7 @@ var OnMessages = (function () {
                         return [4, contact.say(constant_1["default"].message.menu)];
                     case 3:
                         _d.sent();
-                        return [3, 52];
+                        return [3, 58];
                     case 4:
                         if (!/^查询$/.test(content)) return [3, 8];
                         if (!!(/jd-/.test(remarks) || /jd_/.test(remarks))) return [3, 6];
@@ -113,13 +113,13 @@ var OnMessages = (function () {
                         return [4, contact.say(cha)];
                     case 7:
                         _d.sent();
-                        return [3, 52];
+                        return [3, 58];
                     case 8:
                         if (!/^短信登录$/.test(content)) return [3, 10];
                         return [4, contact.say('请发送手机号开始登录...')];
                     case 9:
                         _d.sent();
-                        return [3, 52];
+                        return [3, 58];
                     case 10:
                         if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 27];
                         mobile = content;
@@ -180,7 +180,7 @@ var OnMessages = (function () {
                     case 25:
                         _d.sent();
                         return [2];
-                    case 26: return [3, 52];
+                    case 26: return [3, 58];
                     case 27:
                         if (!/^\d{6}$/.test(content)) return [3, 48];
                         return [4, contact.say('开始登录京东,请稍后...')];
@@ -244,7 +244,7 @@ var OnMessages = (function () {
                     case 46:
                         _d.sent();
                         _d.label = 47;
-                    case 47: return [3, 52];
+                    case 47: return [3, 58];
                     case 48:
                         if (!/联通流量监控/.test(content)) return [3, 51];
                         return [4, contact.say('请发送如下开始:')];
@@ -253,34 +253,47 @@ var OnMessages = (function () {
                         return [4, contact.say('联通#手机号')];
                     case 50:
                         _d.sent();
-                        return [3, 52];
+                        return [3, 58];
                     case 51:
-                        if (/^联通#[1]([3-9])[0-9]{9}$/.test(content)) {
-                        }
-                        else if (/^联通#\w{4}$/.test(content)) {
-                        }
-                        else if (/^联通#\d{6}$/.test(content)) {
-                        }
-                        _d.label = 52;
+                        if (!/^联通#[1]([3-9])[0-9]{9}$/.test(content)) return [3, 52];
+                        return [3, 58];
                     case 52:
-                        _c = room;
-                        if (!_c) return [3, 54];
-                        return [4, room.topic()];
+                        if (!/^联通#\w{4}$/.test(content)) return [3, 53];
+                        return [3, 58];
                     case 53:
-                        _c = (_d.sent()) == config_1["default"].logGroup;
-                        _d.label = 54;
+                        if (!/^联通#\d{6}$/.test(content)) return [3, 54];
+                        return [3, 58];
                     case 54:
-                        if (!_c) return [3, 61];
-                        if (!/^菜单$/.test(content)) return [3, 56];
-                        return [4, room.say(constant_1["default"].message.menu2)];
+                        if (!/ck登录/.test(content)) return [3, 56];
+                        return [4, contact.say('发送带有 pt_key=和pt_pin= 字段的cookie')];
                     case 55:
                         _d.sent();
-                        return [3, 61];
+                        return [3, 58];
                     case 56:
-                        if (!/^初始化青龙$/.test(content)) return [3, 61];
+                        if (!(/pt_pin=.+?;/.test(content) && /pt_key=.+?;/.test(content))) return [3, 58];
+                        return [4, OnMessages.addCookie(contact, content, remarks)];
+                    case 57:
+                        _d.sent();
+                        _d.label = 58;
+                    case 58:
+                        _c = room;
+                        if (!_c) return [3, 60];
+                        return [4, room.topic()];
+                    case 59:
+                        _c = (_d.sent()) == config_1["default"].logGroup;
+                        _d.label = 60;
+                    case 60:
+                        if (!_c) return [3, 67];
+                        if (!/^菜单$/.test(content)) return [3, 62];
+                        return [4, room.say(constant_1["default"].message.menu2)];
+                    case 61:
+                        _d.sent();
+                        return [3, 67];
+                    case 62:
+                        if (!/^初始化青龙$/.test(content)) return [3, 67];
                         wechaty_1.log.info('初始化青龙===========开始');
                         return [4, request_1.reapi.getQlToken()];
-                    case 57:
+                    case 63:
                         res = _d.sent();
                         if (res) {
                             wechaty_1.log.info('初始化青龙===========成功');
@@ -293,16 +306,139 @@ var OnMessages = (function () {
                         }
                         wechaty_1.log.info('初始化青龙===========结束');
                         return [4, qlUtils_1.qlUtil.qlNotify()];
-                    case 58:
+                    case 64:
                         _d.sent();
                         return [4, qlUtils_1.qlUtil.getJDCK()];
-                    case 59:
+                    case 65:
                         _d.sent();
                         return [4, room.say('初始化结束')];
-                    case 60:
+                    case 66:
                         _d.sent();
-                        _d.label = 61;
-                    case 61: return [2];
+                        _d.label = 67;
+                    case 67: return [2];
+                }
+            });
+        });
+    };
+    OnMessages.addCookie = function (contact, content, remarks) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pt_pin, pt_key, cookie, jdId, flag, _id, _i, _a, item, data, res, data, res;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        pt_pin = content.match(/pt_pin=.+?;/) || '';
+                        pt_key = content.match(/pt_key=.+?;/) || '';
+                        cookie = pt_key[0] + pt_pin[0];
+                        jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
+                        return [4, contact.say("\u8BC6\u522B\u5230cookie:\n".concat(cookie))];
+                    case 1:
+                        _b.sent();
+                        return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 2:
+                        _b.sent();
+                        flag = false;
+                        _id = '';
+                        _i = 0, _a = ql_1["default"].jd_ck;
+                        _b.label = 3;
+                    case 3:
+                        if (!(_i < _a.length)) return [3, 9];
+                        item = _a[_i];
+                        if (!item.value.includes(jdId)) return [3, 8];
+                        flag = true;
+                        if (!(config_1["default"].QLurl.qlId == '_id')) return [3, 4];
+                        _id = item._id;
+                        return [3, 7];
+                    case 4:
+                        if (!(config_1["default"].QLurl.qlId == 'id')) return [3, 5];
+                        _id = item.id;
+                        return [3, 7];
+                    case 5: return [4, contact.say('更新失败,配置文件的qlId值错误')];
+                    case 6:
+                        _b.sent();
+                        return [2];
+                    case 7: return [3, 9];
+                    case 8:
+                        _i++;
+                        return [3, 3];
+                    case 9:
+                        if (!flag) return [3, 28];
+                        return [4, contact.say('更新cookie,请稍后...')];
+                    case 10:
+                        _b.sent();
+                        data = {
+                            cookie: cookie,
+                            jdId: jdId,
+                            _id: _id
+                        };
+                        return [4, request_1.reapi.updateEnv(data)];
+                    case 11:
+                        res = _b.sent();
+                        if (!res) return [3, 16];
+                        if (!(res.data.code == 200)) return [3, 13];
+                        return [4, contact.say('cookie更新成功,cookie启用中...')];
+                    case 12:
+                        _b.sent();
+                        return [3, 15];
+                    case 13: return [4, contact.say('cookie更新失败\n' + JSON.stringify(res.data))];
+                    case 14:
+                        _b.sent();
+                        return [2];
+                    case 15: return [3, 18];
+                    case 16: return [4, contact.say('[updateEnv]接口请求失败,请管理员查看日志')];
+                    case 17:
+                        _b.sent();
+                        return [2];
+                    case 18: return [4, request_1.reapi.enableEnvs(_id)];
+                    case 19:
+                        res = _b.sent();
+                        if (!res) return [3, 24];
+                        if (!(res.data.code == 200)) return [3, 21];
+                        return [4, contact.say('cookie启用成功')];
+                    case 20:
+                        _b.sent();
+                        return [3, 23];
+                    case 21: return [4, contact.say('cookie启用失败\n' + JSON.stringify(res.data))];
+                    case 22:
+                        _b.sent();
+                        _b.label = 23;
+                    case 23: return [3, 26];
+                    case 24: return [4, contact.say('[enableEnvs]接口请求失败,请管理员查看日志')];
+                    case 25:
+                        _b.sent();
+                        _b.label = 26;
+                    case 26: return [4, OnMessages.bindRemarks(remarks, contact, jdId)];
+                    case 27:
+                        _b.sent();
+                        return [3, 37];
+                    case 28: return [4, contact.say('添加cookie,请稍后...')];
+                    case 29:
+                        _b.sent();
+                        data = [
+                            {
+                                name: 'JD_COOKIE',
+                                value: cookie,
+                                remarks: jdId
+                            }
+                        ];
+                        return [4, request_1.reapi.addEnvs(data)];
+                    case 30:
+                        res = _b.sent();
+                        if (!res) return [3, 33];
+                        if (!(res.data.code == 200)) return [3, 32];
+                        return [4, contact.say('cookie添加成功')];
+                    case 31:
+                        _b.sent();
+                        _b.label = 32;
+                    case 32: return [3, 35];
+                    case 33: return [4, contact.say('[addEnvs]接口请求失败,请管理员查看日志')];
+                    case 34:
+                        _b.sent();
+                        return [2];
+                    case 35: return [4, OnMessages.bindRemarks(remarks, contact, jdId)];
+                    case 36:
+                        _b.sent();
+                        _b.label = 37;
+                    case 37: return [2];
                 }
             });
         });

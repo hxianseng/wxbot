@@ -27,7 +27,10 @@ module.exports = {
     current_interface: 'maiark',
 
     //青龙url http://ip:端口
-    QLurl: '',
+    QLurl: {
+        ql_url:'',
+        qlId:'_id' //青龙新老版本的字段不同 根据你的青龙版本来  老版本：_id  新版本：id  默认：_id
+    },
 
     //青龙面板=>系统设置=>应用设置 最少权限:环境变量、脚本管理;后续更新可能会用到:配置文件、定时任务
     clientId: '',

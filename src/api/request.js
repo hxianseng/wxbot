@@ -108,7 +108,7 @@ var reapi = (function () {
     };
     reapi.getQlToken = function () {
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/auth/token?client_id=").concat(config_1["default"].clientId, "&client_secret=").concat(config_1["default"].clientSecret),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/auth/token?client_id=").concat(config_1["default"].clientId, "&client_secret=").concat(config_1["default"].clientSecret),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -119,7 +119,7 @@ var reapi = (function () {
     reapi.getFileByName = function (fileName) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/scripts/").concat(fileName, "?path=").concat(config_1["default"].qlNotify.jdLibrary, "&t=1657098356275"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/scripts/").concat(fileName, "?path=").concat(config_1["default"].qlNotify.jdLibrary, "&t=1657098356275"),
             method: 'GET',
             headers: qlheaders,
             timeout: 10000
@@ -128,7 +128,7 @@ var reapi = (function () {
     reapi.getFileByName2 = function (fileName) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/scripts/").concat(fileName, "?path=&t=1657098356275"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/scripts/").concat(fileName, "?path=&t=1657098356275"),
             method: 'GET',
             headers: qlheaders,
             timeout: 10000
@@ -137,7 +137,7 @@ var reapi = (function () {
     reapi.putFile = function (data) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/scripts?t=1657098356275"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/scripts?t=1657098356275"),
             method: 'PUT',
             headers: qlheaders,
             data: data,
@@ -147,7 +147,7 @@ var reapi = (function () {
     reapi.getEnvsById = function (id) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs/id"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs/id"),
             method: 'GET',
             headers: qlheaders,
             timeout: 10000
@@ -156,8 +156,19 @@ var reapi = (function () {
     reapi.getEnvs = function (name) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs?searchValue=").concat(name, "&t=1657204378316"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs?searchValue=").concat(name, "&t=1657204378316"),
             method: 'GET',
+            headers: qlheaders,
+            timeout: 10000
+        });
+    };
+    reapi.updateEnv = function (data) {
+        qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
+        var body = '{"name":"JD_COOKIE","remarks": "' + data.jdId + '",' + '"value":"' + data.cookie + '","' + config_1["default"].QLurl.qlId + '":"' + data._id + '"}';
+        return (0, axios_1["default"])({
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs?t=1657204378316"),
+            method: 'put',
+            data: JSON.parse(body),
             headers: qlheaders,
             timeout: 10000
         });
@@ -165,7 +176,7 @@ var reapi = (function () {
     reapi.addEnvs = function (data) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs?t=1657204378316"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs?t=1657204378316"),
             method: 'POST',
             headers: qlheaders,
             data: data,
@@ -175,7 +186,7 @@ var reapi = (function () {
     reapi.deleteEnvs = function (id) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs?t=1657204378316"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs?t=1657204378316"),
             method: 'DELETE',
             headers: qlheaders,
             data: ["".concat(id)],
@@ -185,7 +196,7 @@ var reapi = (function () {
     reapi.disableEnvs = function (id) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs/disable?t=1657204378316"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs/disable?t=1657204378316"),
             method: 'PUT',
             headers: qlheaders,
             data: ["".concat(id)],
@@ -195,7 +206,7 @@ var reapi = (function () {
     reapi.enableEnvs = function (id) {
         qlheaders.Authorization = "".concat(ql_1["default"].ql_token_type, " ").concat(ql_1["default"].qlToken);
         return (0, axios_1["default"])({
-            url: "".concat(config_1["default"].QLurl, "/open/envs/enable?t=1657204378316"),
+            url: "".concat(config_1["default"].QLurl.ql_url, "/open/envs/enable?t=1657204378316"),
             method: 'PUT',
             headers: qlheaders,
             data: ["".concat(id)],

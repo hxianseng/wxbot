@@ -27,6 +27,7 @@ docker restart wxbot
 
 # 配合青龙
 - [x] 短信登录(maiark，nark)
+- [x] ck登录
 - [x] 自动对接青龙一对一通知
   - [x] 京东资产变动通知
   - [x] 京东CK检测
