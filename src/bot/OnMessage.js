@@ -47,6 +47,7 @@ var constant_1 = __importDefault(require("../constant/constant"));
 var ql_1 = __importDefault(require("../constant/ql"));
 var Bot_1 = require("./Bot");
 var qlUtils_1 = require("../util/qlUtils");
+var dataMonitoring_1 = require("./message/dataMonitoring");
 var OnMessages = (function () {
     function OnMessages() {
     }
@@ -68,15 +69,15 @@ var OnMessages = (function () {
                         remarks = _d.sent();
                         isText = msg.type() === Bot_1.bot.Message.Type.Text;
                         wechaty_1.log.info("\u53D1\u6D88\u606F\u4EBA\u7684\u5907\u6CE8: ".concat(remarks, " \u53D1\u6D88\u606F\u4EBA\u7684\u6635\u79F0: ").concat(contact.name(), " \u6D88\u606F\u5185\u5BB9: ").concat(content));
-                        if (!(!room && isText)) return [3, 58];
+                        if (!(!room && isText)) return [3, 69];
                         return [4, OnMessages.forwardLogGroup(msg)];
                     case 2:
                         _d.sent();
                         if (!/菜单/.test(content)) return [3, 4];
-                        return [4, contact.say(constant_1["default"].message.menu)];
+                        return [4, contact.say(constant_1["default"].message.menu + "\n\u672C\u901A\u77E5 By:https://github.com/hxianseng/wxbot.git")];
                     case 3:
                         _d.sent();
-                        return [3, 58];
+                        return [3, 69];
                     case 4:
                         if (!/^查询$/.test(content)) return [3, 8];
                         if (!!(/jd-/.test(remarks) || /jd_/.test(remarks))) return [3, 6];
@@ -113,13 +114,13 @@ var OnMessages = (function () {
                         return [4, contact.say(cha)];
                     case 7:
                         _d.sent();
-                        return [3, 58];
+                        return [3, 69];
                     case 8:
                         if (!/^短信登录$/.test(content)) return [3, 10];
                         return [4, contact.say('请发送手机号开始登录...')];
                     case 9:
                         _d.sent();
-                        return [3, 58];
+                        return [3, 69];
                     case 10:
                         if (!/^[1]([3-9])[0-9]{9}$/.test(content)) return [3, 27];
                         mobile = content;
@@ -180,7 +181,7 @@ var OnMessages = (function () {
                     case 25:
                         _d.sent();
                         return [2];
-                    case 26: return [3, 58];
+                    case 26: return [3, 69];
                     case 27:
                         if (!/^\d{6}$/.test(content)) return [3, 48];
                         return [4, contact.say('开始登录京东,请稍后...')];
@@ -244,56 +245,85 @@ var OnMessages = (function () {
                     case 46:
                         _d.sent();
                         _d.label = 47;
-                    case 47: return [3, 58];
+                    case 47: return [3, 69];
                     case 48:
-                        if (!/联通流量监控/.test(content)) return [3, 51];
-                        return [4, contact.say('请发送如下开始:')];
+                        if (!/联通登录/.test(content)) return [3, 53];
+                        if (!!config_1["default"].traffic_query) return [3, 50];
+                        return [4, contact.say('联通流量查询已关闭, 联系管理员开启')];
                     case 49:
                         _d.sent();
-                        return [4, contact.say('联通#手机号')];
-                    case 50:
-                        _d.sent();
-                        return [3, 58];
+                        return [2];
+                    case 50: return [4, contact.say('请发送如下开始:')];
                     case 51:
-                        if (!/^联通#[1]([3-9])[0-9]{9}$/.test(content)) return [3, 52];
-                        return [3, 58];
+                        _d.sent();
+                        return [4, contact.say('联通#手机号')];
                     case 52:
-                        if (!/^联通#\w{4}$/.test(content)) return [3, 53];
-                        return [3, 58];
+                        _d.sent();
+                        return [3, 69];
                     case 53:
-                        if (!/^联通#\d{6}$/.test(content)) return [3, 54];
-                        return [3, 58];
+                        if (!/^联通#[1]([3-9])[0-9]{9}$/.test(content)) return [3, 57];
+                        if (!!config_1["default"].traffic_query) return [3, 55];
+                        return [4, contact.say('联通流量查询已关闭, 联系管理员开启')];
                     case 54:
-                        if (!/ck登录/.test(content)) return [3, 56];
-                        return [4, contact.say('发送带有 pt_key=和pt_pin= 字段的cookie')];
-                    case 55:
                         _d.sent();
-                        return [3, 58];
+                        return [2];
+                    case 55: return [4, dataMonitoring_1.DataMonitoring.getVerificationCode(contact, content, remarks)];
                     case 56:
-                        if (!(/pt_pin=.+?;/.test(content) && /pt_key=.+?;/.test(content))) return [3, 58];
-                        return [4, OnMessages.addCookie(contact, content, remarks)];
+                        _d.sent();
+                        return [3, 69];
                     case 57:
-                        _d.sent();
-                        _d.label = 58;
+                        if (!/^联通#\d{4}$/.test(content)) return [3, 61];
+                        if (!!config_1["default"].traffic_query) return [3, 59];
+                        return [4, contact.say('联通流量查询已关闭, 联系管理员开启')];
                     case 58:
-                        _c = room;
-                        if (!_c) return [3, 60];
-                        return [4, room.topic()];
-                    case 59:
-                        _c = (_d.sent()) == config_1["default"].logGroup;
-                        _d.label = 60;
-                    case 60:
-                        if (!_c) return [3, 67];
-                        if (!/^菜单$/.test(content)) return [3, 62];
-                        return [4, room.say(constant_1["default"].message.menu2)];
-                    case 61:
                         _d.sent();
-                        return [3, 67];
+                        return [2];
+                    case 59: return [4, dataMonitoring_1.DataMonitoring.login(contact, content, remarks)];
+                    case 60:
+                        _d.sent();
+                        return [3, 69];
+                    case 61:
+                        if (!/ck登录/.test(content)) return [3, 63];
+                        return [4, contact.say('发送带有 pt_key=和pt_pin= 字段的cookie')];
                     case 62:
-                        if (!/^初始化青龙$/.test(content)) return [3, 67];
+                        _d.sent();
+                        return [3, 69];
+                    case 63:
+                        if (!(/pt_pin=.+?;/.test(content) && /pt_key=.+?;/.test(content))) return [3, 65];
+                        return [4, OnMessages.addCookie(contact, content, remarks)];
+                    case 64:
+                        _d.sent();
+                        return [3, 69];
+                    case 65:
+                        if (!/查询流量/.test(content)) return [3, 69];
+                        if (!!config_1["default"].traffic_query) return [3, 67];
+                        return [4, contact.say('联通流量查询已关闭, 联系管理员开启')];
+                    case 66:
+                        _d.sent();
+                        return [2];
+                    case 67: return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact)];
+                    case 68:
+                        _d.sent();
+                        _d.label = 69;
+                    case 69:
+                        _c = room;
+                        if (!_c) return [3, 71];
+                        return [4, room.topic()];
+                    case 70:
+                        _c = (_d.sent()) == config_1["default"].logGroup;
+                        _d.label = 71;
+                    case 71:
+                        if (!_c) return [3, 78];
+                        if (!/^菜单$/.test(content)) return [3, 73];
+                        return [4, room.say(constant_1["default"].message.menu2)];
+                    case 72:
+                        _d.sent();
+                        return [3, 78];
+                    case 73:
+                        if (!/^初始化青龙$/.test(content)) return [3, 78];
                         wechaty_1.log.info('初始化青龙===========开始');
                         return [4, request_1.reapi.getQlToken()];
-                    case 63:
+                    case 74:
                         res = _d.sent();
                         if (res) {
                             wechaty_1.log.info('初始化青龙===========成功');
@@ -306,16 +336,16 @@ var OnMessages = (function () {
                         }
                         wechaty_1.log.info('初始化青龙===========结束');
                         return [4, qlUtils_1.qlUtil.qlNotify()];
-                    case 64:
+                    case 75:
                         _d.sent();
                         return [4, qlUtils_1.qlUtil.getJDCK()];
-                    case 65:
+                    case 76:
                         _d.sent();
                         return [4, room.say('初始化结束')];
-                    case 66:
+                    case 77:
                         _d.sent();
-                        _d.label = 67;
-                    case 67: return [2];
+                        _d.label = 78;
+                    case 78: return [2];
                 }
             });
         });

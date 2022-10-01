@@ -24,7 +24,11 @@ vi config.js
 docker restart wxbot
 
 ```
-
+# 联通流量监控
+- [x] 多个手机号
+- [x] 短信登录
+- [x] 查询流量
+- [ ] 定时推送
 # 配合青龙
 - [x] 短信登录(maiark，nark)
 - [x] ck登录
@@ -87,10 +91,9 @@ systemctl restart docker
 //拉取镜像
 docker pull hxiansen/wxbot:latest
 
+//创建【配置目录】
 cd /root && mkdir -p wxbot/conf
 
-//下载并【填写】配置文件
-wget  https://ghproxy.com/https://raw.githubusercontent.com/hxianseng/wxbot/master/src/conf/config.js -P ./wxbot/conf/
 
 //启动容器 
 docker run -d \
@@ -105,6 +108,8 @@ docker exec -it wxbot git pull
 
 //更新依赖包
 docker exec -it wxbot npm i
+
+//【填写】配置文件  配置文件在你创建的【配置目录】下
 
 //重启容器
 docker restart wxbot

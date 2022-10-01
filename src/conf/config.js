@@ -14,6 +14,9 @@ module.exports = {
     //(避免敏感消息泄露，群内请只有你和机器人)
     logGroup: '',
 
+    //联通流量查询  开启 true  关闭 false  默认 false
+    traffic_query: false,
+
     //maiark短信登陆 http://ip:端口
     maiarkUrl: '',
 
