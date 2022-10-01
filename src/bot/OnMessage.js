@@ -305,7 +305,7 @@ var OnMessages = (function () {
                     case 68:
                         _d.sent();
                         return [3, 71];
-                    case 69: return [4, contact.say('没有匹配到指令,请发送菜单查看指令\nPs:指令要每个字都匹配上\n例如:联通登录√ 联通登陆×')];
+                    case 69: return [4, contact.say("\u6CA1\u6709\u5339\u914D\u5230\u6307\u4EE4\n".concat(constant_1["default"].message.menu, "\nPs:\u6307\u4EE4\u8981\u6BCF\u4E2A\u5B57\u90FD\u5339\u914D\u4E0A\n\u4F8B\u5982:\u8054\u901A\u767B\u5F55\u221A \u8054\u901A\u767B\u9646\u00D7"))];
                     case 70:
                         _d.sent();
                         return [2];

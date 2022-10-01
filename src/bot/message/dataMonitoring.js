@@ -228,6 +228,7 @@ var DataMonitoring = (function () {
                         console.log("套餐：" + JSON.stringify(res.data.resources));
                         console.log("==========================================================");
                         console.log("data：" + JSON.stringify(res.data));
+                        msg += "\u5957\u9910: ".concat(res.data.packageName, "\n");
                         dailyRentalPackage = res.data.RzbResources[0].details;
                         combo_arr = res.data.resources[0].details;
                         voice_remainResource = res.data.resources[1].remainResource;
