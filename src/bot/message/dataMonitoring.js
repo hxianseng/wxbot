@@ -226,6 +226,8 @@ var DataMonitoring = (function () {
                         console.log('刚上线测试，因套餐不同，可能会有显示bug，打印套餐日志');
                         console.log("日租包：" + JSON.stringify(res.data.RzbResources));
                         console.log("套餐：" + JSON.stringify(res.data.resources));
+                        console.log("==========================================================");
+                        console.log("data：" + JSON.stringify(res.data));
                         dailyRentalPackage = res.data.RzbResources[0].details;
                         combo_arr = res.data.resources[0].details;
                         voice_remainResource = res.data.resources[1].remainResource;
@@ -238,7 +240,7 @@ var DataMonitoring = (function () {
                         }
                         for (_b = 0, combo_arr_1 = combo_arr; _b < combo_arr_1.length; _b++) {
                             i = combo_arr_1[_b];
-                            msg += "".concat(i.feePolicyName.includes('全国流量王套餐-8元') ? '8元流量王' : i.feePolicyName, ": \u603B").concat(i.total, "M \u7528").concat(i.use, "M\n");
+                            msg += "".concat(i.feePolicyName.includes('全国流量王套餐-8元') ? '8元流量王' : i.feePolicyName, ": \u603B").concat(i.total >= 1024 ? i.total / 1024 + 'G' : i.total + 'M', " \u7528").concat(i.use >= 1024 ? i.use / 1024 + 'G' : i.use + 'M', "\n");
                         }
                         msg += "\u8BED\u97F3: \u7528".concat(voice_userResource, "\u5206\u949F, \u5269").concat(voice_remainResource, "\u5206\u949F\n");
                         msg += "\u77ED\u4FE1: \u7528".concat(shortMessage_userResource, "\u6761, \u5269").concat(shortMessage_remainResource, "\u6761\n");

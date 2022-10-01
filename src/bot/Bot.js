@@ -111,6 +111,19 @@ bot.on('scan', Bot.onScan);
 bot.on('login', Bot.onLogin);
 bot.on('logout', Bot.onLogout);
 bot.on('message', OnMessage_1.OnMessages.message);
+bot.on('friendship', function (friendship) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!(friendship.type() === bot.Friendship.Type.Receive)) return [3, 2];
+                return [4, friendship.accept()];
+            case 1:
+                _a.sent();
+                _a.label = 2;
+            case 2: return [2];
+        }
+    });
+}); });
 bot
     .start()
     .then(function () { return wechaty_1.log.info("\u5FAE\u4FE1\u767B\u5F55\u4E8C\u7EF4\u7801\u751F\u6210\u4E2D..."); })["catch"](function (e) { return console.error(e); });
