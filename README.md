@@ -8,9 +8,10 @@
 
 # 更新
 ```
+//备份配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak
 
-//除非重大更新，否则不必重新拉去镜像
+//拉取最新代码
 docker exec -it wxbot git pull
 
 //更新依赖
