@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.bot = exports.Bot = void 0;
 var wechaty_1 = require("wechaty");
+var config_1 = __importDefault(require("../conf/config"));
 var constant_1 = __importDefault(require("../constant/constant"));
 var OnMessage_1 = require("./OnMessage");
 var qlUtils_1 = require("../util/qlUtils");
@@ -66,6 +67,7 @@ var Bot = (function () {
                         date = new Date();
                         wechaty_1.log.info("\u5F53\u524D\u65F6\u95F4:".concat(date));
                         constant_1["default"].islogin = false;
+                        if (!config_1["default"].ql_module) return [3, 4];
                         wechaty_1.log.info('初始化青龙===========开始');
                         return [4, request_1.reapi.getQlToken()];
                     case 1:
@@ -86,7 +88,11 @@ var Bot = (function () {
                         return [4, qlUtils_1.qlUtil.getJDCK()];
                     case 3:
                         _a.sent();
-                        return [2];
+                        return [3, 5];
+                    case 4:
+                        wechaty_1.log.info('[ql_module]已关闭, 联系管理员开启');
+                        _a.label = 5;
+                    case 5: return [2];
                 }
             });
         });

@@ -17,6 +17,12 @@ module.exports = {
     //联通流量查询  开启 true  关闭 false  默认 false
     traffic_query: false,
 
+
+    //================================京东青龙相关======================================
+
+    //跟青龙相关模块， 填false 下面jd短信登录、ck登录、一对一通知都会关闭; true开启 默认false
+    ql_module: false,
+
     //maiark短信登陆 http://ip:端口
     maiarkUrl: '',
 

@@ -43,6 +43,7 @@ exports.schedules = void 0;
 var node_schedule_1 = __importDefault(require("node-schedule"));
 var wechaty_1 = require("wechaty");
 var ql_1 = __importDefault(require("../constant/ql"));
+var config_1 = __importDefault(require("../conf/config"));
 var request_1 = require("../api/request");
 var qlUtils_1 = require("../util/qlUtils");
 function schedules() {
@@ -53,6 +54,9 @@ function schedules() {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (!config_1["default"].ql_module) {
+                            return [2];
+                        }
                         wechaty_1.log.info('定时更新青龙===========开始');
                         wechaty_1.log.info('初始化青龙===========开始');
                         wechaty_1.log.info('初始化青龙===========开始');
