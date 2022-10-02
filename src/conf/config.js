@@ -14,8 +14,12 @@ module.exports = {
     //(避免敏感消息泄露，群内请只有你和机器人)
     logGroup: '',
 
-    //联通流量查询  开启 true  关闭 false  默认 false
-    traffic_query: false,
+    //联通流量查询
+    traffic_query: {
+        flag:false, //开启 true  关闭 false  默认 false
+        timed_push_cron:'0 0 21 * * *', // 定时推送流量 默认每天21:00推送
+        monitoring_jumps_cron:'0 0/5 * * * *' //监控跳点 默认每5分钟刷新
+    },
 
 
     //================================京东青龙相关======================================

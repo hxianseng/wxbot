@@ -43,6 +43,7 @@ exports.saveDb = exports.getDb = void 0;
 var fs_1 = __importDefault(require("fs"));
 var util_1 = require("util");
 var path_1 = __importDefault(require("path"));
+var constant_1 = __importDefault(require("../constant/constant"));
 var readFile = (0, util_1.promisify)(fs_1["default"].readFile);
 var writeFile = (0, util_1.promisify)(fs_1["default"].writeFile);
 function getDb(filePath) {
@@ -51,6 +52,7 @@ function getDb(filePath) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    constant_1["default"].read_flag = true;
                     dbPath = path_1["default"].join(__dirname, filePath);
                     return [4, readFile(dbPath, 'utf-8')];
                 case 1:
@@ -67,6 +69,7 @@ function saveDb(db, filePath) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    constant_1["default"].read_flag = false;
                     dbPath = path_1["default"].join(__dirname, filePath);
                     data = JSON.stringify(db, null, '  ');
                     return [4, writeFile(dbPath, data)];

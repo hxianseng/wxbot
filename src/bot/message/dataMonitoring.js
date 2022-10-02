@@ -109,7 +109,7 @@ var DataMonitoring = (function () {
     };
     DataMonitoring.login = function (contact, content, remarks) {
         return __awaiter(this, void 0, void 0, function () {
-            var index, data, code_sms, res, cookie, appId;
+            var index, data, code_sms, res, cookie, appId, msg;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -125,8 +125,8 @@ var DataMonitoring = (function () {
                         return [4, lt_1.ltapi.radomLogin(data.mobile, code_sms)];
                     case 3:
                         res = _a.sent();
-                        if (!res) return [3, 12];
-                        if (!(res.data.code == '0')) return [3, 9];
+                        if (!res) return [3, 13];
+                        if (!(res.data.code == '0')) return [3, 10];
                         appId = res.data.appId;
                         cookie = res.headers['set-cookie'] || res.headers['Set-Cookie'];
                         if (Array.isArray(cookie)) {
@@ -137,26 +137,30 @@ var DataMonitoring = (function () {
                     case 4:
                         _a.sent();
                         _a.label = 5;
-                    case 5: return [4, contact.say('登录成功,查询流量中...')];
+                    case 5: return [4, contact.say('登录成功')];
                     case 6:
                         _a.sent();
                         return [4, DataMonitoring.saveCookie(data.mobile, cookie, appId, contact.name())];
                     case 7:
                         _a.sent();
-                        return [4, DataMonitoring.queryTraffic(contact)];
+                        return [4, contact.say('查询中,请稍后...')];
                     case 8:
                         _a.sent();
-                        return [3, 11];
-                    case 9: return [4, contact.say('登录失败\n' + JSON.stringify(res.data))];
-                    case 10:
+                        msg = '';
+                        return [4, DataMonitoring.queryTraffic(contact, msg)];
+                    case 9:
                         _a.sent();
-                        _a.label = 11;
-                    case 11: return [3, 14];
-                    case 12: return [4, contact.say('[radomLogin]api请求失败,请联系管理员查看日志')];
-                    case 13:
+                        return [3, 12];
+                    case 10: return [4, contact.say('登录失败\n' + JSON.stringify(res.data))];
+                    case 11:
+                        _a.sent();
+                        _a.label = 12;
+                    case 12: return [3, 15];
+                    case 13: return [4, contact.say('[radomLogin]api请求失败,请联系管理员查看日志')];
+                    case 14:
                         _a.sent();
                         return [2];
-                    case 14: return [2];
+                    case 15: return [2];
                 }
             });
         });
@@ -173,7 +177,11 @@ var DataMonitoring = (function () {
                         data = {
                             mobile: mobile,
                             cookie: cookie,
-                            appId: appId
+                            appId: appId,
+                            notice: 0,
+                            threshold: 5,
+                            flow: 0,
+                            time: null
                         };
                         if (!mobile_arr) {
                             mobile_arr = [data];
@@ -194,85 +202,121 @@ var DataMonitoring = (function () {
             });
         });
     };
-    DataMonitoring.queryTraffic = function (contact) {
+    DataMonitoring.queryTraffic = function (contact, msg) {
         return __awaiter(this, void 0, void 0, function () {
-            var name, db, mobile_arr, _i, mobile_arr_1, item, mobile, cookie, appId, msg, res, time, dailyRentalPackage, combo_arr, voice_remainResource, voice_userResource, shortMessage_remainResource, shortMessage_userResource, _a, dailyRentalPackage_1, item_1, _b, combo_arr_1, i;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4, contact.say('查询中,请稍后...')];
-                    case 1:
-                        _c.sent();
+            var name, db, mobile_arr, new_mobile_arr, i, data, _msg, res, time, dailyRentalPackage, combo_arr, voice_remainResource, voice_userResource, shortMessage_remainResource, shortMessage_userResource, universalTraffic, universalTraffic_use, directedTraffic, directedTraffic_use, freeTraffic_use, _i, combo_arr_1, i_1, rt, _a, dailyRentalPackage_1, item;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
                         name = contact.name();
                         return [4, (0, dbUtil_1.getDb)("../constant/lt.json")];
-                    case 2:
-                        db = _c.sent();
+                    case 1:
+                        db = _b.sent();
                         mobile_arr = db.lt_arr[name];
                         if (!mobile_arr) return [3, 16];
-                        _i = 0, mobile_arr_1 = mobile_arr;
-                        _c.label = 3;
+                        new_mobile_arr = [];
+                        i = 0;
+                        _b.label = 2;
+                    case 2:
+                        if (!(i < mobile_arr.length)) return [3, 14];
+                        data = {
+                            mobile: mobile_arr[i].mobile,
+                            cookie: mobile_arr[i].cookie,
+                            appId: mobile_arr[i].appId,
+                            notice: mobile_arr[i].notice,
+                            threshold: mobile_arr[i].threshold,
+                            flow: mobile_arr[i].flow,
+                            time: mobile_arr[i].time
+                        };
+                        mobile_arr.splice(i, 1);
+                        i--;
+                        _msg = msg;
+                        _msg += "\u5C3E\u53F7: ".concat(data.mobile.slice(7), "\n");
+                        return [4, lt_1.ltapi.queryTraffic(data.cookie)];
                     case 3:
-                        if (!(_i < mobile_arr_1.length)) return [3, 15];
-                        item = mobile_arr_1[_i];
-                        mobile = item.mobile;
-                        cookie = item.cookie;
-                        appId = item.appId;
-                        msg = "\u5C3E\u53F7: ".concat(mobile.slice(7), "\n");
-                        return [4, lt_1.ltapi.queryTraffic(cookie)];
-                    case 4:
-                        res = _c.sent();
-                        if (!res) return [3, 10];
-                        if (!(res.data.code == '0000')) return [3, 5];
+                        res = _b.sent();
+                        if (!res) return [3, 9];
+                        if (!(res.data.code == '0000')) return [3, 4];
                         time = res.data.time;
+                        data.time = time;
                         console.log('刚上线测试，因套餐不同，可能会有显示bug，打印套餐日志');
                         console.log("日租包：" + JSON.stringify(res.data.RzbResources));
                         console.log("套餐：" + JSON.stringify(res.data.resources));
                         console.log("==========================================================");
                         console.log("data：" + JSON.stringify(res.data));
-                        msg += "\u5957\u9910: ".concat(res.data.packageName, "\n");
+                        _msg += "\u5957\u9910: ".concat((res.data.packageName).slice(0, 9) + '*', "\n");
                         dailyRentalPackage = res.data.RzbResources[0].details;
                         combo_arr = res.data.resources[0].details;
-                        voice_remainResource = res.data.resources[1].remainResource;
-                        voice_userResource = res.data.resources[1].userResource;
-                        shortMessage_remainResource = res.data.resources[2].remainResource;
-                        shortMessage_userResource = res.data.resources[2].userResource;
+                        voice_remainResource = parseInt(res.data.resources[1].remainResource);
+                        voice_userResource = parseInt(res.data.resources[1].userResource);
+                        shortMessage_remainResource = parseInt(res.data.resources[2].remainResource);
+                        shortMessage_userResource = parseInt(res.data.resources[2].userResource);
+                        universalTraffic = 0;
+                        universalTraffic_use = 0;
+                        directedTraffic = 0;
+                        directedTraffic_use = 0;
+                        freeTraffic_use = res.data.MlResources[0].userResource ? res.data.MlResources[0].userResource : 0;
+                        for (_i = 0, combo_arr_1 = combo_arr; _i < combo_arr_1.length; _i++) {
+                            i_1 = combo_arr_1[_i];
+                            rt = i_1.resourceType;
+                            if (rt == '01' || rt == '47' || rt == 'I0') {
+                                universalTraffic += parseFloat(i_1.total);
+                                universalTraffic_use += parseFloat(i_1.use);
+                            }
+                            else if (rt == 'I2' || rt == '13' || rt == 'I3') {
+                                directedTraffic += parseFloat(i_1.total);
+                                directedTraffic_use += parseFloat(i_1.use);
+                            }
+                        }
+                        _msg += "\u8BED\u97F3: \u603B".concat(voice_userResource + voice_remainResource, "\u5206\u949F \u7528").concat(voice_userResource, "\u5206\u949F\n");
+                        _msg += "\u77ED\u4FE1: \u603B".concat(shortMessage_userResource + shortMessage_remainResource, "\u6761 \u7528").concat(shortMessage_userResource, "\u6761\n");
                         for (_a = 0, dailyRentalPackage_1 = dailyRentalPackage; _a < dailyRentalPackage_1.length; _a++) {
-                            item_1 = dailyRentalPackage_1[_a];
-                            msg += "".concat(item_1.addUpItemName, ": \u5DF2\u7528").concat(item_1.resourceSource, "\u4E2A/").concat(item_1.use, "MB\n");
+                            item = dailyRentalPackage_1[_a];
+                            _msg += "\u65E5\u79DF\u5305: \u5DF2\u7528".concat(item.resourceSource, "\u4E2A/").concat(item.use, "M\n");
                         }
-                        for (_b = 0, combo_arr_1 = combo_arr; _b < combo_arr_1.length; _b++) {
-                            i = combo_arr_1[_b];
-                            msg += "".concat(i.feePolicyName.slice(0, 6) + '*', ":\u603B").concat(i.total >= 1024 ? (i.total / 1024).toFixed(2) + 'G' : i.total + 'M', "\u7528").concat(i.use >= 1024 ? (i.use / 1024).toFixed(2) + 'G' : i.use + 'M', "\n");
-                        }
-                        msg += "\u8BED\u97F3: \u7528".concat(voice_userResource, "\u5206\u949F, \u5269").concat(voice_remainResource, "\u5206\u949F\n");
-                        msg += "\u77ED\u4FE1: \u7528".concat(shortMessage_userResource, "\u6761, \u5269").concat(shortMessage_remainResource, "\u6761\n");
-                        msg += "\u65F6\u95F4: ".concat(time);
-                        return [3, 9];
-                    case 5:
-                        if (!(res.data.code == '4114030182')) return [3, 7];
+                        _msg += "\u901A\u7528: \u603B".concat(universalTraffic >= 1024 ? (universalTraffic / 1024).toFixed(2) + 'G' : universalTraffic + 'M', " \u7528").concat(universalTraffic_use >= 1024 ? (universalTraffic_use / 1024).toFixed(2) + 'G' : universalTraffic_use + 'M', "\n");
+                        _msg += "\u5B9A\u5411: \u603B".concat(directedTraffic >= 1024 ? (directedTraffic / 1024).toFixed(2) + 'G' : directedTraffic + 'M', " \u7528").concat(directedTraffic_use >= 1024 ? (directedTraffic_use / 1024).toFixed(2) + 'G' : directedTraffic_use + 'M', "\n");
+                        _msg += "\u514D\u8D39: ".concat(freeTraffic_use >= 1024 ? (freeTraffic_use / 1024).toFixed(2) + 'G' : freeTraffic_use + 'M', "\n");
+                        _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
+                        _msg += "\u8DF3\u70B9: \u8BA1\u7B97\u4E2D\n";
+                        _msg += "\u65F6\u95F4: ".concat(time, "\n");
+                        _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411\n";
+                        data.flow = universalTraffic_use;
+                        return [3, 8];
+                    case 4:
+                        if (!(res.data.code == '4114030182')) return [3, 6];
                         return [4, contact.say('查询流量失败,系统升级中')];
-                    case 6:
-                        _c.sent();
+                    case 5:
+                        _b.sent();
                         return [2];
-                    case 7: return [4, contact.say('查询流量失败\n' + JSON.stringify(res.data))];
-                    case 8:
-                        _c.sent();
+                    case 6: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n发送 联通登录 重新登录')];
+                    case 7:
+                        _b.sent();
+                        return [3, 13];
+                    case 8: return [3, 11];
+                    case 9: return [4, contact.say('[queryTraffic]api请求失败,请联系管理员查看日志')];
+                    case 10:
+                        _b.sent();
                         return [2];
-                    case 9: return [3, 12];
-                    case 10: return [4, contact.say('[queryTraffic]api请求失败,请联系管理员查看日志')];
                     case 11:
-                        _c.sent();
-                        return [2];
-                    case 12: return [4, contact.say(msg)];
+                        new_mobile_arr.push(data);
+                        console.log(_msg);
+                        return [4, contact.say(_msg)];
+                    case 12:
+                        _b.sent();
+                        _b.label = 13;
                     case 13:
-                        _c.sent();
-                        _c.label = 14;
+                        i++;
+                        return [3, 2];
                     case 14:
-                        _i++;
-                        return [3, 3];
-                    case 15: return [3, 18];
+                        db.lt_arr[name] = mobile_arr.concat(new_mobile_arr);
+                        return [4, (0, dbUtil_1.saveDb)(db, '../constant/lt.json')];
+                    case 15:
+                        _b.sent();
+                        return [3, 18];
                     case 16: return [4, contact.say('此微信没有登录过,发送:\n联通登录 ')];
                     case 17:
-                        _c.sent();
+                        _b.sent();
                         return [2];
                     case 18: return [2];
                 }
