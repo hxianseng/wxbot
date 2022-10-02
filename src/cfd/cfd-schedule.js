@@ -51,7 +51,7 @@ var dbUtil_1 = require("../util/dbUtil");
 var constant_1 = __importDefault(require("../constant/constant"));
 var dataMonitoring_1 = require("../bot/message/dataMonitoring");
 var lt_1 = require("../api/lt");
-var moment_1 = __importDefault(require("moment/moment"));
+var moment_1 = __importDefault(require("moment"));
 function schedules() {
     wechaty_1.log.info('初始化定时任务');
     if (config_1["default"].traffic_query.flag) {
@@ -207,7 +207,7 @@ function schedules() {
                         case 8:
                             _e.sent();
                             return [2];
-                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n发送 联通登录 重新登录')];
+                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n流量监控每5分钟刷新一次,没达到阈值不通知\n发送 联通登录 重新登录')];
                         case 10:
                             _e.sent();
                             return [3, 16];

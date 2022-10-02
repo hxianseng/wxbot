@@ -278,7 +278,7 @@ var DataMonitoring = (function () {
                         _msg += "\u5B9A\u5411: \u603B".concat(directedTraffic >= 1024 ? (directedTraffic / 1024).toFixed(2) + 'G' : directedTraffic + 'M', " \u7528").concat(directedTraffic_use >= 1024 ? (directedTraffic_use / 1024).toFixed(2) + 'G' : directedTraffic_use + 'M', "\n");
                         _msg += "\u514D\u8D39: ".concat(freeTraffic_use >= 1024 ? (freeTraffic_use / 1024).toFixed(2) + 'G' : freeTraffic_use + 'M', "\n");
                         _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
-                        _msg += "\u8DF3\u70B9: \u8BA1\u7B97\u4E2D\n";
+                        _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "M\n");
                         _msg += "\u65F6\u95F4: ".concat(time, "\n");
                         _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411\n";
                         data.flow = universalTraffic_use;
@@ -300,7 +300,6 @@ var DataMonitoring = (function () {
                         return [2];
                     case 11:
                         new_mobile_arr.push(data);
-                        console.log(_msg);
                         return [4, contact.say(_msg)];
                     case 12:
                         _b.sent();
