@@ -213,7 +213,7 @@ var DataMonitoring = (function () {
                     case 1:
                         db = _b.sent();
                         mobile_arr = db.lt_arr[name];
-                        if (!mobile_arr) return [3, 16];
+                        if (!(mobile_arr && mobile_arr.length > 0)) return [3, 16];
                         new_mobile_arr = [];
                         i = 0;
                         _b.label = 2;
@@ -280,24 +280,27 @@ var DataMonitoring = (function () {
                         _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
                         _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "M\n");
                         _msg += "\u65F6\u95F4: ".concat(time, "\n");
+                        _msg += "\u76D1\u63A7: ".concat(data.notice == 0 ? '已开启' : '已关闭', "\n");
                         _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411\n";
                         data.flow = universalTraffic_use;
                         return [3, 8];
                     case 4:
                         if (!(res.data.code == '4114030182')) return [3, 6];
-                        return [4, contact.say('查询流量失败,系统升级中')];
+                        return [4, contact.say("".concat(_msg == '' ? '' : _msg + '\n', "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25,\u7CFB\u7EDF\u5347\u7EA7\u4E2D"))];
                     case 5:
                         _b.sent();
-                        return [2];
-                    case 6: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n发送 联通登录 重新登录')];
+                        new_mobile_arr.push(data);
+                        return [3, 13];
+                    case 6: return [4, contact.say("".concat(_msg == '' ? '' : _msg + '\n', "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data))];
                     case 7:
                         _b.sent();
                         return [3, 13];
                     case 8: return [3, 11];
-                    case 9: return [4, contact.say('[queryTraffic]api请求失败,请联系管理员查看日志')];
+                    case 9: return [4, contact.say("".concat(_msg == '' ? '' : _msg + '\n') + '[queryTraffic]api请求失败,请联系管理员查看日志')];
                     case 10:
                         _b.sent();
-                        return [2];
+                        new_mobile_arr.push(data);
+                        return [3, 13];
                     case 11:
                         new_mobile_arr.push(data);
                         return [4, contact.say(_msg)];
@@ -313,11 +316,62 @@ var DataMonitoring = (function () {
                     case 15:
                         _b.sent();
                         return [3, 18];
-                    case 16: return [4, contact.say('此微信没有登录过,发送:\n联通登录 ')];
+                    case 16: return [4, contact.say("".concat(msg == '' ? '' : msg + '\n', "\u6B64\u5FAE\u4FE1\u6CA1\u6709\u767B\u5F55\u8FC7,\u53D1\u9001:\n\u8054\u901A\u767B\u5F55 "))];
                     case 17:
                         _b.sent();
                         return [2];
                     case 18: return [2];
+                }
+            });
+        });
+    };
+    DataMonitoring.pw_login = function (contact, mobile, pw) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, cookie, appId, msg;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, contact.say('正在登录, 请稍后...')];
+                    case 1:
+                        _a.sent();
+                        return [4, lt_1.ltapi.radomLogin_pw(mobile, pw)];
+                    case 2:
+                        res = _a.sent();
+                        if (!res) return [3, 12];
+                        if (!(res.data.code == '0')) return [3, 9];
+                        appId = res.data.appId;
+                        cookie = res.headers['set-cookie'] || res.headers['Set-Cookie'];
+                        if (Array.isArray(cookie)) {
+                            cookie = cookie.join('; ');
+                        }
+                        if (!!cookie) return [3, 4];
+                        return [4, contact.say("\u83B7\u53D6\u5230\u7684cookie\u4E3A\u7A7A,\u8BF7\u7A0D\u540E\u91CD\u8BD5")];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [4, contact.say('登录成功')];
+                    case 5:
+                        _a.sent();
+                        return [4, DataMonitoring.saveCookie(mobile, cookie, appId, contact.name())];
+                    case 6:
+                        _a.sent();
+                        return [4, contact.say('查询中,请稍后...')];
+                    case 7:
+                        _a.sent();
+                        msg = '';
+                        return [4, DataMonitoring.queryTraffic(contact, msg)];
+                    case 8:
+                        _a.sent();
+                        return [3, 11];
+                    case 9: return [4, contact.say('登录失败\n' + JSON.stringify(res.data))];
+                    case 10:
+                        _a.sent();
+                        _a.label = 11;
+                    case 11: return [3, 14];
+                    case 12: return [4, contact.say('[radomLogin_pw]api请求失败,请联系管理员查看日志')];
+                    case 13:
+                        _a.sent();
+                        return [2];
+                    case 14: return [2];
                 }
             });
         });

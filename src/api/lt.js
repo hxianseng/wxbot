@@ -153,6 +153,29 @@ var ltapi = (function () {
             });
         });
     };
+    ltapi.radomLogin_pw = function (mobile, pw) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2, (0, axios_1["default"])({
+                        url: 'https://m.client.10010.com/mobileService/login.htm',
+                        method: 'post',
+                        data: this.transParams({
+                            mobile: (0, JSEncrypt_1["default"])(mobile),
+                            password: (0, JSEncrypt_1["default"])(pw),
+                            version: 'iphone_c@9.0100'
+                        }),
+                        headers: {
+                            'accept': 'application/json, text/plain, */*',
+                            'accept-encoding': 'gzip, deflate, br',
+                            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+                            'cache-control': 'no-cache',
+                            'user-agent': user_agent[Math.floor(Math.random() * user_agent.length + 1) - 1],
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })];
+            });
+        });
+    };
     return ltapi;
 }());
 exports.ltapi = ltapi;

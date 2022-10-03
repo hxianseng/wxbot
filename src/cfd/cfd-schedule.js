@@ -117,6 +117,11 @@ function schedules() {
                         case 2:
                             if (!(_i < _a.length)) return [3, 22];
                             item = _a[_i];
+                            console.log('=====================');
+                            if (all_mobile[item].length == 0) {
+                                wechaty_1.log.info("[".concat(item, "]\u7684\u624B\u673A\u53F7\u4E3A\u7A7A"));
+                                return [3, 21];
+                            }
                             return [4, Bot_1.bot.Contact.find({ name: item })];
                         case 3:
                             contact = _e.sent();
@@ -156,11 +161,6 @@ function schedules() {
                             if (!res) return [3, 12];
                             if (!(res.data.code == '0000')) return [3, 7];
                             time = res.data.time;
-                            console.log('刚上线测试，因套餐不同，可能会有显示bug，打印套餐日志');
-                            console.log("日租包：" + JSON.stringify(res.data.RzbResources));
-                            console.log("套餐：" + JSON.stringify(res.data.resources));
-                            console.log("==========================================================");
-                            console.log("data：" + JSON.stringify(res.data));
                             _msg += "\u5957\u9910: ".concat((res.data.packageName).slice(0, 9) + '*', "\n");
                             dailyRentalPackage = res.data.RzbResources[0].details;
                             combo_arr = res.data.resources[0].details;
@@ -197,6 +197,7 @@ function schedules() {
                             _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
                             _msg += "\u4E0A\u6B21\u5237\u65B0\u65F6\u95F4: ".concat((0, moment_1["default"])(new Date(data.time)).format('MM-DD HH:mm'), "\n");
                             _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "\n");
+                            _msg += "\u76D1\u63A7: ".concat(data.notice == 0 ? '已开启' : '已关闭', "\n");
                             _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411; \u6D41\u91CF\u76D1\u63A7\u6BCF5\u5206\u949F\u5237\u65B0\u4E00\u6B21,\u6CA1\u8FBE\u5230\u9608\u503C\u4E0D\u901A\u77E5 \n \u5173\u95ED\u76D1\u63A7\u53D1\u9001 \u83DC\u5355 \u67E5\u770B\u6307\u4EE4\n";
                             current_traffic = universalTraffic_use;
                             data.time = time;
@@ -206,18 +207,20 @@ function schedules() {
                             return [4, contact.say('查询流量失败,系统升级中')];
                         case 8:
                             _e.sent();
-                            return [2];
-                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n流量监控每5分钟刷新一次,没达到阈值不通知\n发送 联通登录 重新登录')];
+                            new_mobile_arr.push(data);
+                            return [3, 16];
+                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n流量监控每5分钟刷新一次,没达到阈值不通知')];
                         case 10:
                             _e.sent();
+                            new_mobile_arr.push(data);
                             return [3, 16];
                         case 11: return [3, 14];
-                        case 12: return [4, contact.say('[queryTraffic]api请求失败,请联系管理员查看日志')];
+                        case 12: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + '[queryTraffic]api请求失败,请联系管理员查看日志')];
                         case 13:
                             _e.sent();
                             return [2];
                         case 14:
-                            if (current_traffic - data.flow < data.threshold || data.notice == 1) {
+                            if (current_traffic - data.flow < data.threshold || data.notice != 0) {
                                 new_mobile_arr.push(data);
                                 console.log('没有达到阈值，不通知');
                                 return [3, 16];
