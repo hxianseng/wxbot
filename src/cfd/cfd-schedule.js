@@ -52,6 +52,7 @@ var constant_1 = __importDefault(require("../constant/constant"));
 var dataMonitoring_1 = require("../bot/message/dataMonitoring");
 var lt_1 = require("../api/lt");
 var moment_1 = __importDefault(require("moment"));
+var file_box_1 = require("file-box");
 function schedules() {
     wechaty_1.log.info('初始化定时任务');
     if (config_1["default"].traffic_query.flag) {
@@ -115,19 +116,19 @@ function schedules() {
                             _i = 0;
                             _e.label = 2;
                         case 2:
-                            if (!(_i < _a.length)) return [3, 22];
+                            if (!(_i < _a.length)) return [3, 23];
                             item = _a[_i];
                             console.log('=====================');
                             if (all_mobile[item].length == 0) {
                                 wechaty_1.log.info("[".concat(item, "]\u7684\u624B\u673A\u53F7\u4E3A\u7A7A"));
-                                return [3, 21];
+                                return [3, 22];
                             }
                             return [4, Bot_1.bot.Contact.find({ name: item })];
                         case 3:
                             contact = _e.sent();
                             if (contact == null) {
                                 wechaty_1.log.info("\u6CA1\u627E\u5230\u6635\u79F0\u4E3A[".concat(item, "]\u7684\u597D\u53CB"));
-                                return [3, 21];
+                                return [3, 22];
                             }
                             wechaty_1.log.info("\u5F00\u59CB\u5237\u65B0[".concat(item, "]\u597D\u53CB\u7684\u6D41\u91CF"));
                             name_1 = contact.name();
@@ -135,13 +136,13 @@ function schedules() {
                         case 4:
                             db_1 = _e.sent();
                             mobile_arr = db_1.lt_arr[name_1];
-                            if (!mobile_arr) return [3, 19];
+                            if (!mobile_arr) return [3, 20];
                             new_mobile_arr = [];
                             current_traffic = 0;
                             i = 0;
                             _e.label = 5;
                         case 5:
-                            if (!(i < mobile_arr.length)) return [3, 17];
+                            if (!(i < mobile_arr.length)) return [3, 18];
                             data = {
                                 mobile: mobile_arr[i].mobile,
                                 cookie: mobile_arr[i].cookie,
@@ -155,7 +156,7 @@ function schedules() {
                             i--;
                             if (data.notice != 0) {
                                 new_mobile_arr.push(data);
-                                return [3, 16];
+                                return [3, 17];
                             }
                             _msg = msg;
                             _msg += "\u5C3E\u53F7: ".concat(data.mobile.slice(7), "\n");
@@ -212,12 +213,12 @@ function schedules() {
                         case 8:
                             _e.sent();
                             new_mobile_arr.push(data);
-                            return [3, 16];
-                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n流量监控每5分钟刷新一次,没达到阈值不通知')];
+                            return [3, 17];
+                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n有时会查询失败, 如果一直查询失败请重新登录\n流量监控每5分钟刷新一次,没达到阈值不通知')];
                         case 10:
                             _e.sent();
                             new_mobile_arr.push(data);
-                            return [3, 16];
+                            return [3, 17];
                         case 11: return [3, 14];
                         case 12: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + '[queryTraffic]api请求失败,请联系管理员查看日志')];
                         case 13:
@@ -227,31 +228,34 @@ function schedules() {
                             if (current_traffic - data.flow < data.threshold || data.notice != 0) {
                                 new_mobile_arr.push(data);
                                 console.log('没有达到阈值，不通知');
-                                return [3, 16];
+                                return [3, 17];
                             }
                             return [4, contact.say(_msg)];
                         case 15:
                             _e.sent();
+                            return [4, contact.say(file_box_1.FileBox.fromUrl('https://m.360buyimg.com/babel/jfs/t1/27447/23/19534/10072/633a996aE7f6b63a2/d8b7aff328dc56f8.jpg'))];
+                        case 16:
+                            _e.sent();
                             data.flow = current_traffic;
                             new_mobile_arr.push(data);
-                            _e.label = 16;
-                        case 16:
+                            _e.label = 17;
+                        case 17:
                             i++;
                             return [3, 5];
-                        case 17:
+                        case 18:
                             db_1.lt_arr[name_1] = mobile_arr.concat(new_mobile_arr);
                             return [4, (0, dbUtil_1.saveDb)(db_1, '../constant/lt.json')];
-                        case 18:
+                        case 19:
                             _e.sent();
-                            return [3, 21];
-                        case 19: return [4, contact.say('此微信没有登录过,发送:\n联通登录 ')];
-                        case 20:
+                            return [3, 22];
+                        case 20: return [4, contact.say('此微信没有登录过,发送:\n联通登录 ')];
+                        case 21:
                             _e.sent();
                             return [2];
-                        case 21:
+                        case 22:
                             _i++;
                             return [3, 2];
-                        case 22: return [2];
+                        case 23: return [2];
                     }
                 });
             });
