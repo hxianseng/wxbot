@@ -19,8 +19,11 @@ docker exec -it wxbot git pull
 //更新依赖
 docker exec -it wxbot npm i
 
-//【填写】配置文件
-vi config.js
+//【填写】配置文件 刷新配置文件目录，
+//出现新的config.js 执行左边 填写新配置文件
+//没有出现新的config.js 执行右边
+vi config.js  或者  mv config.js.bak config.js
+
 
 
 //重启容器
