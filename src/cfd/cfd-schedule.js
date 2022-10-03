@@ -153,6 +153,10 @@ function schedules() {
                             };
                             mobile_arr.splice(i, 1);
                             i--;
+                            if (data.notice != 0) {
+                                new_mobile_arr.push(data);
+                                return [3, 16];
+                            }
                             _msg = msg;
                             _msg += "\u5C3E\u53F7: ".concat(data.mobile.slice(7), "\n");
                             return [4, lt_1.ltapi.queryTraffic(data.cookie)];
@@ -196,7 +200,7 @@ function schedules() {
                             _msg += "\u514D\u8D39: ".concat(freeTraffic_use >= 1024 ? (freeTraffic_use / 1024).toFixed(2) + 'G' : freeTraffic_use + 'M', "\n");
                             _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
                             _msg += "\u4E0A\u6B21\u5237\u65B0\u65F6\u95F4: ".concat((0, moment_1["default"])(new Date(data.time)).format('MM-DD HH:mm'), "\n");
-                            _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "\n");
+                            _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "M\n");
                             _msg += "\u76D1\u63A7: ".concat(data.notice == 0 ? '已开启' : '已关闭', "\n");
                             _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411; \u6D41\u91CF\u76D1\u63A7\u6BCF5\u5206\u949F\u5237\u65B0\u4E00\u6B21,\u6CA1\u8FBE\u5230\u9608\u503C\u4E0D\u901A\u77E5 \n \u5173\u95ED\u76D1\u63A7\u53D1\u9001 \u83DC\u5355 \u67E5\u770B\u6307\u4EE4\n";
                             current_traffic = universalTraffic_use;
