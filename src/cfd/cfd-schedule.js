@@ -50,8 +50,6 @@ var qlUtils_1 = require("../util/qlUtils");
 var dbUtil_1 = require("../util/dbUtil");
 var constant_1 = __importDefault(require("../constant/constant"));
 var dataMonitoring_1 = require("../bot/message/dataMonitoring");
-var lt_1 = require("../api/lt");
-var moment_1 = __importDefault(require("moment"));
 var file_box_1 = require("file-box");
 function schedules() {
     wechaty_1.log.info('初始化定时任务');
@@ -59,15 +57,14 @@ function schedules() {
         wechaty_1.log.info('定时推送流量开启');
         node_schedule_1["default"].scheduleJob(config_1["default"].traffic_query.timed_push_cron, function () {
             return __awaiter(this, void 0, void 0, function () {
-                var msg, db, all_mobile, _a, _b, _i, item, contact;
+                var msg, all_mobile, _a, _b, _i, item, contact;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
                         case 0:
                             msg = '定时推送\n';
-                            return [4, (0, dbUtil_1.getDb)("../constant/lt.json")];
+                            return [4, (0, dbUtil_1.getDbAll)("../constant/user.json")];
                         case 1:
-                            db = _c.sent();
-                            all_mobile = db.lt_arr;
+                            all_mobile = _c.sent();
                             constant_1["default"].read_flag = false;
                             _a = [];
                             for (_b in all_mobile)
@@ -77,15 +74,15 @@ function schedules() {
                         case 2:
                             if (!(_i < _a.length)) return [3, 6];
                             item = _a[_i];
-                            return [4, Bot_1.bot.Contact.find({ name: item })];
+                            return [4, Bot_1.bot.Contact.find({ alias: new RegExp(item) })];
                         case 3:
                             contact = _c.sent();
                             if (contact == null) {
-                                wechaty_1.log.info("\u6CA1\u627E\u5230\u6635\u79F0\u4E3A[".concat(item, "]\u7684\u597D\u53CB"));
+                                wechaty_1.log.info("\u6CA1\u627E\u5230\u5907\u6CE8\u4E3A[".concat(item, "]\u7684\u597D\u53CB"));
                                 return [3, 5];
                             }
                             wechaty_1.log.info("\u5F00\u59CB[".concat(item, "]\u597D\u53CB\u7684\u5B9A\u65F6\u63A8\u9001\u6D41\u91CF"));
-                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg)];
+                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item)];
                         case 4:
                             _c.sent();
                             _c.label = 5;
@@ -100,162 +97,44 @@ function schedules() {
         wechaty_1.log.info('流量监控开启');
         node_schedule_1["default"].scheduleJob(config_1["default"].traffic_query.monitoring_jumps_cron, function () {
             return __awaiter(this, void 0, void 0, function () {
-                var msg, db, all_mobile, _a, _b, _i, item, contact, name_1, db_1, mobile_arr, new_mobile_arr, current_traffic, i, data, _msg, res, time, dailyRentalPackage, combo_arr, voice_remainResource, voice_userResource, shortMessage_remainResource, shortMessage_userResource, universalTraffic, universalTraffic_use, directedTraffic, directedTraffic_use, freeTraffic_use, _c, combo_arr_1, i_1, rt, _d, dailyRentalPackage_1, item_1;
-                return __generator(this, function (_e) {
-                    switch (_e.label) {
+                var msg, all_mobile, _a, _b, _i, item, contact;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
                         case 0:
                             msg = '监控跳点(5分钟刷新一次)\n';
-                            return [4, (0, dbUtil_1.getDb)("../constant/lt.json")];
+                            return [4, (0, dbUtil_1.getDbAll)("../constant/user.json")];
                         case 1:
-                            db = _e.sent();
-                            all_mobile = db.lt_arr;
+                            all_mobile = _c.sent();
                             constant_1["default"].read_flag = false;
                             _a = [];
                             for (_b in all_mobile)
                                 _a.push(_b);
                             _i = 0;
-                            _e.label = 2;
+                            _c.label = 2;
                         case 2:
-                            if (!(_i < _a.length)) return [3, 23];
+                            if (!(_i < _a.length)) return [3, 6];
                             item = _a[_i];
                             console.log('=====================');
                             if (all_mobile[item].length == 0) {
-                                wechaty_1.log.info("[".concat(item, "]\u7684\u624B\u673A\u53F7\u4E3A\u7A7A"));
-                                return [3, 22];
+                                wechaty_1.log.info("[".concat(item, "]\u7684\u624B\u673A\u53F7\u4E3A\u7A7A\uFF0C\u8DF3\u8FC7"));
+                                return [3, 5];
                             }
-                            return [4, Bot_1.bot.Contact.find({ name: item })];
+                            return [4, Bot_1.bot.Contact.find({ alias: new RegExp(item) })];
                         case 3:
-                            contact = _e.sent();
+                            contact = _c.sent();
                             if (contact == null) {
-                                wechaty_1.log.info("\u6CA1\u627E\u5230\u6635\u79F0\u4E3A[".concat(item, "]\u7684\u597D\u53CB"));
-                                return [3, 22];
+                                wechaty_1.log.info("\u6CA1\u627E\u5230\u5907\u6CE8\u4E3A[".concat(item, "]\u7684\u597D\u53CB\uFF0C\u8DF3\u8FC7"));
+                                return [3, 5];
                             }
-                            wechaty_1.log.info("\u5F00\u59CB\u5237\u65B0[".concat(item, "]\u597D\u53CB\u7684\u6D41\u91CF"));
-                            name_1 = contact.name();
-                            return [4, (0, dbUtil_1.getDb)("../constant/lt.json")];
+                            wechaty_1.log.info("\u5F00\u59CB\u76D1\u63A7[".concat(item, "]\u597D\u53CB\u7684\u6D41\u91CF"));
+                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item)];
                         case 4:
-                            db_1 = _e.sent();
-                            mobile_arr = db_1.lt_arr[name_1];
-                            if (!mobile_arr) return [3, 20];
-                            new_mobile_arr = [];
-                            current_traffic = 0;
-                            i = 0;
-                            _e.label = 5;
+                            _c.sent();
+                            _c.label = 5;
                         case 5:
-                            if (!(i < mobile_arr.length)) return [3, 18];
-                            data = {
-                                mobile: mobile_arr[i].mobile,
-                                cookie: mobile_arr[i].cookie,
-                                appId: mobile_arr[i].appId,
-                                notice: mobile_arr[i].notice,
-                                threshold: mobile_arr[i].threshold,
-                                flow: mobile_arr[i].flow,
-                                time: mobile_arr[i].time
-                            };
-                            mobile_arr.splice(i, 1);
-                            i--;
-                            if (data.notice != 0) {
-                                new_mobile_arr.push(data);
-                                return [3, 17];
-                            }
-                            _msg = msg;
-                            _msg += "\u5C3E\u53F7: ".concat(data.mobile.slice(7), "\n");
-                            return [4, lt_1.ltapi.queryTraffic(data.cookie)];
-                        case 6:
-                            res = _e.sent();
-                            if (!res) return [3, 12];
-                            if (!(res.data.code == '0000')) return [3, 7];
-                            time = res.data.time;
-                            _msg += "\u5957\u9910: ".concat((res.data.packageName).slice(0, 9) + '*', "\n");
-                            dailyRentalPackage = res.data.RzbResources[0].details;
-                            combo_arr = res.data.resources[0].details;
-                            voice_remainResource = parseInt(res.data.resources[1].remainResource);
-                            voice_userResource = parseInt(res.data.resources[1].userResource);
-                            shortMessage_remainResource = parseInt(res.data.resources[2].remainResource);
-                            shortMessage_userResource = parseInt(res.data.resources[2].userResource);
-                            universalTraffic = 0;
-                            universalTraffic_use = 0;
-                            directedTraffic = 0;
-                            directedTraffic_use = 0;
-                            freeTraffic_use = res.data.MlResources[0].userResource ? res.data.MlResources[0].userResource : 0;
-                            for (_c = 0, combo_arr_1 = combo_arr; _c < combo_arr_1.length; _c++) {
-                                i_1 = combo_arr_1[_c];
-                                rt = i_1.resourceType;
-                                if (rt == '01' || rt == '47' || rt == 'I0') {
-                                    universalTraffic += parseFloat(i_1.total);
-                                    universalTraffic_use += parseFloat(i_1.use);
-                                }
-                                else if (rt == 'I2' || rt == '13' || rt == 'I3') {
-                                    directedTraffic += parseFloat(i_1.total);
-                                    directedTraffic_use += parseFloat(i_1.use);
-                                }
-                            }
-                            _msg += "\u8BED\u97F3: \u603B".concat(voice_userResource + voice_remainResource, "\u5206\u949F \u7528").concat(voice_userResource, "\u5206\u949F\n");
-                            _msg += "\u77ED\u4FE1: \u603B".concat(shortMessage_userResource + shortMessage_remainResource, "\u6761 \u7528").concat(shortMessage_userResource, "\u6761\n");
-                            for (_d = 0, dailyRentalPackage_1 = dailyRentalPackage; _d < dailyRentalPackage_1.length; _d++) {
-                                item_1 = dailyRentalPackage_1[_d];
-                                _msg += "\u65E5\u79DF\u5305: \u5DF2\u7528".concat(item_1.resourceSource, "\u4E2A/").concat(item_1.use, "M\n");
-                            }
-                            _msg += "\u901A\u7528: \u603B".concat(universalTraffic >= 1024 ? (universalTraffic / 1024).toFixed(2) + 'G' : universalTraffic + 'M', " \u7528").concat(universalTraffic_use >= 1024 ? (universalTraffic_use / 1024).toFixed(2) + 'G' : universalTraffic_use + 'M', "\n");
-                            _msg += "\u5B9A\u5411: \u603B".concat(directedTraffic >= 1024 ? (directedTraffic / 1024).toFixed(2) + 'G' : directedTraffic + 'M', " \u7528").concat(directedTraffic_use >= 1024 ? (directedTraffic_use / 1024).toFixed(2) + 'G' : directedTraffic_use + 'M', "\n");
-                            _msg += "\u514D\u8D39: ".concat(freeTraffic_use >= 1024 ? (freeTraffic_use / 1024).toFixed(2) + 'G' : freeTraffic_use + 'M', "\n");
-                            _msg += "\u5DF2\u7528: ".concat(universalTraffic_use + directedTraffic_use >= 1024 ? ((universalTraffic_use + directedTraffic_use) / 1024).toFixed(2) + 'G' : universalTraffic_use + directedTraffic_use + 'M', "\n");
-                            _msg += "\u4E0A\u6B21\u5237\u65B0\u65F6\u95F4: ".concat((0, moment_1["default"])(new Date(data.time)).format('MM-DD HH:mm'), "\n");
-                            _msg += "\u8DF3\u70B9: ".concat(universalTraffic_use - data.flow, "M\n");
-                            _msg += "\u76D1\u63A7: ".concat(data.notice == 0 ? '已开启' : '已关闭', "\n");
-                            _msg += "\nPs: \u5DF2\u7528 = \u901A\u7528 + \u5B9A\u5411; \u6D41\u91CF\u76D1\u63A7\u6BCF5\u5206\u949F\u5237\u65B0\u4E00\u6B21,\u6CA1\u8FBE\u5230\u9608\u503C\u4E0D\u901A\u77E5 \n \u5173\u95ED\u76D1\u63A7\u53D1\u9001 \u83DC\u5355 \u67E5\u770B\u6307\u4EE4\n";
-                            current_traffic = universalTraffic_use;
-                            data.time = time;
-                            return [3, 11];
-                        case 7:
-                            if (!(res.data.code == '4114030182')) return [3, 9];
-                            return [4, contact.say('查询流量失败,系统升级中')];
-                        case 8:
-                            _e.sent();
-                            new_mobile_arr.push(data);
-                            return [3, 17];
-                        case 9: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + JSON.stringify(res.data) + '\n有时会查询失败, 如果一直查询失败请重新登录\n流量监控每5分钟刷新一次,没达到阈值不通知')];
-                        case 10:
-                            _e.sent();
-                            new_mobile_arr.push(data);
-                            return [3, 17];
-                        case 11: return [3, 14];
-                        case 12: return [4, contact.say("".concat(_msg, "\u67E5\u8BE2\u6D41\u91CF\u5931\u8D25\n") + '[queryTraffic]api请求失败,请联系管理员查看日志')];
-                        case 13:
-                            _e.sent();
-                            return [2];
-                        case 14:
-                            if (current_traffic - data.flow < data.threshold || data.notice != 0) {
-                                new_mobile_arr.push(data);
-                                console.log('没有达到阈值，不通知');
-                                return [3, 17];
-                            }
-                            return [4, contact.say(_msg)];
-                        case 15:
-                            _e.sent();
-                            return [4, contact.say(file_box_1.FileBox.fromUrl('https://m.360buyimg.com/babel/jfs/t1/27447/23/19534/10072/633a996aE7f6b63a2/d8b7aff328dc56f8.jpg'))];
-                        case 16:
-                            _e.sent();
-                            data.flow = current_traffic;
-                            new_mobile_arr.push(data);
-                            _e.label = 17;
-                        case 17:
-                            i++;
-                            return [3, 5];
-                        case 18:
-                            db_1.lt_arr[name_1] = mobile_arr.concat(new_mobile_arr);
-                            return [4, (0, dbUtil_1.saveDb)(db_1, '../constant/lt.json')];
-                        case 19:
-                            _e.sent();
-                            return [3, 22];
-                        case 20: return [4, contact.say('此微信没有登录过,发送:\n联通登录 ')];
-                        case 21:
-                            _e.sent();
-                            return [2];
-                        case 22:
                             _i++;
                             return [3, 2];
-                        case 23: return [2];
+                        case 6: return [2];
                     }
                 });
             });
@@ -265,6 +144,36 @@ function schedules() {
         wechaty_1.log.info('定时推送流量关闭');
         wechaty_1.log.info('流量监控关闭');
     }
+    node_schedule_1["default"].scheduleJob('0 0 21 * * *', function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var weixin, zhifub, room;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        weixin = file_box_1.FileBox.fromFile('src/constant/weixin.png');
+                        zhifub = file_box_1.FileBox.fromFile('src/constant/zhifub.png');
+                        if (constant_1["default"].islogin) {
+                            return [2];
+                        }
+                        if (!(config_1["default"].logGroup && config_1["default"].logGroup != '')) return [3, 5];
+                        return [4, Bot_1.bot.Room.find({ topic: config_1["default"].logGroup })];
+                    case 1:
+                        room = _a.sent();
+                        return [4, (room === null || room === void 0 ? void 0 : room.say('感谢您的捐赠和支持！'))];
+                    case 2:
+                        _a.sent();
+                        return [4, (room === null || room === void 0 ? void 0 : room.say(weixin))];
+                    case 3:
+                        _a.sent();
+                        return [4, (room === null || room === void 0 ? void 0 : room.say(zhifub))];
+                    case 4:
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2];
+                }
+            });
+        });
+    });
     node_schedule_1["default"].scheduleJob('0 0 * * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
             var res;

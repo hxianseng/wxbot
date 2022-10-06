@@ -39,14 +39,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.saveDb = exports.getDb = void 0;
+exports.saveDbAll = exports.getDbAll = exports.saveDb = exports.getDb = void 0;
 var fs_1 = __importDefault(require("fs"));
 var util_1 = require("util");
 var path_1 = __importDefault(require("path"));
 var constant_1 = __importDefault(require("../constant/constant"));
 var readFile = (0, util_1.promisify)(fs_1["default"].readFile);
 var writeFile = (0, util_1.promisify)(fs_1["default"].writeFile);
-function getDb(filePath) {
+function getDb(filePath, remark) {
+    return __awaiter(this, void 0, void 0, function () {
+        var dbPath, data;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    constant_1["default"].read_flag = true;
+                    dbPath = path_1["default"].join(__dirname, filePath);
+                    return [4, readFile(dbPath, 'utf-8')];
+                case 1:
+                    data = _a.sent();
+                    return [2, JSON.parse(data)[remark]];
+            }
+        });
+    });
+}
+exports.getDb = getDb;
+function saveDb(data, filePath, remark) {
+    return __awaiter(this, void 0, void 0, function () {
+        var dbPath, db, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    dbPath = path_1["default"].join(__dirname, filePath);
+                    _b = (_a = JSON).parse;
+                    return [4, readFile(dbPath, 'utf-8')];
+                case 1:
+                    db = _b.apply(_a, [_c.sent()]);
+                    db[remark] = data;
+                    return [4, writeFile(dbPath, JSON.stringify(db, null, '  '))];
+                case 2:
+                    _c.sent();
+                    constant_1["default"].read_flag = false;
+                    return [2];
+            }
+        });
+    });
+}
+exports.saveDb = saveDb;
+function getDbAll(filePath) {
     return __awaiter(this, void 0, void 0, function () {
         var dbPath, data;
         return __generator(this, function (_a) {
@@ -62,22 +101,21 @@ function getDb(filePath) {
         });
     });
 }
-exports.getDb = getDb;
-function saveDb(db, filePath) {
+exports.getDbAll = getDbAll;
+function saveDbAll(data, filePath, remark) {
     return __awaiter(this, void 0, void 0, function () {
-        var dbPath, data;
+        var dbPath;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    constant_1["default"].read_flag = false;
                     dbPath = path_1["default"].join(__dirname, filePath);
-                    data = JSON.stringify(db, null, '  ');
-                    return [4, writeFile(dbPath, data)];
+                    return [4, writeFile(dbPath, JSON.stringify(data, null, '  '))];
                 case 1:
                     _a.sent();
+                    constant_1["default"].read_flag = false;
                     return [2];
             }
         });
     });
 }
-exports.saveDb = saveDb;
+exports.saveDbAll = saveDbAll;

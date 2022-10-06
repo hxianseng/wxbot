@@ -43,10 +43,14 @@ exports.bot = exports.Bot = void 0;
 var wechaty_1 = require("wechaty");
 var config_1 = __importDefault(require("../conf/config"));
 var constant_1 = __importDefault(require("../constant/constant"));
-var OnMessage_1 = require("./OnMessage");
 var qlUtils_1 = require("../util/qlUtils");
 var request_1 = require("../api/request");
 var ql_1 = __importDefault(require("../constant/ql"));
+var msgReply_1 = require("./message/msgReply");
+var conf = {
+    max_user: 10
+};
+var botRes;
 var Bot = (function () {
     function Bot() {
     }
@@ -101,6 +105,85 @@ var Bot = (function () {
         constant_1["default"].islogin = true;
         wechaty_1.log.info("".concat(user, " \u5DF2\u7ECF\u9000\u51FA"));
     };
+    Bot.forwardLogGroup = function (msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            var contact, content, remarks, room;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        contact = msg.talker();
+                        content = msg.text().trim();
+                        return [4, contact.alias()];
+                    case 1:
+                        remarks = _a.sent();
+                        if (!(config_1["default"].logGroup && config_1["default"].logGroup != '')) return [3, 4];
+                        return [4, bot.Room.find({ topic: config_1["default"].logGroup })];
+                    case 2:
+                        room = _a.sent();
+                        return [4, (room === null || room === void 0 ? void 0 : room.say("\u3010\u8054\u7CFB\u4EBA\u6D88\u606F\u3011\n\u6765\u81EA:".concat(contact.name()).concat(remarks == '' ? '' : "(".concat(remarks, ")"), "\n\u5185\u5BB9:").concat(content)))];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    Bot.onMessage = function (msg) {
+        try {
+            var room = msg.room();
+            var msgSelf = msg.self();
+            if (msgSelf)
+                return;
+            if (!botRes) {
+                botRes = new msgReply_1.MsgReply(conf, bot);
+            }
+            if (room) {
+                Bot.room_msg(room, msg);
+            }
+            else {
+                Bot.private_msg(msg);
+                Bot.forwardLogGroup(msg);
+            }
+        }
+        catch (e) {
+            console.log('reply error', e);
+        }
+    };
+    Bot.room_msg = function (room, msg) {
+    };
+    Bot.private_msg = function (msg) {
+        return __awaiter(this, void 0, void 0, function () {
+            var type, contact, content, name, remarks, isOfficial, id;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        type = msg.type();
+                        contact = msg.talker();
+                        content = msg.text().trim();
+                        name = contact.name();
+                        return [4, contact.alias()];
+                    case 1:
+                        remarks = _a.sent();
+                        isOfficial = contact.type() === bot.Contact.Type.Official;
+                        id = contact.id;
+                        console.log("\u597D\u53CB\u7C7B\u578B:".concat(isOfficial ? '公众号' : '普通', " \u6635\u79F0:").concat(name, " \u5907\u6CE8:").concat(remarks, " \u5185\u5BB9:").concat(content, " id:").concat(id));
+                        if (!!isOfficial) return [3, 5];
+                        if (!/开启了朋友验证/.test(content)) return [3, 3];
+                        wechaty_1.log.info('重新加载好友数据');
+                        return [4, contact.sync()];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [4, botRes.run(contact, id, content)];
+                    case 4:
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2];
+                }
+            });
+        });
+    };
     Bot.qrcodeUrl = '';
     return Bot;
 }());
@@ -116,7 +199,7 @@ exports.bot = bot;
 bot.on('scan', Bot.onScan);
 bot.on('login', Bot.onLogin);
 bot.on('logout', Bot.onLogout);
-bot.on('message', OnMessage_1.OnMessages.message);
+bot.on('message', Bot.onMessage);
 bot.on('friendship', function (friendship) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
