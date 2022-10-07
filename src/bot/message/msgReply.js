@@ -111,19 +111,19 @@ var MsgReply = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!Object.keys(this.userBotDict).includes(id)) return [3, 20];
+                        if (!!Object.keys(this.userBotDict).includes(id)) return [3, 18];
                         if (!Object.keys(this.tipsword).includes(content)) return [3, 2];
                         type = this.tipsword[content];
                         return [4, this.createUser(contact, id, content, type)];
                     case 1:
                         _a.sent();
-                        return [3, 19];
+                        return [3, 17];
                     case 2:
                         if (!/^菜单$/.test(content)) return [3, 4];
                         return [4, utils_1.Utils.say(contact, constant_1["default"].message.menu + "\n\u672C\u901A\u77E5 By:https://github.com/hxianseng/wxbot.git")];
                     case 3:
                         _a.sent();
-                        return [3, 19];
+                        return [3, 17];
                     case 4:
                         if (!/^查询流量$/.test(content)) return [3, 10];
                         return [4, contact.alias()];
@@ -151,7 +151,7 @@ var MsgReply = (function () {
                         return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg_1, remark)];
                     case 9:
                         _a.sent();
-                        return [3, 19];
+                        return [3, 17];
                     case 10:
                         if (!/^查询资产$/.test(content)) return [3, 17];
                         if (!!config_1["default"].ql_module) return [3, 12];
@@ -197,23 +197,19 @@ var MsgReply = (function () {
                         return [4, contact.say(cha)];
                     case 16:
                         _a.sent();
-                        return [3, 19];
-                    case 17: return [4, utils_1.Utils.say(contact, "\u6CA1\u6709\u5339\u914D\u5230\u6307\u4EE4\n".concat(constant_1["default"].message.menu, "\nPs:\u6307\u4EE4\u8981\u6BCF\u4E2A\u5B57\u90FD\u5339\u914D\u4E0A\n\u4F8B\u5982:\u8054\u901A\u767B\u5F55\u221A \u8054\u901A\u767B\u9646\u00D7"))];
+                        _a.label = 17;
+                    case 17: return [3, 22];
                     case 18:
-                        _a.sent();
-                        return [2];
-                    case 19: return [3, 24];
-                    case 20:
-                        if (!(content == 'q')) return [3, 22];
+                        if (!(content == 'q')) return [3, 20];
                         return [4, this.removeUser(contact, id)];
-                    case 21: return [2, _a.sent()];
-                    case 22:
+                    case 19: return [2, _a.sent()];
+                    case 20:
                         type = this.userBotDict[id].type;
                         return [4, this.updateUser(contact, id, content, type)];
-                    case 23:
+                    case 21:
                         _a.sent();
-                        _a.label = 24;
-                    case 24: return [2];
+                        _a.label = 22;
+                    case 22: return [2];
                 }
             });
         });
