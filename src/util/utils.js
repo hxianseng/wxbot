@@ -57,12 +57,11 @@ var Utils = (function () {
                 switch (_a.label) {
                     case 0:
                         isFriend = contact.friend();
-                        if (!isFriend) return [3, 2];
+                        console.log(isFriend);
                         return [4, contact.say(content)];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2];
+                        return [2];
                 }
             });
         });
