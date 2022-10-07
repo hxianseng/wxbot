@@ -676,8 +676,8 @@ var MsgReply = (function () {
                         res = _b.sent();
                         _b.label = 6;
                     case 6:
-                        if (!res) return [3, 17];
-                        if (!(res.data.code == 200 || res.data.success)) return [3, 11];
+                        if (!res) return [3, 18];
+                        if (!(res.data.code == 200 || res.data.success)) return [3, 12];
                         cookie = res.data.ck ? res.data.ck : '';
                         if (!(cookie == '')) return [3, 8];
                         return [4, request_1.reapi.getEnvsById(res.data.data.qlid)];
@@ -691,31 +691,34 @@ var MsgReply = (function () {
                         return [4, utils_1.Utils.say(contact, '登录成功')];
                     case 10:
                         _b.sent();
-                        return [3, 14];
-                    case 11: return [4, utils_1.Utils.say(contact, "登录失败\n" + JSON.stringify(res.data))];
-                    case 12:
-                        _b.sent();
                         return [4, this.removeUser(contact, id)];
+                    case 11:
+                        _b.sent();
+                        return [3, 15];
+                    case 12: return [4, utils_1.Utils.say(contact, "登录失败\n" + JSON.stringify(res.data))];
                     case 13:
                         _b.sent();
+                        return [4, this.removeUser(contact, id)];
+                    case 14:
+                        _b.sent();
                         return [2];
-                    case 14: return [4, qlUtils_1.qlUtil.getJDCK()];
-                    case 15:
+                    case 15: return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 16:
                         _b.sent();
                         pt_pin = cookie.match(/pt_pin=.+?;/) || [0];
                         jdId = pt_pin[0].replace('pt_pin=', '').replace(';', '');
                         return [4, utils_1.Utils.set_comments(contact, jdId, jdId)];
-                    case 16:
+                    case 17:
                         _b.sent();
-                        return [3, 20];
-                    case 17: return [4, utils_1.Utils.say(contact, '登录失败,请重新发送验证码或联系管理员查看日志')];
-                    case 18:
-                        _b.sent();
-                        return [4, this.removeUser(contact, id)];
+                        return [3, 21];
+                    case 18: return [4, utils_1.Utils.say(contact, '登录失败,请重新发送验证码或联系管理员查看日志')];
                     case 19:
                         _b.sent();
-                        _b.label = 20;
-                    case 20: return [2];
+                        return [4, this.removeUser(contact, id)];
+                    case 20:
+                        _b.sent();
+                        _b.label = 21;
+                    case 21: return [2];
                 }
             });
         });
