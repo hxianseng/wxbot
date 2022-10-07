@@ -10,6 +10,7 @@
 
 # 更新
 ```
+
 //备份配置文件
 cd /root/wxbot/conf && mv config.js config.js.bak
 
