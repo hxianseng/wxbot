@@ -24,8 +24,6 @@ docker exec -it wxbot npm i
 //没有出现新的config.js 执行右边
 vi config.js  或者  mv config.js.bak config.js
 
-
-
 //重启容器
 docker restart wxbot
 
