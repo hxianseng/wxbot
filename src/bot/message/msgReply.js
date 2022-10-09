@@ -51,6 +51,7 @@ var constant_1 = __importDefault(require("../../constant/constant"));
 var qlUtils_1 = require("../../util/qlUtils");
 var ql_1 = __importDefault(require("../../constant/ql"));
 var dbUtil_1 = require("../../util/dbUtil");
+var jd_api_1 = require("../../api/jd_api");
 var _user = (function () {
     function _user() {
         this.userName = '';
@@ -111,19 +112,19 @@ var MsgReply = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!Object.keys(this.userBotDict).includes(id)) return [3, 18];
+                        if (!!Object.keys(this.userBotDict).includes(id)) return [3, 22];
                         if (!Object.keys(this.tipsword).includes(content)) return [3, 2];
                         type = this.tipsword[content];
                         return [4, this.createUser(contact, id, content, type)];
                     case 1:
                         _a.sent();
-                        return [3, 17];
+                        return [3, 21];
                     case 2:
                         if (!/^菜单$/.test(content)) return [3, 4];
                         return [4, utils_1.Utils.say(contact, constant_1["default"].message.menu + "\n\u672C\u901A\u77E5 By:https://github.com/hxianseng/wxbot.git")];
                     case 3:
                         _a.sent();
-                        return [3, 17];
+                        return [3, 21];
                     case 4:
                         if (!/^查询流量$/.test(content)) return [3, 10];
                         return [4, contact.alias()];
@@ -151,9 +152,9 @@ var MsgReply = (function () {
                         return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg_1, remark, 1)];
                     case 9:
                         _a.sent();
-                        return [3, 17];
+                        return [3, 21];
                     case 10:
-                        if (!/^查询资产$/.test(content)) return [3, 17];
+                        if (!/^查询资产$/.test(content)) return [3, 21];
                         if (!!config_1["default"].ql_module) return [3, 12];
                         return [4, utils_1.Utils.say(contact, '[ql_module]JD相关模块已关闭, 联系管理员开启')];
                     case 11:
@@ -171,45 +172,72 @@ var MsgReply = (function () {
                         rem_1 = remarks.split('#');
                         cha = '';
                         _loop_1 = function (i, len) {
-                            if (/联通_/.test(rem_1[i])) {
-                                return "continue";
-                            }
-                            if (rem_1[i] != '') {
-                                var jddata = ql_1["default"].jd_ck.concat(ql_1["default"].cfd_ck).filter(function (item) {
-                                    return new RegExp(rem_1[i]).test(item.value);
-                                });
-                                if (jddata.length > 0) {
-                                    cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
-                                    cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
-                                    cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? '「开发中」' : '「离线」');
-                                    cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
+                            var jddata, beanCount, cookie, res;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0:
+                                        if (/联通_/.test(rem_1[i])) {
+                                            return [2, "continue"];
+                                        }
+                                        if (!(rem_1[i] != '')) return [3, 3];
+                                        jddata = ql_1["default"].jd_ck.concat(ql_1["default"].cfd_ck).filter(function (item) {
+                                            return new RegExp(rem_1[i]).test(item.value);
+                                        });
+                                        beanCount = void 0;
+                                        if (!(jddata[0].status == 0)) return [3, 2];
+                                        cookie = jddata[0].value;
+                                        return [4, jd_api_1.jd_api.TotalBean(cookie)];
+                                    case 1:
+                                        res = _b.sent();
+                                        if (res) {
+                                            beanCount = res.data.user.jingBean;
+                                        }
+                                        _b.label = 2;
+                                    case 2:
+                                        if (jddata.length > 0) {
+                                            cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
+                                            cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
+                                            cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? beanCount : '「离线」');
+                                            cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
+                                        }
+                                        else {
+                                            cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
+                                            cha += "\n\u72B6\u6001:\u300C\u4E0D\u5B58\u5728\u300D";
+                                        }
+                                        _b.label = 3;
+                                    case 3: return [2];
                                 }
-                                else {
-                                    cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
-                                    cha += "\n\u72B6\u6001:\u300C\u4E0D\u5B58\u5728\u300D";
-                                }
-                            }
+                            });
                         };
-                        for (i = 0, len = rem_1.length; i < len; i++) {
-                            _loop_1(i, len);
-                        }
-                        cha += '\n\nPs:「离线」或「不存在」请发送 短信登录 更新账号';
-                        return [4, contact.say(cha)];
+                        i = 0, len = rem_1.length;
+                        _a.label = 16;
                     case 16:
+                        if (!(i < len)) return [3, 19];
+                        return [5, _loop_1(i, len)];
+                    case 17:
                         _a.sent();
-                        _a.label = 17;
-                    case 17: return [3, 22];
+                        _a.label = 18;
                     case 18:
-                        if (!(content == 'q')) return [3, 20];
-                        return [4, this.removeUser(contact, id)];
-                    case 19: return [2, _a.sent()];
+                        i++;
+                        return [3, 16];
+                    case 19:
+                        cha += '\n\nPs:「离线」或「不存在」请发送 京东登录 更新账号';
+                        return [4, contact.say(cha)];
                     case 20:
+                        _a.sent();
+                        _a.label = 21;
+                    case 21: return [3, 26];
+                    case 22:
+                        if (!(content == 'q')) return [3, 24];
+                        return [4, this.removeUser(contact, id)];
+                    case 23: return [2, _a.sent()];
+                    case 24:
                         type = this.userBotDict[id].type;
                         return [4, this.updateUser(contact, id, content, type)];
-                    case 21:
+                    case 25:
                         _a.sent();
-                        _a.label = 22;
-                    case 22: return [2];
+                        _a.label = 26;
+                    case 26: return [2];
                 }
             });
         });
