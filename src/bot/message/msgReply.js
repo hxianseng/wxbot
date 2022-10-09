@@ -148,7 +148,7 @@ var MsgReply = (function () {
                         return [4, utils_1.Utils.say(contact, '查询中...')];
                     case 8:
                         _a.sent();
-                        return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg_1, remark)];
+                        return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg_1, remark, 1)];
                     case 9:
                         _a.sent();
                         return [3, 17];
@@ -404,7 +404,6 @@ var MsgReply = (function () {
                         flag = _e.sent();
                         if (!flag) return [3, 38];
                         this.userBotDict[id].queryList.push(content);
-                        console.log(this.userBotDict);
                         return [3, 40];
                     case 38: return [4, this.removeUser(contact, id)];
                     case 39:
@@ -611,7 +610,6 @@ var MsgReply = (function () {
                     case 9:
                         flag = _a.sent();
                         flag != '' ? remark = flag : '';
-                        console.log(this.userBotDict[id]);
                         this.userBotDict[id].userData.remark = remark;
                         this.userBotDict[id].userData.name = contact.name();
                         this.userBotDict[id].userData.mobile = mobile;
@@ -756,7 +754,6 @@ var MsgReply = (function () {
                         _b.sent();
                         res.data['mobile'] = content;
                         this.userBotDict[id].queryList.push(res.data);
-                        console.log(this.userBotDict[id].queryList);
                         return [2, true];
                     case 9: return [4, utils_1.Utils.say(contact, '获取验证码失败\n' + JSON.stringify(res.data))];
                     case 10:
@@ -911,7 +908,10 @@ var MsgReply = (function () {
                     case 41:
                         _b.sent();
                         _b.label = 42;
-                    case 42: return [2];
+                    case 42: return [4, qlUtils_1.qlUtil.getJDCK()];
+                    case 43:
+                        _b.sent();
+                        return [2];
                 }
             });
         });

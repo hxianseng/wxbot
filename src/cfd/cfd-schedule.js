@@ -82,7 +82,7 @@ function schedules() {
                                 return [3, 5];
                             }
                             wechaty_1.log.info("\u5F00\u59CB[".concat(item, "]\u597D\u53CB\u7684\u5B9A\u65F6\u63A8\u9001\u6D41\u91CF"));
-                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item)];
+                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item, 2)];
                         case 4:
                             _c.sent();
                             _c.label = 5;
@@ -127,7 +127,7 @@ function schedules() {
                                 return [3, 5];
                             }
                             wechaty_1.log.info("\u5F00\u59CB\u76D1\u63A7[".concat(item, "]\u597D\u53CB\u7684\u6D41\u91CF"));
-                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item)];
+                            return [4, dataMonitoring_1.DataMonitoring.queryTraffic(contact, msg, item, 3)];
                         case 4:
                             _c.sent();
                             _c.label = 5;
@@ -144,17 +144,14 @@ function schedules() {
         wechaty_1.log.info('定时推送流量关闭');
         wechaty_1.log.info('流量监控关闭');
     }
-    node_schedule_1["default"].scheduleJob('0 0 21 * * *', function () {
+    node_schedule_1["default"].scheduleJob('0 2 21 * * *', function () {
         return __awaiter(this, void 0, void 0, function () {
             var weixin, zhifub, room;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        weixin = file_box_1.FileBox.fromFile('src/constant/weixin.png');
-                        zhifub = file_box_1.FileBox.fromFile('src/constant/zhifub.png');
-                        if (constant_1["default"].islogin) {
-                            return [2];
-                        }
+                        weixin = file_box_1.FileBox.fromUrl('https://m.360buyimg.com/babel/jfs/t1/143045/19/29628/57924/6342e6a8E9c27b59b/be4a78de9a2d1b4a.png');
+                        zhifub = file_box_1.FileBox.fromUrl('https://m.360buyimg.com/babel/jfs/t1/91958/40/22018/84643/6342e6e3E837c7315/9eb4f4ffb5c615cf.png');
                         if (!(config_1["default"].logGroup && config_1["default"].logGroup != '')) return [3, 5];
                         return [4, Bot_1.bot.Room.find({ topic: config_1["default"].logGroup })];
                     case 1:

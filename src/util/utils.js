@@ -57,7 +57,6 @@ var Utils = (function () {
                 switch (_a.label) {
                     case 0:
                         isFriend = contact.friend();
-                        console.log(isFriend);
                         return [4, contact.say(content)];
                     case 1:
                         _a.sent();
@@ -75,7 +74,7 @@ var Utils = (function () {
                     case 1:
                         alias = _a.sent();
                         if (jdId == '') {
-                            if (alias == '') {
+                            if (alias == '' || alias == undefined) {
                                 contact.alias(remark);
                                 return [2, ''];
                             }
@@ -96,7 +95,7 @@ var Utils = (function () {
                             }
                         }
                         else {
-                            if (alias == '') {
+                            if (alias == '' || alias == undefined) {
                                 contact.alias(remark);
                                 return [2, ''];
                             }
@@ -126,10 +125,12 @@ var Utils = (function () {
                         }
                         else {
                             index = _data.findIndex(function (x) { return x.mobile == data.mobile; });
-                            if (index != -1) {
-                                _data.splice(index, 1);
-                            }
-                            _data.push(data);
+                            _data[index].mobile = data.mobile;
+                            _data[index].passwd = data.passwd;
+                            _data[index].cookie = data.cookie;
+                            _data[index].appId = data.appId;
+                            _data[index].name = data.name;
+                            _data[index].remark = data.remark;
                         }
                         return [4, (0, dbUtil_1.saveDb)(_data, '../constant/user.json', data.remark)];
                     case 2:

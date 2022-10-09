@@ -17,7 +17,7 @@ module.exports = {
     //联通流量查询
     traffic_query: {
         flag:false, //开启 true  关闭 false  默认 false
-        timed_push_cron:'0 0 21 * * *', // 定时推送流量 默认每天21:00推送
+        timed_push_cron:'0 1 21 * * *', // 定时推送流量 默认每天21:01推送
         monitoring_jumps_cron:'0 0/5 * * * *' //监控跳点 默认每5分钟刷新
     },
 
@@ -62,9 +62,13 @@ module.exports = {
 
         /**
          * JD库
-         * faker3 填 shufflewzc_faker3_main
+         * 查看库文件夹名称: 青龙->脚本管理->拉取的库文件夹名
          *
-         * 目前支持的库:faker3
+         * faker3 填 shufflewzc_faker3_main 或 shufflewzc_faker3 根据自己青龙显示的库文件夹名来
+         *
+         * kr     填 KingRan_KR
+         *
+         * 目前支持的库:faker3、kr
          *
          */
         jdLibrary: '',
