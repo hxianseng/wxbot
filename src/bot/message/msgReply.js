@@ -179,11 +179,12 @@ var MsgReply = (function () {
                                         if (/联通_/.test(rem_1[i])) {
                                             return [2, "continue"];
                                         }
-                                        if (!(rem_1[i] != '')) return [3, 3];
+                                        if (!(rem_1[i] != '')) return [3, 4];
                                         jddata = ql_1["default"].jd_ck.concat(ql_1["default"].cfd_ck).filter(function (item) {
                                             return new RegExp(rem_1[i]).test(item.value);
                                         });
                                         beanCount = void 0;
+                                        if (!(jddata.length > 0)) return [3, 3];
                                         if (!(jddata[0].status == 0)) return [3, 2];
                                         cookie = jddata[0].value;
                                         return [4, jd_api_1.jd_api.TotalBean(cookie)];
@@ -194,18 +195,16 @@ var MsgReply = (function () {
                                         }
                                         _b.label = 2;
                                     case 2:
-                                        if (jddata.length > 0) {
-                                            cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
-                                            cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
-                                            cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? beanCount : '「离线」');
-                                            cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
-                                        }
-                                        else {
-                                            cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
-                                            cha += "\n\u72B6\u6001:\u300C\u4E0D\u5B58\u5728\u300D";
-                                        }
-                                        _b.label = 3;
-                                    case 3: return [2];
+                                        cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
+                                        cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
+                                        cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? beanCount : '「离线」');
+                                        cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
+                                        return [3, 4];
+                                    case 3:
+                                        cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
+                                        cha += "\n\u72B6\u6001:\u300C\u4E0D\u5B58\u5728\u300D";
+                                        _b.label = 4;
+                                    case 4: return [2];
                                 }
                             });
                         };
