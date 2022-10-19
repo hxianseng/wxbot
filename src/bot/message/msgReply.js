@@ -197,7 +197,7 @@ var MsgReply = (function () {
                                     case 2:
                                         cha += "".concat(i == 0 ? '' : '\n\n', "\u8D26\u53F7:\u300C").concat(rem_1[i], "\u300D");
                                         cha += "\n\u72B6\u6001: ".concat(jddata[0].status == 0 ? '「在线」' : '「离线」');
-                                        cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? beanCount : '「离线」');
+                                        cha += "\n\u8C46\u5B50: ".concat(jddata[0].status == 0 ? beanCount + '豆' : '「离线」');
                                         cha += "\n\u901A\u77E5: \u300C\u5DF2\u5F00\u542F\u300D";
                                         return [3, 4];
                                     case 3:

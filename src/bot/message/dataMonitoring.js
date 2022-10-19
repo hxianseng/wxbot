@@ -87,10 +87,6 @@ var DataMonitoring = (function () {
                         res = _e.sent();
                         if (!res) return [3, 23];
                         if (!(res.data.code == '0000')) return [3, 11];
-                        console.log('刚上线测试，因套餐不同，可能会有显示bug，打印套餐日志');
-                        console.log("==========================================================");
-                        console.log("data：" + JSON.stringify(res.data));
-                        console.log("==========================================================");
                         _msg += "\u5957\u9910: ".concat((res.data.packageName).slice(0, 9) + '*', "\n");
                         dailyRentalPackage = res.data.RzbResources[0].details;
                         combo_arr = res.data.resources[0].details;
