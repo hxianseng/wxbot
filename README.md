@@ -61,7 +61,7 @@ docker restart wxbot
   ```
 
 # 联系方式
-- [TG交流](https://t.me/+16_DY1GtTT9iN2Vl)
+- [TG交流](https://t.me/wxbot_hxiansen)
 
 # 效果展示
 <div>
